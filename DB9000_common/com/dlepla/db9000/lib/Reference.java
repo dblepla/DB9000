@@ -10,7 +10,7 @@ import java.util.Arrays;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-// General reference class which holds all constant values for the program.
+// General reference class which holds all constant values and helper methods for the program.
 
 public class Reference
 {

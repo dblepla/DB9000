@@ -153,9 +153,9 @@ class LoginPanel extends JPanel
                     mainWindow.getContentPane().removeAll();
                     mainWindow.getContentPane().add(overPanel);
                     mainWindow.getContentPane().doLayout();
-                    update(getGraphics());
+                    update(mainWindow.getGraphics());
                     mainWindow.pack();
-                    mainWindow.setVisible(true);
+                    //mainWindow.setVisible(true);
                     
                 } else
                 {

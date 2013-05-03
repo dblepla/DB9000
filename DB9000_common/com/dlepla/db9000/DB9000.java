@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -57,6 +58,7 @@ public class DB9000 extends JFrame
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 450);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage((Reference.X16_ICON_LOCATION.toString())));
         LoginPanel loginPanel = new LoginPanel();
         
         Box htextBox = Box.createHorizontalBox();

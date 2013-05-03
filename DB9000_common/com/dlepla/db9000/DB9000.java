@@ -1,4 +1,6 @@
-// Debt Buster 9000 Login window test
+package com.dlepla.db9000;
+// Debt Buster 9000 Login Main Program
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -20,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class db9000 extends JFrame
+public class DB9000 extends JFrame
 {
     public static void main(String[] args)
     {
@@ -31,7 +33,7 @@ public class db9000 extends JFrame
             public void run()
             {
 
-                new db9000();
+                new DB9000();
             }
         });
     }
@@ -46,16 +48,14 @@ public class db9000 extends JFrame
     Color centerColor = new Color(226, 255, 198);
     Color footerColor = new Color(236, 255, 217);
 
-    public db9000()
+    public DB9000()
     {
 
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 450);
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new GridBagLayout());
-        loginPanel.setBackground(centerColor);
-        loginPanel.setOpaque(true);
+        LoginPanel loginPanel = new LoginPanel();
+        
         Box htextBox = Box.createHorizontalBox();
         headerTitle = new JLabel("Debt Blaster 9000");
         headerTitle.setFont(new Font("Elephant", Font.PLAIN, 31));
@@ -93,7 +93,7 @@ public class db9000 extends JFrame
         ButtonListener b1 = new ButtonListener();
         loginButton = new JButton("Login");
         loginButton.addActionListener(b1);
-        db9000.this.getRootPane().setDefaultButton(loginButton);
+        DB9000.this.getRootPane().setDefaultButton(loginButton);
         plBox.add(Box.createVerticalStrut(75));
         plBox.add(plLabel);
         plBox.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -165,7 +165,7 @@ public class db9000 extends JFrame
                 {
                     JOptionPane
                             .showMessageDialog(
-                                    db9000.this,
+                                    DB9000.this,
                                     "Username is blank. You must enter a username and password.",
                                     "Invalid Login",
                                     JOptionPane.INFORMATION_MESSAGE);
@@ -173,14 +173,14 @@ public class db9000 extends JFrame
                 {
                     JOptionPane
                             .showMessageDialog(
-                                    db9000.this,
+                                    DB9000.this,
                                     "Password is blank. You must enter a username and password.",
                                     "Invalid Login",
                                     JOptionPane.INFORMATION_MESSAGE);
                 } else if (loginAuthorized == true)
                 {
                     JOptionPane
-                            .showMessageDialog(db9000.this,
+                            .showMessageDialog(DB9000.this,
                                     "Username and password correct, opening Overview window!");
                     JPanel overPanel = new JPanel();
                     overPanel.setLayout(new GridBagLayout());
@@ -193,12 +193,12 @@ public class db9000 extends JFrame
                     getContentPane().add(overPanel);
                     getContentPane().doLayout();
                     update(getGraphics());
-                    db9000.this.pack();
+                    DB9000.this.pack();
                 } else
                 {
                     JOptionPane
                             .showMessageDialog(
-                                    db9000.this,
+                                    DB9000.this,
                                     "Username or password is not found, please try again or contact administrator",
                                     "Invalid Login",
                                     JOptionPane.INFORMATION_MESSAGE);

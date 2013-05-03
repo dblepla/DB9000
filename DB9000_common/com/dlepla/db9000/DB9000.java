@@ -1,7 +1,6 @@
 package com.dlepla.db9000;
 // Debt Buster 9000 Login Main Program
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -22,8 +21,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.dlepla.db9000.lib.Reference;
+
 public class DB9000 extends JFrame
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public static void main(String[] args)
     {
 
@@ -34,19 +40,16 @@ public class DB9000 extends JFrame
             {
 
                 new DB9000();
+                
             }
         });
     }
+    
     JTextField username;
     JPasswordField password;
     JButton loginButton;
     JLabel headerTitle;
     JLabel overTitle;
-    Color htColor = new Color(232, 255, 210);
-    Color hbgColor = new Color(34, 177, 76);
-    Color hborColor = new Color(17, 89, 38);
-    Color centerColor = new Color(226, 255, 198);
-    Color footerColor = new Color(236, 255, 217);
 
     public DB9000()
     {
@@ -59,7 +62,7 @@ public class DB9000 extends JFrame
         Box htextBox = Box.createHorizontalBox();
         headerTitle = new JLabel("Debt Blaster 9000");
         headerTitle.setFont(new Font("Elephant", Font.PLAIN, 31));
-        headerTitle.setForeground(htColor);
+        headerTitle.setForeground(Reference.HEADER_TEXT_COLOR);
         htextBox.add(Box.createHorizontalStrut(198));
         htextBox.add(Box.createHorizontalGlue());
         htextBox.add(headerTitle);
@@ -67,11 +70,11 @@ public class DB9000 extends JFrame
         htextBox.add(Box.createHorizontalStrut(198));
         Box hbBox = Box.createHorizontalBox();
         hbBox.setOpaque(true);
-        hbBox.setBackground(hborColor);
+        hbBox.setBackground(Reference.HEADER_BORDER_COLOR);
         hbBox.add(Box.createVerticalStrut(6));
         Box headerBox = Box.createVerticalBox();
         headerBox.setOpaque(true);
-        headerBox.setBackground(hbgColor);
+        headerBox.setBackground(Reference.HEADER_BACKGROUD_COLOR);
         headerBox.add(Box.createVerticalStrut(16));
         headerBox.add(htextBox);
         headerBox.add(Box.createVerticalStrut(16));
@@ -115,7 +118,7 @@ public class DB9000 extends JFrame
                 GridBagConstraints.HORIZONTAL);
         Box footerBox = Box.createHorizontalBox();
         footerBox.setOpaque(true);
-        footerBox.setBackground(footerColor);
+        footerBox.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
         footerBox.add(Box.createVerticalStrut(110));
         addItem(loginPanel, footerBox, 0, 2, 1, 1, GridBagConstraints.SOUTH,
                 GridBagConstraints.BOTH);
@@ -184,7 +187,7 @@ public class DB9000 extends JFrame
                                     "Username and password correct, opening Overview window!");
                     JPanel overPanel = new JPanel();
                     overPanel.setLayout(new GridBagLayout());
-                    overPanel.setBackground(centerColor);
+                    overPanel.setBackground(Reference.CENTER_BACKGROUND_COLOR);
                     overPanel.setOpaque(true);
                     overPanel.setSize(700, 450);
                     overTitle = new JLabel("Overview Panel Test");

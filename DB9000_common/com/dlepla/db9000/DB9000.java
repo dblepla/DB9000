@@ -35,13 +35,11 @@ public class DB9000 extends JFrame
             }
         });
     }
+    
+    // getting referance to JFram object instance.
+    
     JFrame mainWindow = this;
     
-    JTextField username;
-    JPasswordField password;
-    JButton loginButton;
-    JLabel headerTitle;
-    JLabel overTitle;
 
     public DB9000()
     {
@@ -49,12 +47,8 @@ public class DB9000 extends JFrame
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 450);
+        this.setMinimumSize(new Dimension(715, 482));
         this.setIconImage(Toolkit.getDefaultToolkit().getImage((Reference.X16_ICON_LOCATION.toString())));
-        
-        /*
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        */
         
         LoginPanel loginPanel = new LoginPanel(mainWindow);
         this.getRootPane().setDefaultButton(loginPanel.loginButton);

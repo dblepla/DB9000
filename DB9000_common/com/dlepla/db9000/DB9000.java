@@ -36,7 +36,7 @@ public class DB9000 extends JFrame
         });
     }
     
-    // getting referance to JFram object instance.
+    // getting reference to JFram object instance.
     
     JFrame mainWindow = this;
     

@@ -24,6 +24,9 @@ public class Reference
     public static final Color CENTER_BACKGROUND_COLOR = new Color(226, 255, 198);
     public static final Color FOOTER_BACKGROUND_COLOR = new Color(236, 255, 217);
     
+    public static final char[] DEFAULT_PASSWORD = new char[] { 'A', 'q', '2', '3', 'e', 's',
+                'a', 'Q', '@', '#', 'E', 'S' };
+    public static final String DEFAULT_USERNAME = "dblepla";
     
     // Initializes and sets file paths for image files used by the DB9000 program
     
@@ -56,17 +59,11 @@ public class Reference
     }
     
     
+    // Defines a helper method for Authorizing usernames and passwords
+    
     public static boolean authLogin(String un, char[] pw)
     {
 
-        char[] correctPassword = new char[] { 'A', 'q', '2', '3', 'e', 's',
-                'a', 'Q', '@', '#', 'E', 'S' };
-        System.out.print("Correct Password: ");
-        for (char c : correctPassword)
-        {
-            System.out.print(c);
-        }
-        System.out.print("\n");
         System.out.print("Entered Password: ");
         for (char c : pw)
         {
@@ -75,9 +72,9 @@ public class Reference
         System.out.print("\n");
         System.out.println();
         boolean isCorrect = true;
-        isCorrect = Arrays.equals(pw, correctPassword);
+        isCorrect = Arrays.equals(pw, DEFAULT_PASSWORD);
         System.out.print(isCorrect);
-        if (un.equals("dblepla"))
+        if (un.equals(DEFAULT_USERNAME))
             return isCorrect;
         else
             return false;

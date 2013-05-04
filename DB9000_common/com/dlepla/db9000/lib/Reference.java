@@ -25,7 +25,7 @@ public class Reference
     public static final Color FOOTER_BACKGROUND_COLOR = new Color(236, 255, 217);
     
     
-    // Initialzes and sets file paths for image files used by the DB9000 program
+    // Initializes and sets file paths for image files used by the DB9000 program
     
     public static final Path X16_ICON_LOCATION = Paths.get("C:\\Development\\source\\DB9000\\resources\\Icon16x16.gif");
     
@@ -37,10 +37,10 @@ public class Reference
             int height, int align, int fill)
     {
 
-        // Initializes a new GridBagConstraint veriable and object called gc
+        // Initializes a new GridBagConstraint variable and object called gc
         GridBagConstraints gc = new GridBagConstraints();
-        // Sets the default GridBagConstraint object veriables and uses passed
-        // veriables to set constraints that change
+        // Sets the default GridBagConstraint object variables and uses passed
+        // Variables to set constraints that change
         gc.gridx = x;
         gc.gridy = y;
         gc.gridwidth = width;

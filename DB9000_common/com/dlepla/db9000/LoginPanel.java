@@ -38,29 +38,7 @@ class LoginPanel extends JPanel
         this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
         this.setOpaque(true);
 
-        Box htextBox = Box.createHorizontalBox();
-        headerTitle = new JLabel("Debt Blaster 9000");
-        headerTitle.setFont(new Font("Elephant", Font.PLAIN, 31));
-        headerTitle.setForeground(Reference.HEADER_TEXT_COLOR);
-
-        htextBox.add(Box.createHorizontalStrut(198));
-        htextBox.add(Box.createHorizontalGlue());
-        htextBox.add(headerTitle);
-        htextBox.add(Box.createHorizontalGlue());
-        htextBox.add(Box.createHorizontalStrut(198));
-
-        Box hbBox = Box.createHorizontalBox();
-        hbBox.setOpaque(true);
-        hbBox.setBackground(Reference.HEADER_BORDER_COLOR);
-        hbBox.add(Box.createVerticalStrut(6));
-
-        Box headerBox = Box.createVerticalBox();
-        headerBox.setOpaque(true);
-        headerBox.setBackground(Reference.HEADER_BACKGROUD_COLOR);
-        headerBox.add(Box.createVerticalStrut(16));
-        headerBox.add(htextBox);
-        headerBox.add(Box.createVerticalStrut(16));
-        headerBox.add(hbBox);
+        Box headerBox = Reference.createHeader("Debt Blaster 9000");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
@@ -118,12 +96,13 @@ class LoginPanel extends JPanel
 
             if (e.getSource() == loginButton)
             {
-                String name = username.getText();
-                char[] pass = password.getPassword();
+                
+                User user = new User(username.getText(), password.getPassword());
+               
                 boolean loginAuthorized = true;
-                loginAuthorized = Reference.authLogin(name, pass);
+                loginAuthorized = Reference.authLogin(user);
                 System.out.print("loginAuthorized = " + loginAuthorized);
-                if (name.length() <= 0)
+                if (user.username.length() <= 0)
                 {
                     JOptionPane
                             .showMessageDialog(
@@ -131,7 +110,7 @@ class LoginPanel extends JPanel
                                     "Username is blank. You must enter a username and password.",
                                     "Invalid Login",
                                     JOptionPane.INFORMATION_MESSAGE);
-                } else if (pass.length == 0)
+                } else if (user.password.length == 0)
                 {
                     JOptionPane
                             .showMessageDialog(

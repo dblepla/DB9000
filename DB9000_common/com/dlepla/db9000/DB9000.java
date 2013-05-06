@@ -5,6 +5,8 @@ package com.dlepla.db9000;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.nio.file.Paths;
+
 import javax.swing.JFrame;
 import com.dlepla.db9000.lib.Reference;
 
@@ -38,7 +40,27 @@ public class DB9000 extends JFrame
 
     public DB9000()
     {
-
+       
+        
+        // Checks to see if password file exists and creates a new file if needed.
+        if ( !Reference.doesFileExist(Reference.PASSWORD_FILE))
+            Reference.createFile(Reference.PASSWORD_FILE);
+        else
+            System.out.println("Password file does exist no need to create new file. Skiping this step.");
+        
+        // Checks to see if account database file exists and creates a new file if needed.
+        if( !Reference.doesFileExist(Reference.DBDB_FILE))
+            Reference.createFile(Reference.DBDB_FILE);
+        else
+            System.out.println("Database file does exist no need to create new file. Skiping this step.");
+        
+        
+        User drew = new User("dblepla", Reference.DEFAULT_PASSWORD);
+        User amber = new User("alepla", Reference.DEFAULT_PASSWORD);
+        
+        Reference.saveToFile(drew, "dbaccess.dat");
+        Reference.saveToFile(amber, "dbaccess.dat");
+            
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 450);

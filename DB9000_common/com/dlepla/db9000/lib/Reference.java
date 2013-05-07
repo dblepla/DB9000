@@ -48,6 +48,8 @@ public class Reference
     // Initializes and sets file paths for image files used by the DB9000
     // program
     public static final String X16_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon16x16.gif";
+    public static final String X32_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon32x32.gif";
+    public static final String X64_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon64x64.gif";
     public static final Path PASSWORD_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\dbaccess.dat");
     public static final Path DBDB_FILE = Paths

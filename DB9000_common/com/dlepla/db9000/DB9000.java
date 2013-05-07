@@ -3,12 +3,16 @@ package com.dlepla.db9000;
 // Debt Buster 9000 Login Main Program
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.List;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.dlepla.db9000.lib.Reference;
@@ -117,12 +121,16 @@ public class DB9000 extends JFrame
         
         System.out.print("\n\n");
         
+        ArrayList<Image> icons = new ArrayList<Image>();
+        icons.add(new ImageIcon(Reference.X16_ICON_LOCATION.toString()).getImage());
+        icons.add(new ImageIcon(Reference.X32_ICON_LOCATION.toString()).getImage());
+        icons.add(new ImageIcon(Reference.X64_ICON_LOCATION.toString()).getImage());
+        
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 450);
         this.setMinimumSize(new Dimension(715, 482));
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-                Reference.X16_ICON_LOCATION.toString()));
+        this.setIconImages(icons);
         LoginPanel loginPanel = new LoginPanel(mainWindow);
         this.getRootPane().setDefaultButton(loginPanel.loginButton);
         this.add(loginPanel);

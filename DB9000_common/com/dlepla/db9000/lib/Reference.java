@@ -24,6 +24,7 @@ import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.swing.Box;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,23 +40,31 @@ public class Reference
     public static final Color HEADER_BORDER_COLOR = new Color(17, 89, 38);
     public static final Color CENTER_BACKGROUND_COLOR = new Color(226, 255, 198);
     public static final Color FOOTER_BACKGROUND_COLOR = new Color(236, 255, 217);
+    
+    // Initializes and sets the default password and username.
     public static final char[] DEFAULT_PASSWORD = new char[] { 'A', 'q', '2',
             '3', 'e', 's', 'a', 'Q', '@', '#', 'E', 'S' };
     public static final char[] AMBER_PASSWORD = new char[] { 'n', 'i', 'g',
             'e', 'l', '4', '2', '3' };
     public static final String DEFAULT_USERNAME = "dblepla";
     public static Cipher cipher = null;
+    
     // Initializes and sets file paths for image files used by the DB9000
     // program
     public static final String X16_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon16x16.gif";
     public static final String X32_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon32x32.gif";
     public static final String X64_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon64x64.gif";
+    
+    
+    //Initializes and sets the file paths for the save files used by the program
     public static final Path PASSWORD_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\dbaccess.dat");
     public static final Path DBDB_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\DBDB.dat");
     public static final Path KEY_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\keyfile");
+    
+    public static JFrame mainWindow;
 
     // Creating a helper method that allows us to easily add JComponents to a
     // JPanel using GridBagConstraints

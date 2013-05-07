@@ -4,8 +4,6 @@ package com.dlepla.db9000;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
-import java.awt.List;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.crypto.Cipher;
@@ -40,8 +38,7 @@ public class DB9000 extends JFrame
     }
     
     
-    // getting reference to JFrame object instance.
-    JFrame mainWindow = this;
+    
 
     public DB9000()
     {
@@ -126,16 +123,20 @@ public class DB9000 extends JFrame
         icons.add(new ImageIcon(Reference.X32_ICON_LOCATION.toString()).getImage());
         icons.add(new ImageIcon(Reference.X64_ICON_LOCATION.toString()).getImage());
         
+        // getting reference to JFrame object instance.
+        Reference.mainWindow = this;
+        
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(700, 450);
         this.setMinimumSize(new Dimension(715, 482));
         this.setIconImages(icons);
-        LoginPanel loginPanel = new LoginPanel(mainWindow);
+        LoginPanel loginPanel = new LoginPanel();
         this.getRootPane().setDefaultButton(loginPanel.loginButton);
         this.add(loginPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        
     }
 }

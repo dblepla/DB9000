@@ -25,7 +25,7 @@ class LoginPanel extends JPanel
      * 
      */
     private static final long serialVersionUID = -7284737752069591276L;
-    JFrame mainWindow;
+    
     JTextField username;
     JPasswordField password;
     JButton loginButton;
@@ -34,13 +34,14 @@ class LoginPanel extends JPanel
 
     // Login Panel constructor which initializes and builds the layout of the
     // LoginPanel window.
-    public LoginPanel(JFrame main)
+    public LoginPanel()
     {
 
-        mainWindow = main;
         this.setLayout(new GridBagLayout());
         this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
         this.setOpaque(true);
+        
+        
         // create default header box with passed title text.
         Box headerBox = Reference.createHeaderBox("Debt Blaster 9000");
         // Add header Box to JFrame using gridbag layout.
@@ -62,7 +63,7 @@ class LoginPanel extends JPanel
         JLabel plLabel = new JLabel("Please Login");
         plLabel.setFont(new Font("Elephant", Font.PLAIN, 16));
         loginButton = new JButton("Login");
-        ButtonListener bll = new ButtonListener();
+        LoginButtonListener bll = new LoginButtonListener();
         loginButton.addActionListener(bll);
         // plBox.add(Box.createVerticalStrut(75));
         plBox.add(plLabel);
@@ -91,7 +92,7 @@ class LoginPanel extends JPanel
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
     }
 
-    private class ButtonListener implements ActionListener
+    private class LoginButtonListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
@@ -122,11 +123,11 @@ class LoginPanel extends JPanel
                 } else if (loginAuthorized == true)
                 {
                     OverPanel overPanel = new OverPanel();
-                    mainWindow.getContentPane().removeAll();
-                    mainWindow.getContentPane().add(overPanel);
-                    mainWindow.getContentPane().doLayout();
-                    update(mainWindow.getGraphics());
-                    mainWindow.pack();
+                    Reference.mainWindow.getContentPane().removeAll();
+                    Reference.mainWindow.getContentPane().add(overPanel);
+                    Reference.mainWindow.getContentPane().doLayout();
+                    update(Reference.mainWindow.getGraphics());
+                    Reference.mainWindow.pack();
                     // mainWindow.setVisible(true);
                 } else
                 {

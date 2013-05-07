@@ -1,7 +1,10 @@
 package com.dlepla.db9000;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -17,7 +20,10 @@ public class OverPanel extends JPanel
      */
     private static final long serialVersionUID = 1L;
     JLabel overTitle;
-    JButton manageUser;
+    JButton addUserButton;
+    JButton logoutButton;
+    JButton accountsButton;
+    JButton transButton;
 
     public OverPanel()
     {
@@ -26,19 +32,68 @@ public class OverPanel extends JPanel
         this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
         this.setOpaque(true);
         this.setSize(700, 450);
-        manageUser = new JButton("Manage Users");
+         
+        addUserButton = new JButton("Users");
+        logoutButton = new JButton("Logout");
+        accountsButton = new JButton("Accounts");
+        
+        OverviewButtonListener obl = new OverviewButtonListener();
+        addUserButton.addActionListener(obl);
+        logoutButton.addActionListener(obl);
+        accountsButton.addActionListener(obl);
+        
+        
+        
         Box headerBox = Reference.createHeaderBox("Account Overview");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
+        
         Box centerItems = Box.createHorizontalBox();
-        centerItems.add(manageUser);
         Box centerBox = Reference.createCenterBox(centerItems);
         Reference.addItem(this, centerBox, 0, 1, 1, 1,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        
         Box footerItems = Box.createHorizontalBox();
-        footerItems.add(Box.createHorizontalStrut(110));
+        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        footerItems.add(accountsButton);
+        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        footerItems.add(addUserButton);
+        footerItems.add(Box.createHorizontalGlue());
+        footerItems.add(logoutButton);
+        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        
         Box footerBox = Reference.createFooterBox(footerItems);
         Reference.addItem(this, footerBox, 0, 2, 1, 1,
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
+    }
+    
+    private class OverviewButtonListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+
+            if (e.getSource() == accountsButton)
+            {
+                
+            }
+            else if (e.getSource() == addUserButton)
+            {
+                
+                
+            }
+            else if (e.getSource() == logoutButton)
+            {
+                
+                LoginPanel loginPanel = new LoginPanel();
+                Reference.mainWindow.getRootPane().setDefaultButton(loginPanel.loginButton);
+                Reference.mainWindow.getContentPane().removeAll();
+                Reference.mainWindow.getContentPane().add(loginPanel);
+                Reference.mainWindow.getContentPane().doLayout();
+                update( Reference.mainWindow.getGraphics());
+                Reference.mainWindow.pack();
+                
+            }
+        }
     }
 }

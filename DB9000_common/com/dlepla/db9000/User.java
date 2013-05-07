@@ -3,7 +3,7 @@ package com.dlepla.db9000;
 import java.io.Serializable;
 
 //
-// Defines User class and implements
+// Defines User class and implements Serializable for encryption
 
 public class User implements Serializable
 {

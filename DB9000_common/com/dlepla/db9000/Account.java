@@ -1,9 +1,15 @@
 package com.dlepla.db9000;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 
-public class Account
+public class Account implements Serializable
 {
+ 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2L;
     static NumberFormat cf = NumberFormat.getCurrencyInstance();
     // Int to keep track of number of accounts.
     static int numberOfAccounts = 0;
@@ -16,8 +22,8 @@ public class Account
     {
 
         numberOfAccounts++;
-        accountName = name;
-        balance = bal;
+        this.accountName = name;
+        this.balance = bal;
         this.apr = apr;
     }
 

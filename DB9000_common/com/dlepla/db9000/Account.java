@@ -14,9 +14,9 @@ public class Account implements Serializable
     // Int to keep track of number of accounts.
     static int numberOfAccounts = 0;
     // Declare account generic variables.
-    String accountName = " ";
-    float balance = 0;
-    float apr = 0;
+    public String accountName = " ";
+    public float balance = 0;
+    public float apr = 0;
 
     public Account(String name, float bal, float apr)
     {

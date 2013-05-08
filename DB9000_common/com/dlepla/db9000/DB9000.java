@@ -43,17 +43,7 @@ public class DB9000 extends JFrame
     public DB9000()
     {
 
-        // Checks to see if account database file exists and creates a new file
-        // if needed.
-        if (!Reference.doesFileExist(Reference.DBDB_FILE))
-        {
-            
-            // Reference.createFile(Reference.DBDB_FILE);
-        } else
-        {
-            System.out
-                    .println("Database file does exist no need to create new file. Skiping this step.");
-        }
+        
         
         // Checks to see if keyfile exists and creates a new file if needed.
         if (!Reference.doesFileExist(Reference.KEY_FILE))
@@ -116,6 +106,37 @@ public class DB9000 extends JFrame
                     .println("Password file does exist no need to create new file. Skiping this step.");
         }
         
+        // Checks to see if account database file exists and creates a new file
+        // if needed.
+        if (!Reference.doesFileExist(Reference.DBDB_FILE))
+        {
+            
+            // Reference.createFile(Reference.DBDB_FILE);
+            
+            Account placeHolderAccount = new Account("Account Description", 0 , 0);
+            Account nullAccount = null;
+            
+            try
+            {
+                
+                 SealedObject sealedUser = new SealedObject(placeHolderAccount,
+                    Reference.cipher);
+                 Reference.writeToFile(Reference.DBDB_FILE.toString(),
+                    sealedUser, false);
+                 sealedUser = new SealedObject(nullAccount, Reference.cipher);
+                 Reference.writeToFile(Reference.DBDB_FILE.toString(),
+                    sealedUser, true);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+           
+            
+        } else
+        {
+            System.out
+                    .println("Database file does exist no need to create new file. Skiping this step.");
+        }
         System.out.print("\n\n");
         
         ArrayList<Image> icons = new ArrayList<Image>();

@@ -229,9 +229,73 @@ public class Reference
         }
         return null;
     }
+    
+    public static ArrayList<Account> readAccount(String filename)
+    {
 
-    public static void writeToFile(String filename, Object object,
-            boolean append)
+        File file = new File(filename);
+        if (file.exists())
+        {
+            ObjectInputStream ois = null;
+            try
+            {
+                //
+                // Read the previously stored SecretKey.
+                //
+                SecretKey key = (SecretKey) readFromFile(KEY_FILE.toString());
+                ArrayList<Account> accountList = new ArrayList<Account>();
+                ois = new ObjectInputStream(new FileInputStream(filename));
+                Account tempAccount = null;
+                SealedObject tempSealed = null;
+                boolean eof = false;
+                while (!eof)
+                {
+                    tempSealed = (SealedObject) ois.readObject();
+                    //
+                    // Preparing Cipher object from decryption.
+                    //
+                    String algorithmName = tempSealed.getAlgorithm();
+                    Cipher objCipher = Cipher.getInstance(algorithmName);
+                    objCipher.init(Cipher.DECRYPT_MODE, key);
+                    tempAccount = (Account) tempSealed.getObject(objCipher);
+                    if (tempAccount == null)
+                    {
+                        eof = true;
+                        break;
+                    }
+                    
+                    accountList.add(tempAccount);
+                }
+                
+                    
+                    
+                return accountList;
+                
+            } catch (EOFException e)
+            {
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            } finally
+            {
+                try
+                {
+                    if (ois != null)
+                    {
+                        ois.close();
+                    }
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+
+    public static void writeToFile(String filename, Object object,boolean append)
     {
 
         FileOutputStream fos = null;

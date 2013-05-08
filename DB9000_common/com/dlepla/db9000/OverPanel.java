@@ -44,7 +44,7 @@ public class OverPanel extends JPanel
         
         
         
-        Box headerBox = Reference.createHeaderBox("Account Overview");
+        Box headerBox = Reference.createHeaderBox("Debt Overview");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         
@@ -75,6 +75,14 @@ public class OverPanel extends JPanel
 
             if (e.getSource() == accountsButton)
             {
+                
+                AccountPanel accountPanel = new AccountPanel();
+                //Reference.mainWindow.getRootPane().setDefaultButton(accountPanel.loginButton);
+                Reference.mainWindow.getContentPane().removeAll();
+                Reference.mainWindow.getContentPane().add(accountPanel);
+                Reference.mainWindow.getContentPane().doLayout();
+                update( Reference.mainWindow.getGraphics());
+                Reference.mainWindow.pack();
                 
             }
             else if (e.getSource() == addUserButton)

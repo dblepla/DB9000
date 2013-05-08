@@ -64,6 +64,8 @@ public class Reference
     public static final Path KEY_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\keyfile");
     
+    public static ArrayList<Account> accounts = null;
+    
     public static JFrame mainWindow;
 
     // Creating a helper method that allows us to easily add JComponents to a
@@ -293,7 +295,72 @@ public class Reference
         return null;
     }
     
-    
+    public static void saveAccounts(String filename, ArrayList<Account> accounts)
+    {
+        
+       File deleteAccountFile = new File(filename);
+       
+       deleteAccountFile.delete();
+       
+       try
+       {
+           
+           SealedObject sealedAccount = new SealedObject(accounts.get(0),
+               Reference.cipher);
+           writeToFile(filename, sealedAccount, false );
+           
+       }catch (Exception e)
+       {
+           
+           e.printStackTrace();
+       }
+       
+       
+       if(accounts.size() > 1)
+       {
+           
+           for ( int i = 1; i <= accounts.size(); i++)
+           {
+               
+               try
+               {
+                   
+                   SealedObject sealedAccount = new SealedObject(accounts.get(i),
+                       Reference.cipher);
+                   writeToFile(filename, sealedAccount, false );
+                   
+               }catch (Exception e)
+               {
+                   
+                   e.printStackTrace();
+               }
+               
+               
+               
+           }
+             
+           
+       }
+       
+       
+       try
+       {
+           
+           Account nullAccount = null;
+           SealedObject sealedAccount = new SealedObject(nullAccount,
+               Reference.cipher);
+            writeToFile(filename, sealedAccount, true);
+            
+       }catch(Exception e)
+       {
+           
+           e.printStackTrace();
+       }
+       
+       
+      
+        
+    }
 
     public static void writeToFile(String filename, Object object,boolean append)
     {
@@ -334,8 +401,8 @@ public class Reference
             }
         }
     }
-
-    //
+    
+     //
     // Method for reading object stored in a file.
     //
     private static Object readFromFile(String filename) throws Exception

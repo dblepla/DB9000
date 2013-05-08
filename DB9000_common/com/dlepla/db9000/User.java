@@ -29,11 +29,11 @@ public class User implements Serializable
 
         String msg;
         String tempPass = " ";
-        for (char c : password)
+        for (char c : this.password)
         {
             tempPass += c;
         }
-        msg = "Username: " + username;
+        msg = "Username: " + this.username;
         msg += ", Password: " + tempPass;
         return msg;
     }

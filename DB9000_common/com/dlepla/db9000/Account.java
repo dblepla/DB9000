@@ -33,9 +33,9 @@ public class Account implements Serializable
 
         String msg;
         cf = NumberFormat.getCurrencyInstance();
-        msg = "Account Name: " + accountName;
-        msg += ", Balance: " + cf.format(balance);
-        msg += ", APR: " + cf.format(apr);
+        msg = "Account Name: " + this.accountName;
+        msg += ", Balance: " + cf.format(this.balance);
+        msg += ", APR: " + this.apr;
         return msg;
     }
 }

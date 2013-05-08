@@ -126,6 +126,9 @@ public class DB9000 extends JFrame
                  sealedUser = new SealedObject(nullAccount, Reference.cipher);
                  Reference.writeToFile(Reference.DBDB_FILE.toString(),
                     sealedUser, true);
+                 
+                 Reference.accounts = Reference.readAccount(Reference.DBDB_FILE.toString());
+                 
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -135,7 +138,10 @@ public class DB9000 extends JFrame
         } else
         {
             System.out
-                    .println("Database file does exist no need to create new file. Skiping this step.");
+                    .println("Database file does exist. Loading Accounts.");
+            
+            Reference.accounts = Reference.readAccount(Reference.DBDB_FILE.toString());
+            
         }
         System.out.print("\n\n");
         

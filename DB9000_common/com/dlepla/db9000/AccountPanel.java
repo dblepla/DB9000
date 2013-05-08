@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -30,6 +32,8 @@ public class AccountPanel extends JPanel
     JButton addUserButton;
     JButton logoutButton;
     JButton overviewButton;
+    JButton saveButton;
+    JButton newButton;
     
     
     
@@ -44,18 +48,21 @@ public class AccountPanel extends JPanel
        addUserButton = new JButton("Users");
        logoutButton = new JButton("Logout");
        overviewButton = new JButton("Overview");
+       saveButton = new JButton("Save");
+       newButton = new JButton("New Account");
        
        AccountButtonListener abl = new AccountButtonListener();
        addUserButton.addActionListener(abl);
        logoutButton.addActionListener(abl);
        overviewButton.addActionListener(abl);
+       saveButton.addActionListener(abl);
+       newButton.addActionListener(abl);
+
        
-        
-       ArrayList<Account> accounts = Reference.readAccount(Reference.DBDB_FILE.toString());
-       
-       TableModel tableModel = new AccountTableModel(accounts);
-      
-       accountTable = new JTable(tableModel);
+       AccountTableModel accountTableModel = new AccountTableModel(Reference.accounts);
+      // AccountFocusListener afl = new AccountFocusListener();
+       accountTable = new JTable(accountTableModel);
+       //accountTable.addFocusListener(afl);
        
        scrollPane = new JScrollPane(accountTable);
        accountTable.setFillsViewportHeight(true);
@@ -64,8 +71,16 @@ public class AccountPanel extends JPanel
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
-       Box centerItems = Box.createHorizontalBox();
+       Box centerItems = Box.createVerticalBox();
        centerItems.add(accountTable);
+       centerItems.add(Box.createVerticalStrut(10));
+       Box addsaveBox = Box.createHorizontalBox();
+       addsaveBox.add(newButton);
+       addsaveBox.add(Box.createHorizontalGlue());
+       addsaveBox.add(saveButton);
+       
+       centerItems.add(addsaveBox);
+       
        Box centerBox = Reference.createCenterBox(centerItems);
        Reference.addItem(this, centerBox, 0, 1, 1, 1,
                GridBagConstraints.CENTER, GridBagConstraints.BOTH);
@@ -117,7 +132,41 @@ public class AccountPanel extends JPanel
                 Reference.mainWindow.pack();
                 
             }
+            else if (e.getSource() == saveButton)
+            {
+                
+                System.out.print("Saving the following accounts to file:");
+                
+                for( int i = 0; i < Reference.accounts.size(); i++)
+                    System.out.println(Reference.accounts.get(i).toString());
+                
+                Reference.saveAccounts(Reference.DBDB_FILE.toString(), Reference.accounts);
+              
+                
+            }
         }
     }
+    
+    /*private class AccountFocusListener implements FocusListener
+    {
+        @Override
+        public void focusGained(FocusEvent e)
+        {
+
+            
+        }
+        
+
+        @Override
+        public void focusLost(FocusEvent e)
+        {
+
+           if (e.getSource() == overviewButton)
+            {
+                System.out.println("Focus Listener invoked");
+            } 
+            
+        }
+    }*/
     
 }

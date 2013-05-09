@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.JPanel;
 
 import javax.crypto.Cipher;
 import javax.crypto.SealedObject;
@@ -26,8 +27,6 @@ import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.User;
 
@@ -67,6 +66,8 @@ public class Reference
     public static ArrayList<Account> accounts = null;
     
     public static JFrame mainWindow;
+    
+    public static boolean isSaved = true;
 
     // Creating a helper method that allows us to easily add JComponents to a
     // JPanel using GridBagConstraints
@@ -90,6 +91,18 @@ public class Reference
         // Adds the passed JComponent c to the passed JPanel p using the
         // GridBagConstraints set in gc
         p.add(c, gc);
+    }
+    
+    public static void changePanelView(JPanel panel)
+    {
+        
+        mainWindow.getContentPane().removeAll();
+        mainWindow.getContentPane().add(panel);
+        mainWindow.getContentPane().doLayout();
+        mainWindow.update(mainWindow.getGraphics());
+        mainWindow.pack();
+        
+        
     }
 
     // Defines a helper method for Authorizing usernames and passwords
@@ -352,6 +365,8 @@ public class Reference
                Reference.cipher);
             writeToFile(filename, sealedAccount, true);
             
+            Reference.isSaved = true;
+            
        }catch(Exception e)
        {
            
@@ -483,11 +498,11 @@ public class Reference
     {
 
         Box centerBox = Box.createHorizontalBox();
-        // centerBox.add(Box.createHorizontalStrut(100));
+        centerBox.add(Box.createHorizontalStrut(10));
         centerBox.add(Box.createHorizontalGlue());
         centerBox.add(boxObject);
         centerBox.add(Box.createHorizontalGlue());
-        // centerBox.add(Box.createHorizontalStrut(100));
+        centerBox.add(Box.createHorizontalStrut(10));
         return centerBox;
     }
 

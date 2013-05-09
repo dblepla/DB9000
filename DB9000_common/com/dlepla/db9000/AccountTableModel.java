@@ -2,9 +2,8 @@ package com.dlepla.db9000;
 
 
 import java.util.ArrayList;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
+import javax.swing.table.AbstractTableModel;
 import com.dlepla.db9000.lib.Reference;
 
 public class AccountTableModel extends AbstractTableModel {
@@ -26,6 +25,7 @@ public class AccountTableModel extends AbstractTableModel {
         Account newBlankAccount = new Account("Enter description", 0, 0);
         this.accounts.add(newBlankAccount);
         this.fireTableStructureChanged();
+        Reference.isSaved = false;
         
     }
 
@@ -74,13 +74,13 @@ public class AccountTableModel extends AbstractTableModel {
     public void removeAccount(int row)
     {
         
-        if(this.accounts.size() <= 1)
+        if(row == -1 || this.accounts.size() <= 1)
         {
             
-            this.accounts.remove(row);
             Account newBlankAccount = new Account("Enter description", 0, 0);
             this.accounts.add(newBlankAccount);
-            
+            this.accounts.remove(0);
+               
         }else
         {
             
@@ -91,6 +91,7 @@ public class AccountTableModel extends AbstractTableModel {
         
         Reference.accounts = this.accounts;
         this.fireTableStructureChanged();
+        Reference.isSaved = false;
     }
     
     public void setValueAt(Object value, int rowIndex, int columnIndex)
@@ -98,7 +99,7 @@ public class AccountTableModel extends AbstractTableModel {
         
         
         
-        
+        Reference.isSaved = false;
         Account account = accounts.get(rowIndex);
         switch (columnIndex) {
             case 0:

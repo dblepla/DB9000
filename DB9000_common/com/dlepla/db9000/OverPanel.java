@@ -78,11 +78,7 @@ public class OverPanel extends JPanel
                 
                 AccountPanel accountPanel = new AccountPanel();
                 //Reference.mainWindow.getRootPane().setDefaultButton(accountPanel.loginButton);
-                Reference.mainWindow.getContentPane().removeAll();
-                Reference.mainWindow.getContentPane().add(accountPanel);
-                Reference.mainWindow.getContentPane().doLayout();
-                update( Reference.mainWindow.getGraphics());
-                Reference.mainWindow.pack();
+                Reference.changePanelView(accountPanel);
                 
             }
             else if (e.getSource() == addUserButton)
@@ -94,12 +90,7 @@ public class OverPanel extends JPanel
             {
                 
                 LoginPanel loginPanel = new LoginPanel();
-                Reference.mainWindow.getRootPane().setDefaultButton(loginPanel.loginButton);
-                Reference.mainWindow.getContentPane().removeAll();
-                Reference.mainWindow.getContentPane().add(loginPanel);
-                Reference.mainWindow.getContentPane().doLayout();
-                update( Reference.mainWindow.getGraphics());
-                Reference.mainWindow.pack();
+                Reference.changePanelView(loginPanel);
                 
             }
         }

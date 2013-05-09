@@ -5,17 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.util.ArrayList;
-
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
-
 import com.dlepla.db9000.lib.Reference;
 
 public class AccountPanel extends JPanel
@@ -65,9 +60,9 @@ public class AccountPanel extends JPanel
 
        
        accountTableModel = new AccountTableModel(Reference.accounts);
-      // AccountFocusListener afl = new AccountFocusListener();
+      
        accountTable = new JTable(accountTableModel);
-       //accountTable.addFocusListener(afl);
+
        
        scrollPane = new JScrollPane(accountTable);
        accountTable.setFillsViewportHeight(true);
@@ -118,11 +113,7 @@ public class AccountPanel extends JPanel
             {
                 OverPanel overPanel = new OverPanel();
                 //Reference.mainWindow.getRootPane().setDefaultButton(loginPanel.loginButton);
-                Reference.mainWindow.getContentPane().removeAll();
-                Reference.mainWindow.getContentPane().add(overPanel);
-                Reference.mainWindow.getContentPane().doLayout();
-                update( Reference.mainWindow.getGraphics());
-                Reference.mainWindow.pack();
+                Reference.changePanelView(overPanel);
             }
             else if (e.getSource() == addUserButton)
             {
@@ -132,13 +123,44 @@ public class AccountPanel extends JPanel
             else if (e.getSource() == logoutButton)
             {
                 
-                LoginPanel loginPanel = new LoginPanel();
-                Reference.mainWindow.getRootPane().setDefaultButton(loginPanel.loginButton);
-                Reference.mainWindow.getContentPane().removeAll();
-                Reference.mainWindow.getContentPane().add(loginPanel);
-                Reference.mainWindow.getContentPane().doLayout();
-                update( Reference.mainWindow.getGraphics());
-                Reference.mainWindow.pack();
+                if (Reference.isSaved == false)
+                {
+                    
+                    int result = JOptionPane.showConfirmDialog(null, "Account changes are not saved, if you exit the program without saving your data will be lost. Would you like to save changes?", "Save before loging out:", JOptionPane.YES_NO_OPTION );
+                    
+                    if (result == JOptionPane.YES_OPTION)
+                    {
+                        
+                        System.out.print("Saving the following accounts to file:");
+                        
+                        for( int i = 0; i < Reference.accounts.size(); i++)
+                            System.out.println(Reference.accounts.get(i).toString());
+                        
+                        Reference.saveAccounts(Reference.DBDB_FILE.toString());
+                        
+                        LoginPanel loginPanel = new LoginPanel();
+                        Reference.changePanelView(loginPanel);
+                        
+                    }
+                    else
+                    {
+                        
+                        LoginPanel loginPanel = new LoginPanel();
+                        Reference.changePanelView(loginPanel);
+                        
+                    }
+                    
+                    
+                }
+                else
+                {
+                    
+                    LoginPanel loginPanel = new LoginPanel();
+                    Reference.changePanelView(loginPanel);
+                    
+                }
+                
+                
                 
             }
             else if (e.getSource() == saveButton)
@@ -170,28 +192,5 @@ public class AccountPanel extends JPanel
               
             }
         }
-    }
-    
-    /*private class AccountFocusListener implements FocusListener
-    {
-        @Override
-        public void focusGained(FocusEvent e)
-        {
-
-            
-        }
-        
-
-        @Override
-        public void focusLost(FocusEvent e)
-        {
-
-           if (e.getSource() == overviewButton)
-            {
-                System.out.println("Focus Listener invoked");
-            } 
-            
-        }
-    }*/
-    
+    }   
 }

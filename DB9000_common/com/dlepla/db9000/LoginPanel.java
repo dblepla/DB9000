@@ -122,11 +122,7 @@ class LoginPanel extends JPanel
                 } else if (loginAuthorized == true)
                 {
                     OverPanel overPanel = new OverPanel();
-                    Reference.mainWindow.getContentPane().removeAll();
-                    Reference.mainWindow.getContentPane().add(overPanel);
-                    Reference.mainWindow.getContentPane().doLayout();
-                    update(Reference.mainWindow.getGraphics());
-                    Reference.mainWindow.pack();
+                    Reference.changePanelView(overPanel);
                     // mainWindow.setVisible(true);
                 } else
                 {

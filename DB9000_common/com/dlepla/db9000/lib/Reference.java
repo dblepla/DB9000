@@ -27,6 +27,8 @@ import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.User;
 
@@ -103,6 +105,85 @@ public class Reference
         mainWindow.pack();
         
         
+    }
+    
+    
+    // Defines a Save and exit method
+    public static void saveAndExit()
+    {
+        
+        if (isSaved == false)
+        {
+            
+            int result = JOptionPane.showConfirmDialog(null, "Account changes are not saved, if you exit the program without saving your data will be lost. Would you like to save changes?", "Save before exiting:", JOptionPane.YES_NO_OPTION );
+            
+            if (result == JOptionPane.YES_OPTION)
+            {
+                
+                System.out.print("Saving the following accounts to file:");
+                
+                for( int i = 0; i < accounts.size(); i++)
+                    System.out.println(accounts.get(i).toString());
+                
+                saveAccounts(DBDB_FILE.toString());
+                
+                System.exit(0);
+                
+            }
+            else
+            {
+                
+                System.exit(0);
+                
+            }
+        }
+        else
+        {
+            
+            System.exit(0);
+            
+        }
+            
+    }
+    
+    
+    public static void saveAndChangePanel(JPanel panel)
+    {
+        
+        if (isSaved == false)
+        {
+            
+            int result = JOptionPane.showConfirmDialog(null, "Account changes are not saved, if you exit this program without saving, your data will be lost. Would you like to save changes?", "Save changes before leaving?", JOptionPane.YES_NO_OPTION );
+            
+            if (result == JOptionPane.YES_OPTION)
+            {
+                
+                System.out.print("Saving the following accounts to file:");
+                
+                for( int i = 0; i < accounts.size(); i++)
+                    System.out.println(accounts.get(i).toString());
+                
+                saveAccounts(Reference.DBDB_FILE.toString());
+                
+                changePanelView(panel);
+                
+            }
+            else
+            {
+                
+                changePanelView(panel);
+                
+            }
+            
+            
+        }
+        else
+        {
+            
+            changePanelView(panel);
+            
+        }
+            
     }
 
     // Defines a helper method for Authorizing usernames and passwords

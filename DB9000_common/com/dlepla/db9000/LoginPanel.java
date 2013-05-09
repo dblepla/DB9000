@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import com.dlepla.db9000.lib.Reference;
 // Login Panel class which sets up a JPanel with several Boxes to display the initial login screen.
 
-class LoginPanel extends JPanel
+public class LoginPanel extends JPanel
 {
     /**
      * 

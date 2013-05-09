@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -113,7 +112,7 @@ public class AccountPanel extends JPanel
             {
                 OverPanel overPanel = new OverPanel();
                 //Reference.mainWindow.getRootPane().setDefaultButton(loginPanel.loginButton);
-                Reference.changePanelView(overPanel);
+                Reference.saveAndChangePanel(overPanel);
             }
             else if (e.getSource() == addUserButton)
             {
@@ -123,42 +122,8 @@ public class AccountPanel extends JPanel
             else if (e.getSource() == logoutButton)
             {
                 
-                if (Reference.isSaved == false)
-                {
-                    
-                    int result = JOptionPane.showConfirmDialog(null, "Account changes are not saved, if you exit the program without saving your data will be lost. Would you like to save changes?", "Save before loging out:", JOptionPane.YES_NO_OPTION );
-                    
-                    if (result == JOptionPane.YES_OPTION)
-                    {
-                        
-                        System.out.print("Saving the following accounts to file:");
-                        
-                        for( int i = 0; i < Reference.accounts.size(); i++)
-                            System.out.println(Reference.accounts.get(i).toString());
-                        
-                        Reference.saveAccounts(Reference.DBDB_FILE.toString());
-                        
-                        LoginPanel loginPanel = new LoginPanel();
-                        Reference.changePanelView(loginPanel);
-                        
-                    }
-                    else
-                    {
-                        
-                        LoginPanel loginPanel = new LoginPanel();
-                        Reference.changePanelView(loginPanel);
-                        
-                    }
-                    
-                    
-                }
-                else
-                {
-                    
-                    LoginPanel loginPanel = new LoginPanel();
-                    Reference.changePanelView(loginPanel);
-                    
-                }
+                LoginPanel loginPanel = new LoginPanel();
+                Reference.saveAndChangePanel(loginPanel);
                 
                 
                 

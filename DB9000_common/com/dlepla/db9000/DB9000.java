@@ -21,6 +21,9 @@ public class DB9000 extends JFrame
      * 
      */
     private static final long serialVersionUID = 1L;
+    
+    SecretKey key = null;
+    
 
     // Runs the DB9000 program in new Runnable queue
     public static void main(String[] args)
@@ -39,11 +42,12 @@ public class DB9000 extends JFrame
     
     
     
+    
 
     public DB9000()
     {
 
-        
+                
         
         // Checks to see if keyfile exists and creates a new file if needed.
         if (!Reference.doesFileExist(Reference.KEY_FILE))
@@ -56,7 +60,7 @@ public class DB9000 extends JFrame
                 //
                 // Generating a temporary key and store it in a file.
                 //
-                SecretKey key = KeyGenerator.getInstance("DES").generateKey();
+                key = KeyGenerator.getInstance("DES").generateKey();
                 Reference
                         .writeToFile(Reference.KEY_FILE.toString(), key, false);
                 
@@ -65,6 +69,7 @@ public class DB9000 extends JFrame
                 //
                 Reference.cipher = Cipher.getInstance("DES");
                 Reference.cipher.init(Cipher.ENCRYPT_MODE, key);
+                
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -73,6 +78,26 @@ public class DB9000 extends JFrame
         {
             System.out
                     .println("Keyfile does exist no need to create new file. Skiping this step.");
+            
+            try
+            {
+                
+                //
+                // Preparing Cipher object for encryption.
+                //
+                key = (SecretKey) Reference.readFromFile(Reference.KEY_FILE.toString());
+                Reference.cipher = Cipher.getInstance("DES");
+                Reference.cipher.init(Cipher.ENCRYPT_MODE, key);
+                
+            }catch(Exception e)
+            {
+                
+                e.printStackTrace();
+                
+            }
+            
+            
+            
         }
         
         // Checks to see if password file exists and creates a new file if
@@ -143,6 +168,7 @@ public class DB9000 extends JFrame
             Reference.accounts = Reference.readAccount(Reference.DBDB_FILE.toString());
             
         }
+        
         System.out.print("\n\n");
         
         ArrayList<Image> icons = new ArrayList<Image>();

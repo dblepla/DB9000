@@ -34,6 +34,9 @@ public class AccountPanel extends JPanel
     JButton overviewButton;
     JButton saveButton;
     JButton newButton;
+    JButton delButton;
+    
+    AccountTableModel accountTableModel = null;
     
     
     
@@ -50,6 +53,7 @@ public class AccountPanel extends JPanel
        overviewButton = new JButton("Overview");
        saveButton = new JButton("Save");
        newButton = new JButton("New Account");
+       delButton = new JButton("Remove Account");
        
        AccountButtonListener abl = new AccountButtonListener();
        addUserButton.addActionListener(abl);
@@ -57,9 +61,10 @@ public class AccountPanel extends JPanel
        overviewButton.addActionListener(abl);
        saveButton.addActionListener(abl);
        newButton.addActionListener(abl);
+       delButton.addActionListener(abl);
 
        
-       AccountTableModel accountTableModel = new AccountTableModel(Reference.accounts);
+       accountTableModel = new AccountTableModel(Reference.accounts);
       // AccountFocusListener afl = new AccountFocusListener();
        accountTable = new JTable(accountTableModel);
        //accountTable.addFocusListener(afl);
@@ -75,9 +80,13 @@ public class AccountPanel extends JPanel
        centerItems.add(accountTable);
        centerItems.add(Box.createVerticalStrut(10));
        Box addsaveBox = Box.createHorizontalBox();
+       addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
        addsaveBox.add(newButton);
+       addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
+       addsaveBox.add(delButton);
        addsaveBox.add(Box.createHorizontalGlue());
        addsaveBox.add(saveButton);
+       addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
        
        centerItems.add(addsaveBox);
        
@@ -140,9 +149,25 @@ public class AccountPanel extends JPanel
                 for( int i = 0; i < Reference.accounts.size(); i++)
                     System.out.println(Reference.accounts.get(i).toString());
                 
-                Reference.saveAccounts(Reference.DBDB_FILE.toString(), Reference.accounts);
+                Reference.saveAccounts(Reference.DBDB_FILE.toString());
               
                 
+            }
+            else if (e.getSource() == newButton)
+            {
+                
+                
+                accountTableModel.addNewAccount();
+               
+              
+            }
+            else if (e.getSource() == delButton)
+            {
+                
+                
+                accountTableModel.removeAccount(accountTable.getSelectedRow());
+               
+              
             }
         }
     }

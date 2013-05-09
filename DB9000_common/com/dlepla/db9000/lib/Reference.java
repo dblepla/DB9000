@@ -295,17 +295,18 @@ public class Reference
         return null;
     }
     
-    public static void saveAccounts(String filename, ArrayList<Account> accounts)
+    public static void saveAccounts(String filename)
     {
         
        File deleteAccountFile = new File(filename);
        
-       deleteAccountFile.delete();
+       if(deleteAccountFile.exists())
+           deleteAccountFile.delete();
        
        try
        {
            
-           SealedObject sealedAccount = new SealedObject(accounts.get(0),
+           SealedObject sealedAccount = new SealedObject(Reference.accounts.get(0),
                Reference.cipher);
            writeToFile(filename, sealedAccount, false );
            
@@ -316,18 +317,18 @@ public class Reference
        }
        
        
-       if(accounts.size() > 1)
+       if(Reference.accounts.size() > 1)
        {
            
-           for ( int i = 1; i <= accounts.size(); i++)
+           for ( int i = 1; i <= Reference.accounts.size() -1; i++)
            {
                
                try
                {
                    
-                   SealedObject sealedAccount = new SealedObject(accounts.get(i),
+                   SealedObject sealedAccount = new SealedObject(Reference.accounts.get(i),
                        Reference.cipher);
-                   writeToFile(filename, sealedAccount, false );
+                   writeToFile(filename, sealedAccount, true );
                    
                }catch (Exception e)
                {
@@ -405,7 +406,7 @@ public class Reference
      //
     // Method for reading object stored in a file.
     //
-    private static Object readFromFile(String filename) throws Exception
+    public static Object readFromFile(String filename) throws Exception
     {
 
         FileInputStream fis = null;

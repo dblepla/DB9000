@@ -3,6 +3,7 @@ package com.dlepla.db9000;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 import com.dlepla.db9000.lib.Reference;
 
@@ -18,13 +19,22 @@ public class AccountTableModel extends AbstractTableModel {
     public AccountTableModel(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
+    
+    public void addNewAccount()
+    {
+        
+        Account newBlankAccount = new Account("Enter description", 0, 0);
+        this.accounts.add(newBlankAccount);
+        this.fireTableStructureChanged();
+        
+    }
 
     public int getColumnCount() {
         return 3;
     }
 
     public int getRowCount() {
-        return accounts.size();
+        return this.accounts.size();
     }
     
     public boolean isCellEditable(int rowIndex, int columIndex)
@@ -43,7 +53,7 @@ public class AccountTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Account account = accounts.get(rowIndex);
+        Account account = this.accounts.get(rowIndex);
 
         switch (columnIndex) {
         case 0: return account.accountName;
@@ -56,50 +66,69 @@ public class AccountTableModel extends AbstractTableModel {
     public ArrayList<Account> getAccountsAll()
     {
         
-        return accounts;
+        return this.accounts;
         
+    }
+   
+    
+    public void removeAccount(int row)
+    {
+        
+        if(this.accounts.size() <= 1)
+        {
+            
+            this.accounts.remove(row);
+            Account newBlankAccount = new Account("Enter description", 0, 0);
+            this.accounts.add(newBlankAccount);
+            
+        }else
+        {
+            
+            this.accounts.remove(row);
+            
+        
+        }
+        
+        Reference.accounts = this.accounts;
+        this.fireTableStructureChanged();
     }
     
     public void setValueAt(Object value, int rowIndex, int columnIndex)
     {
         
-        System.out.println();
-        System.out.println("ModelTable setValueAs invoked");
-        System.out.println("Passed Value: " + (String) value);
-        System.out.println("Passed Row Index: " + rowIndex);
-        System.out.println("Passed column Index: " + columnIndex);
+        
         
         
         Account account = accounts.get(rowIndex);
         switch (columnIndex) {
             case 0:
             {
-                System.out.println(accounts.get(rowIndex).toString());
+               
                 account.accountName = (String) value;
                 accounts.remove(rowIndex);
                 accounts.add(rowIndex, account);
                     
-                    System.out.println(accounts.get(rowIndex).toString());
+                
                     Reference.accounts = accounts;
                     break;
             }   
             case 1: 
             {
-                System.out.println(accounts.get(rowIndex).toString());
+                
                 account.balance = Float.parseFloat((String) value);
                 accounts.remove(rowIndex);
                 accounts.add(rowIndex, account);
-                System.out.println(accounts.get(rowIndex).toString());
+                
                 Reference.accounts = accounts;
                 break;
             }
             case 2: 
             {
-                System.out.println(accounts.get(rowIndex).toString());
+               
                 account.apr = Float.parseFloat((String) value);
                 accounts.remove(rowIndex);
                 accounts.add(rowIndex, account);
-                System.out.println(accounts.get(rowIndex).toString());
+                
                 Reference.accounts = accounts;
                 break;
             }

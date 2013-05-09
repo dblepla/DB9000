@@ -126,22 +126,7 @@ public class Reference
 
     public static boolean compareUsers(User u1, User u2)
     {
-        
-        System.out.println("Compairing two users:");
-        System.out.println("Entered\t\tAuthorized");
-        System.out.println(u1.username + "\t\t" + u2.username);
-        for (char c : u1.password)
-        {
-            System.out.print(c);
-        }
-        System.out.print("\t\t");
-        for (char c : u2.password)
-        {
-            System.out.print(c);
-        }
-        System.out.print("\n\n");
-       
-        
+             
         if (u1.username.equals(u2.username)
                 && Arrays.equals(u1.password, u2.password))
             return true;

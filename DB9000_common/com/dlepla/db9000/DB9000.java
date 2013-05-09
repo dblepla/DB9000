@@ -4,6 +4,8 @@ package com.dlepla.db9000;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.crypto.Cipher;
@@ -12,6 +14,7 @@ import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.dlepla.db9000.lib.Reference;
 
@@ -176,11 +179,51 @@ public class DB9000 extends JFrame
         icons.add(new ImageIcon(Reference.X32_ICON_LOCATION.toString()).getImage());
         icons.add(new ImageIcon(Reference.X64_ICON_LOCATION.toString()).getImage());
         
+        addWindowListener(new WindowAdapter()
+        {
+            
+            public void windowClosing(WindowEvent e)
+            {
+                
+                if (Reference.isSaved == false)
+                {
+                    
+                    int result = JOptionPane.showConfirmDialog(null, "Account changes are not saved, if you exit the program without saving your data will be lost. Would you like to save changes?", "Save before exiting:", JOptionPane.YES_NO_OPTION );
+                    
+                    if (result == JOptionPane.YES_OPTION)
+                    {
+                        
+                        System.out.print("Saving the following accounts to file:");
+                        
+                        for( int i = 0; i < Reference.accounts.size(); i++)
+                            System.out.println(Reference.accounts.get(i).toString());
+                        
+                        Reference.saveAccounts(Reference.DBDB_FILE.toString());
+                        
+                        System.exit(0);
+                        
+                    }
+                    else
+                    {
+                        
+                        System.exit(0);
+                        
+                    }
+                }
+                else
+                {
+                    
+                    System.exit(0);
+                    
+                }
+            }   
+        } );
+        
         // getting reference to JFrame object instance.
         Reference.mainWindow = this;
         
         this.setTitle("Debt Blaster 9000");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setSize(700, 450);
         this.setMinimumSize(new Dimension(715, 482));
         this.setIconImages(icons);
@@ -191,5 +234,9 @@ public class DB9000 extends JFrame
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         
+        
+        
     }
+    
+    
 }

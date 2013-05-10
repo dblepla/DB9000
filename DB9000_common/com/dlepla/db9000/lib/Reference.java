@@ -107,15 +107,22 @@ public class Reference
     
     public static void changePanelView(JPanel panel)
     {
-        Dimension currentSize = mainWindow.getSize();
-        mainWindow.getContentPane().removeAll();
         
+        // Getting the current Dimension of the Window.
+        Dimension currentSize = mainWindow.getSize();
+        int currentWindowState = mainWindow.getExtendedState();
+        
+        mainWindow.getContentPane().removeAll(); 
         mainWindow.getContentPane().add(panel);
         mainWindow.getContentPane().doLayout();
         mainWindow.update(mainWindow.getGraphics());
         mainWindow.pack();
         mainWindow.setLocationRelativeTo(mainWindow);
+        
         mainWindow.setSize(currentSize);
+        mainWindow.setExtendedState(currentWindowState);
+        
+        
     }
     
     

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -150,8 +151,23 @@ public class AccountPanel extends JPanel
             else if (e.getSource() == delButton)
             {
                 
+                if ( accountTable.getSelectedRow() == -1)
+                {
+                    
+                    JOptionPane
+                    .showMessageDialog(
+                            getRootPane(),
+                            "No account selected: Please click on an account to highlight it and then click the Remove account button.",
+                            "No account selected",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    
+                }else
+                {
+                    
+                    accountTableModel.removeAccount(accountTable.getSelectedRow());
+                    
+                }
                 
-                accountTableModel.removeAccount(accountTable.getSelectedRow());
                
               
             }

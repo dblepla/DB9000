@@ -74,7 +74,7 @@ public class AccountTableModel extends AbstractTableModel {
     public void removeAccount(int row)
     {
         
-        if(row == -1 || this.accounts.size() <= 1)
+        if(this.accounts.size() <= 1)
         {
             
             Account newBlankAccount = new Account("Enter description", 0, 0);
@@ -92,6 +92,7 @@ public class AccountTableModel extends AbstractTableModel {
         Reference.accounts = this.accounts;
         this.fireTableStructureChanged();
         Reference.isSaved = false;
+        
     }
     
     public void setValueAt(Object value, int rowIndex, int columnIndex)

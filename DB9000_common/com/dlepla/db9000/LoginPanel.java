@@ -62,8 +62,13 @@ public class LoginPanel extends JPanel
         password.setMaximumSize(password.getPreferredSize());
         JLabel plLabel = new JLabel("Please Login");
         plLabel.setFont(new Font("Elephant", Font.PLAIN, 16));
+        
+        
         loginButton = new JButton_Default();
         loginButton.setText("Login");
+        loginButton.setBackground(Reference.HEADER_BACKGROUD_COLOR);
+        loginButton.setFont(new Font("Elephant", Font.PLAIN, 12));
+        loginButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
         LoginButtonListener bll = new LoginButtonListener();
         loginButton.addActionListener(bll);
         

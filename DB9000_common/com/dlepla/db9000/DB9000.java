@@ -227,9 +227,8 @@ public class DB9000 extends JFrame
         this.setSize(700, 450);
         this.setMinimumSize(new Dimension(715, 482));
         this.setIconImages(icons);
-        LoginPanel loginPanel = new LoginPanel();
-        this.getRootPane().setDefaultButton(loginPanel.loginButton);
-        this.add(loginPanel);
+        Reference.loginPanel = new LoginPanel();
+        this.add(Reference.loginPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);

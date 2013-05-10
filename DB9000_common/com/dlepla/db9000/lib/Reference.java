@@ -68,6 +68,10 @@ public class Reference
     public static ArrayList<Account> accounts = null;
     
     public static JFrame mainWindow;
+    public static JPanel loginPanel;
+    public static JPanel accountPanel;
+    public static JPanel overPanel;
+    
     
     public static boolean isSaved = true;
 

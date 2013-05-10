@@ -76,9 +76,9 @@ public class OverPanel extends JPanel
             if (e.getSource() == accountsButton)
             {
                 
-                AccountPanel accountPanel = new AccountPanel();
-                //Reference.mainWindow.getRootPane().setDefaultButton(accountPanel.loginButton);
-                Reference.changePanelView(accountPanel);
+                Reference.accountPanel = new AccountPanel();
+               
+                Reference.changePanelView(Reference.accountPanel);
                 
             }
             else if (e.getSource() == addUserButton)
@@ -89,8 +89,9 @@ public class OverPanel extends JPanel
             else if (e.getSource() == logoutButton)
             {
                 
-                LoginPanel loginPanel = new LoginPanel();
-                Reference.changePanelView(loginPanel);
+               
+              
+                Reference.changePanelView(Reference.loginPanel);
                 
             }
         }

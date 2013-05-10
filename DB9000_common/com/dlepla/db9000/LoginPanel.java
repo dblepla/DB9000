@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import com.dlepla.db9000.lib.Reference;
 // Login Panel class which sets up a JPanel with several Boxes to display the initial login screen.
@@ -27,7 +28,7 @@ public class LoginPanel extends JPanel
     
     JTextField username;
     JPasswordField password;
-    JButton loginButton;
+    JButton_Default loginButton;
     JLabel headerTitle;
     JLabel overTitle;
 
@@ -61,10 +62,11 @@ public class LoginPanel extends JPanel
         password.setMaximumSize(password.getPreferredSize());
         JLabel plLabel = new JLabel("Please Login");
         plLabel.setFont(new Font("Elephant", Font.PLAIN, 16));
-        loginButton = new JButton("Login");
+        loginButton = new JButton_Default();
+        loginButton.setText("Login");
         LoginButtonListener bll = new LoginButtonListener();
         loginButton.addActionListener(bll);
-        // plBox.add(Box.createVerticalStrut(75));
+        
         plBox.add(plLabel);
         plBox.add(Box.createRigidArea(new Dimension(0, 5)));
         plBox.add(username);
@@ -89,6 +91,23 @@ public class LoginPanel extends JPanel
         Box footerBox = Reference.createFooterBox(footerItems);
         Reference.addItem(this, footerBox, 0, 2, 1, 1,
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
+    }
+    
+    
+    // Extends JButton so we can set the JButton_Default as the default JFrame button when adding to JPanel.
+    public class JButton_Default extends JButton
+    {
+
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void addNotify() {  // Upon being added to a window, make this JButton the default button of the window.
+            super.addNotify();
+            SwingUtilities.getRootPane( this ).setDefaultButton( this );
+        }
     }
 
     private class LoginButtonListener implements ActionListener
@@ -121,9 +140,9 @@ public class LoginPanel extends JPanel
                                     JOptionPane.INFORMATION_MESSAGE);
                 } else if (loginAuthorized == true)
                 {
-                    OverPanel overPanel = new OverPanel();
-                    Reference.changePanelView(overPanel);
-                    // mainWindow.setVisible(true);
+                    Reference.overPanel = new OverPanel();
+                    Reference.changePanelView(Reference.overPanel);
+                 
                 } else
                 {
                     JOptionPane

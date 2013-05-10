@@ -15,6 +15,8 @@ import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 import com.dlepla.db9000.lib.Reference;
 
@@ -221,6 +223,9 @@ public class DB9000 extends JFrame
         
         // getting reference to JFrame object instance.
         Reference.mainWindow = this;
+        
+        // sets Button select on click color
+        UIManager.put("Button.select",new ColorUIResource(Reference.HEADER_BORDER_COLOR));
         
         this.setTitle("Debt Blaster 9000");
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

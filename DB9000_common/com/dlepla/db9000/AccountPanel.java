@@ -43,12 +43,12 @@ public class AccountPanel extends JPanel
        this.setOpaque(true);
        this.setSize(700, 450);
        
-       addUserButton = new JButton("Users");
-       logoutButton = new JButton("Logout");
-       overviewButton = new JButton("Overview");
-       saveButton = new JButton("Save");
-       newButton = new JButton("New Account");
-       delButton = new JButton("Remove Account");
+       addUserButton = Reference.createCustomButton("Users");
+       logoutButton = Reference.createCustomButton("Logout");
+       overviewButton =  Reference.createCustomButton("Overview");
+       saveButton =  Reference.createCustomButton("Save");
+       newButton =  Reference.createCustomButton("New Account");
+       delButton =  Reference.createCustomButton("Remove Account");
        
        AccountButtonListener abl = new AccountButtonListener();
        addUserButton.addActionListener(abl);

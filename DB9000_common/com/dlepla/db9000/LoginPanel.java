@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,7 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import com.dlepla.db9000.lib.Reference;
 // Login Panel class which sets up a JPanel with several Boxes to display the initial login screen.
 
@@ -63,12 +66,21 @@ public class LoginPanel extends JPanel
         JLabel plLabel = new JLabel("Please Login");
         plLabel.setFont(new Font("Elephant", Font.PLAIN, 16));
         
+        // Defines customized JButton for program.
+        EmptyBorder DB_Insets = new EmptyBorder(3,10,3,10);
+        LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
+        Border DB_Border = BorderFactory.createCompoundBorder( DB_Line, DB_Insets);
         
         loginButton = new JButton_Default();
         loginButton.setText("Login");
         loginButton.setBackground(Reference.HEADER_BACKGROUD_COLOR);
-        loginButton.setFont(new Font("Elephant", Font.PLAIN, 12));
+        loginButton.setFont(new Font("Elephant", Font.PLAIN, 14));
         loginButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
+        loginButton.setBorder(DB_Border);
+        
+        
+        
+        
         LoginButtonListener bll = new LoginButtonListener();
         loginButton.addActionListener(bll);
         

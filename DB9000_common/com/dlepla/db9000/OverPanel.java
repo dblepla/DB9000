@@ -33,9 +33,9 @@ public class OverPanel extends JPanel
         this.setOpaque(true);
         this.setSize(700, 450);
          
-        addUserButton = new JButton("Users");
-        logoutButton = new JButton("Logout");
-        accountsButton = new JButton("Accounts");
+        addUserButton = Reference.createCustomButton("Users");
+        logoutButton = Reference.createCustomButton("Logout");
+        accountsButton = Reference.createCustomButton("Accounts");
         
         OverviewButtonListener obl = new OverviewButtonListener();
         addUserButton.addActionListener(obl);

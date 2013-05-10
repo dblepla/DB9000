@@ -1,6 +1,7 @@
 package com.dlepla.db9000.lib;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -23,11 +24,16 @@ import javax.swing.JPanel;
 import javax.crypto.Cipher;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.User;
@@ -101,14 +107,15 @@ public class Reference
     
     public static void changePanelView(JPanel panel)
     {
-        
+        Dimension currentSize = mainWindow.getSize();
         mainWindow.getContentPane().removeAll();
+        
         mainWindow.getContentPane().add(panel);
         mainWindow.getContentPane().doLayout();
         mainWindow.update(mainWindow.getGraphics());
         mainWindow.pack();
-        
-        
+        mainWindow.setLocationRelativeTo(mainWindow);
+        mainWindow.setSize(currentSize);
     }
     
     
@@ -253,6 +260,25 @@ public class Reference
             return false;
         } else
             return true;
+    }
+    
+    public static JButton createCustomButton(String text)
+    {
+        
+      // Defines customized JButton for program.
+        EmptyBorder DB_Insets = new EmptyBorder(3,10,3,10);
+        LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
+        Border DB_Border = BorderFactory.createCompoundBorder( DB_Line, DB_Insets);
+        
+        JButton newButton = new JButton(text);
+        
+        newButton.setBackground(Reference.HEADER_BACKGROUD_COLOR);
+        newButton.setFont(new Font("Elephant", Font.PLAIN, 14));
+        newButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
+        newButton.setBorder(DB_Border);
+        
+        return newButton;
+        
     }
 
     public static User[] readUser(String filename)

@@ -78,7 +78,7 @@ public class OverPanel extends JPanel
                 
                 Reference.accountPanel = new AccountPanel();
                
-                Reference.changePanelView(Reference.accountPanel);
+                Reference.changePanelView(Reference.accountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == addUserButton)
@@ -91,7 +91,7 @@ public class OverPanel extends JPanel
                 
                
               
-                Reference.changePanelView(Reference.loginPanel);
+                Reference.changePanelView(Reference.loginPanel, Reference.overPanel);
                 
             }
         }

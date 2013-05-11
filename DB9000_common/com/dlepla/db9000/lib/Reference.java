@@ -31,9 +31,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableColumnModel;
 
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.User;
@@ -78,6 +80,9 @@ public class Reference
     public static JPanel accountPanel;
     public static JPanel overPanel;
     
+    public static JTable accountTable;
+    public static TableColumnModel m;
+    
     
     public static boolean isSaved = true;
 
@@ -105,19 +110,24 @@ public class Reference
         p.add(c, gc);
     }
     
-    public static void changePanelView(JPanel panel)
+    public static void changePanelView(JPanel viewPanel, JPanel removePanel)
     {
         
         // Getting the current Dimension of the Window.
         Dimension currentSize = mainWindow.getSize();
         int currentWindowState = mainWindow.getExtendedState();
         
-        mainWindow.getContentPane().removeAll(); 
-        mainWindow.getContentPane().add(panel);
+        
+        
+        
+        
+        mainWindow.getContentPane().add(viewPanel);
+        viewPanel.setVisible(true);
+        removePanel.setVisible(false);
         mainWindow.getContentPane().doLayout();
+        
         mainWindow.update(mainWindow.getGraphics());
         mainWindow.pack();
-        mainWindow.setLocationRelativeTo(mainWindow);
         
         mainWindow.setSize(currentSize);
         mainWindow.setExtendedState(currentWindowState);
@@ -165,7 +175,7 @@ public class Reference
     }
     
     
-    public static void saveAndChangePanel(JPanel panel)
+    public static void saveAndChangePanel(JPanel viewPanel, JPanel removePanel)
     {
         
         if (isSaved == false)
@@ -183,13 +193,13 @@ public class Reference
                 
                 saveAccounts(Reference.DBDB_FILE.toString());
                 
-                changePanelView(panel);
+                changePanelView(viewPanel, removePanel);
                 
             }
             else
             {
                 
-                changePanelView(panel);
+                changePanelView(viewPanel, removePanel);
                 
             }
             
@@ -198,7 +208,7 @@ public class Reference
         else
         {
             
-            changePanelView(panel);
+            changePanelView(viewPanel, removePanel);
             
         }
             

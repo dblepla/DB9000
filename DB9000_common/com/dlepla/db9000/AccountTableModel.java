@@ -14,6 +14,8 @@ public class AccountTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -1787961292270867038L;
     
     public ArrayList<Account> accounts;
+    
+    
 
     public AccountTableModel(ArrayList<Account> accounts) {
         this.accounts = accounts;
@@ -25,6 +27,7 @@ public class AccountTableModel extends AbstractTableModel {
         Account newBlankAccount = new Account("Enter description", 0, 0);
         this.accounts.add(newBlankAccount);
         this.fireTableStructureChanged();
+        Reference.m.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.isSaved = false;
         
     }
@@ -91,6 +94,8 @@ public class AccountTableModel extends AbstractTableModel {
         
         Reference.accounts = this.accounts;
         this.fireTableStructureChanged();
+        Reference.m.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+        
         Reference.isSaved = false;
         
     }

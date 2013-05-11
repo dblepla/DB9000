@@ -21,7 +21,7 @@ public class AccountPanel extends JPanel
      */
     private static final long serialVersionUID = -6111736561700918653L;
    
-    JTable accountTable = null;
+   
     
     JScrollPane scrollPane = null;
     JButton addUserButton;
@@ -61,18 +61,22 @@ public class AccountPanel extends JPanel
        
        accountTableModel = new AccountTableModel(Reference.accounts);
       
-       accountTable = new JTable(accountTableModel);
-
+       Reference.accountTable = new JTable(accountTableModel);
        
-       scrollPane = new JScrollPane(accountTable);
-       accountTable.setFillsViewportHeight(true);
+       Reference.m = Reference.accountTable.getColumnModel();
+       Reference.m.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+       
+       scrollPane = new JScrollPane(Reference.accountTable);
+       Reference.accountTable.setFillsViewportHeight(true);
+       
+      
        
        Box headerBox = Reference.createHeaderBox("Account Data");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
        Box centerItems = Box.createVerticalBox();
-       centerItems.add(accountTable);
+       centerItems.add(scrollPane);
        centerItems.add(Box.createVerticalStrut(10));
        Box addsaveBox = Box.createHorizontalBox();
        addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
@@ -112,7 +116,7 @@ public class AccountPanel extends JPanel
             if (e.getSource() == overviewButton)
             {
                 
-                Reference.saveAndChangePanel(Reference.overPanel);
+                Reference.saveAndChangePanel(Reference.overPanel, Reference.accountPanel);
             }
             else if (e.getSource() == addUserButton)
             {
@@ -123,7 +127,7 @@ public class AccountPanel extends JPanel
             {
                 
                 
-                Reference.saveAndChangePanel(Reference.loginPanel);
+                Reference.saveAndChangePanel(Reference.loginPanel, Reference.accountPanel);
                 
                 
                 
@@ -151,7 +155,7 @@ public class AccountPanel extends JPanel
             else if (e.getSource() == delButton)
             {
                 
-                if ( accountTable.getSelectedRow() == -1)
+                if ( Reference.accountTable.getSelectedRow() == -1)
                 {
                     
                     JOptionPane
@@ -164,7 +168,7 @@ public class AccountPanel extends JPanel
                 }else
                 {
                     
-                    accountTableModel.removeAccount(accountTable.getSelectedRow());
+                    accountTableModel.removeAccount(Reference.accountTable.getSelectedRow());
                     
                 }
                 

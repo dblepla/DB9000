@@ -158,7 +158,7 @@ public class LoginPanel extends JPanel
                 } else if (loginAuthorized == true)
                 {
                     Reference.overPanel = new OverPanel();
-                    Reference.changePanelView(Reference.overPanel);
+                    Reference.changePanelView(Reference.overPanel, Reference.loginPanel);
                  
                 } else
                 {

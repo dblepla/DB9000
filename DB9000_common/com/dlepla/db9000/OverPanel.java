@@ -54,13 +54,13 @@ public class OverPanel extends JPanel
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         
         Box footerItems = Box.createHorizontalBox();
-        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        footerItems.add(Box.createHorizontalStrut(20));
         footerItems.add(accountsButton);
         footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
         footerItems.add(addUserButton);
         footerItems.add(Box.createHorizontalGlue());
         footerItems.add(logoutButton);
-        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        footerItems.add(Box.createHorizontalStrut(20));
         
         Box footerBox = Reference.createFooterBox(footerItems);
         Reference.addItem(this, footerBox, 0, 2, 1, 1,

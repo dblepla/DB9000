@@ -15,7 +15,7 @@ public class NumberRenderer extends FormatRenderer
     public NumberRenderer(NumberFormat formatter)
     {
         super(formatter);
-        setHorizontalAlignment( SwingConstants.LEFT );
+        setHorizontalAlignment( SwingConstants.CENTER);
     }
 
     /*

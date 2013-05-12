@@ -31,7 +31,7 @@ public class OverPanel extends JPanel
         this.setLayout(new GridBagLayout());
         this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
         this.setOpaque(true);
-        this.setSize(700, 450);
+        
          
         addUserButton = Reference.createCustomButton("Users");
         logoutButton = Reference.createCustomButton("Logout");

@@ -83,6 +83,14 @@ public class Reference
     public static JTable accountTable;
     public static TableColumnModel m;
     
+    public static final EmptyBorder DB_Insets = new EmptyBorder(3,10,3,10);
+    public static final LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
+    public static final Border BUTTON_BORDER= BorderFactory.createCompoundBorder( DB_Line, DB_Insets);
+    
+    
+    public static final LineBorder LINE_BORDER = new LineBorder(Reference.HEADER_BORDER_COLOR, 1);
+    
+    
     
     public static boolean isSaved = true;
 
@@ -282,17 +290,12 @@ public class Reference
     public static JButton createCustomButton(String text)
     {
         
-      // Defines customized JButton for program.
-        EmptyBorder DB_Insets = new EmptyBorder(3,10,3,10);
-        LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
-        Border DB_Border = BorderFactory.createCompoundBorder( DB_Line, DB_Insets);
-        
         JButton newButton = new JButton(text);
         
         newButton.setBackground(Reference.HEADER_BACKGROUD_COLOR);
         newButton.setFont(new Font("Elephant", Font.PLAIN, 14));
         newButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
-        newButton.setBorder(DB_Border);
+        newButton.setBorder(BUTTON_BORDER);
         
         return newButton;
         
@@ -587,11 +590,11 @@ public class Reference
         JLabel headerTitle = new JLabel(title);
         headerTitle.setFont(new Font("Elephant", Font.PLAIN, 31));
         headerTitle.setForeground(Reference.HEADER_TEXT_COLOR);
-        htextBox.add(Box.createHorizontalStrut(198));
+        htextBox.add(Box.createHorizontalStrut(10));
         htextBox.add(Box.createHorizontalGlue());
         htextBox.add(headerTitle);
         htextBox.add(Box.createHorizontalGlue());
-        htextBox.add(Box.createHorizontalStrut(198));
+        htextBox.add(Box.createHorizontalStrut(10));
         Box hbBox = Box.createHorizontalBox();
         hbBox.setOpaque(true);
         hbBox.setBackground(Reference.HEADER_BORDER_COLOR);

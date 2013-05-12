@@ -41,7 +41,7 @@ public class AccountPanel extends JPanel
        this.setLayout(new GridBagLayout());
        this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
        this.setOpaque(true);
-       this.setSize(700, 450);
+       
        
        addUserButton = Reference.createCustomButton("Users");
        logoutButton = Reference.createCustomButton("Logout");
@@ -63,13 +63,24 @@ public class AccountPanel extends JPanel
       
        Reference.accountTable = new JTable(accountTableModel);
        
+       
+       
        Reference.m = Reference.accountTable.getColumnModel();
        Reference.m.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+      
        
        scrollPane = new JScrollPane(Reference.accountTable);
-       Reference.accountTable.setFillsViewportHeight(true);
        
-      
+       scrollPane.setBorder(Reference.LINE_BORDER);
+       
+       
+       
+       Reference.accountTable.setFillsViewportHeight(true);
+       Reference.accountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
+       Reference.accountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
+       Reference.accountTable.setAlignmentY(CENTER_ALIGNMENT);
+       Reference.accountTable.setAlignmentX(CENTER_ALIGNMENT);
+    
        
        Box headerBox = Reference.createHeaderBox("Account Data");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
@@ -77,15 +88,16 @@ public class AccountPanel extends JPanel
        
        Box centerItems = Box.createVerticalBox();
        centerItems.add(scrollPane);
+       
        centerItems.add(Box.createVerticalStrut(10));
        Box addsaveBox = Box.createHorizontalBox();
-       addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
+       
        addsaveBox.add(newButton);
-       addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
+       addsaveBox.add(Box.createRigidArea(new Dimension(10, 0)));
        addsaveBox.add(delButton);
        addsaveBox.add(Box.createHorizontalGlue());
        addsaveBox.add(saveButton);
-       addsaveBox.add(Box.createRigidArea(new Dimension(10, 5)));
+       
        
        centerItems.add(addsaveBox);
        
@@ -96,7 +108,7 @@ public class AccountPanel extends JPanel
        Box footerItems = Box.createHorizontalBox();
        footerItems.add(Box.createHorizontalStrut(20));
        footerItems.add(overviewButton);
-       footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+       footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
        footerItems.add(addUserButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);

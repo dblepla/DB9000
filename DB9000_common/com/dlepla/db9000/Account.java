@@ -11,20 +11,22 @@ public class Account implements Serializable
      */
     private static final long serialVersionUID = 2L;
     static NumberFormat cf = NumberFormat.getCurrencyInstance();
-    // Int to keep track of number of accounts.
-    static int numberOfAccounts = 0;
+   
+    
     // Declare account generic variables.
-    public String accountName = " ";
+    public String accountName = "Enter Account Name";
     public float balance = 0;
     public float apr = 0;
 
-    public Account(String name, float bal, float apr)
+    public Account(){}
+    
+    public Account (String name, float bal, float apr)
     {
-
-        numberOfAccounts++;
+        
         this.accountName = name;
         this.balance = bal;
         this.apr = apr;
+        
     }
 
     @Override
@@ -35,7 +37,7 @@ public class Account implements Serializable
         cf = NumberFormat.getCurrencyInstance();
         msg = "Account Name: " + this.accountName;
         msg += ", Balance: " + cf.format(this.balance);
-        msg += ", APR: " + this.apr;
+        //msg += ", APR: " + this.apr;
         return msg;
     }
 }

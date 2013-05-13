@@ -110,7 +110,7 @@ public class DB9000 extends JFrame
         if (!Reference.doesFileExist(Reference.PASSWORD_FILE))
         {
             
-            // Reference.createFile(Reference.PASSWORD_FILE);
+            
             User drew = new User("dblepla", Reference.DEFAULT_PASSWORD);
             User amber = new User("alepla", Reference.AMBER_PASSWORD);
             User nullUser = null;
@@ -136,28 +136,28 @@ public class DB9000 extends JFrame
                     .println("Password file does exist no need to create new file. Skiping this step.");
         }
         
-        // Checks to see if account database file exists and creates a new file
+        // Checks to see if BankAccount database file exists and creates a new file
         // if needed.
-        if (!Reference.doesFileExist(Reference.DBDB_FILE))
+        if (!Reference.doesFileExist(Reference.BANKACCOUNT_DATABASE_FILE))
         {
             
-            // Reference.createFile(Reference.DBDB_FILE);
             
-            Account placeHolderAccount = new Account("Account Description", 0 , 0);
-            Account nullAccount = null;
+            
+            BankAccount placeHolderAccount = new BankAccount();
+            BankAccount nullSavingsAccount = null;
             
             try
             {
                 
                  SealedObject sealedUser = new SealedObject(placeHolderAccount,
                     Reference.cipher);
-                 Reference.writeToFile(Reference.DBDB_FILE.toString(),
+                 Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
                     sealedUser, false);
-                 sealedUser = new SealedObject(nullAccount, Reference.cipher);
-                 Reference.writeToFile(Reference.DBDB_FILE.toString(),
+                 sealedUser = new SealedObject(nullSavingsAccount, Reference.cipher);
+                 Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
                     sealedUser, true);
                  
-                 Reference.accounts = Reference.readAccount(Reference.DBDB_FILE.toString());
+                 Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
                  
             } catch (Exception e)
             {
@@ -168,9 +168,48 @@ public class DB9000 extends JFrame
         } else
         {
             System.out
-                    .println("Database file does exist. Loading Accounts.");
+                    .println("Bank account database file does exist. Loading bank accounts.");
             
-            Reference.accounts = Reference.readAccount(Reference.DBDB_FILE.toString());
+            Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
+            
+        }
+        
+        
+        // Checks to see if Debt account database file exists and creates a new file
+        // if needed.
+        if (!Reference.doesFileExist(Reference.DEBTACCOUNT_DATABASE_FILE))
+        {
+            
+            // Reference.createFile(Reference.BANKACCOUNT_DATABASE_FILE);
+            
+            DebtAccount placeHolderAccount = new DebtAccount();
+            DebtAccount nullAccount = null;
+            
+            try
+            {
+                
+                 SealedObject sealedUser = new SealedObject(placeHolderAccount,
+                    Reference.cipher);
+                 Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
+                    sealedUser, false);
+                 sealedUser = new SealedObject(nullAccount, Reference.cipher);
+                 Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
+                    sealedUser, true);
+                 
+                 Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+                 
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+           
+            
+        } else
+        {
+            System.out
+                    .println("Debt account database file does exist. Loading debt accounts.");
+            
+            Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
             
         }
         
@@ -197,10 +236,10 @@ public class DB9000 extends JFrame
                         
                         System.out.print("Saving the following accounts to file:");
                         
-                        for( int i = 0; i < Reference.accounts.size(); i++)
-                            System.out.println(Reference.accounts.get(i).toString());
+                        for( int i = 0; i < Reference.bankAccounts.size(); i++)
+                            System.out.println(Reference.bankAccounts.get(i).toString());
                         
-                        Reference.saveAccounts(Reference.DBDB_FILE.toString());
+                        Reference.saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), Reference.BANK_ACCOUNT);
                         
                         System.exit(0);
                         
@@ -223,6 +262,10 @@ public class DB9000 extends JFrame
         
         // getting reference to JFrame object instance.
         Reference.mainWindow = this;
+        Reference.accountPanel = new BankAccountPanel();
+        Reference.overPanel = new OverPanel();
+        Reference.loginPanel = new LoginPanel();
+        Reference.debtAccountPanel = new DebtAccountPanel();
         
         // sets Button select on click color
         UIManager.put("Button.select",new ColorUIResource(Reference.HEADER_BORDER_COLOR));
@@ -232,7 +275,6 @@ public class DB9000 extends JFrame
         this.setSize(700, 450);
         this.setMinimumSize(new Dimension(715, 482));
         this.setIconImages(icons);
-        Reference.loginPanel = new LoginPanel();
         this.add(Reference.loginPanel);
         this.pack();
         this.setLocationRelativeTo(null);

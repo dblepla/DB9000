@@ -1,6 +1,7 @@
-package com.dlepla.db9000;
+package com.dlepla.db9000.lib;
 import java.text.NumberFormat;
 import javax.swing.SwingConstants;
+
 
 public class NumberRenderer extends FormatRenderer
 {

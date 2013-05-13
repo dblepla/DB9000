@@ -5,15 +5,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import com.dlepla.db9000.lib.DebtAccountTableModel;
+import com.dlepla.db9000.lib.NumberRenderer;
 import com.dlepla.db9000.lib.Reference;
 
-public class AccountPanel extends JPanel
+public class DebtAccountPanel extends JPanel
 {
 
     /**
@@ -31,11 +35,11 @@ public class AccountPanel extends JPanel
     JButton newButton;
     JButton delButton;
     
-    AccountTableModel accountTableModel = null;
+    DebtAccountTableModel debtAccountTableModel = null;
     
     
     
-    public AccountPanel()
+    public DebtAccountPanel()
     {
         
        this.setLayout(new GridBagLayout());
@@ -59,30 +63,30 @@ public class AccountPanel extends JPanel
        delButton.addActionListener(abl);
 
        
-       accountTableModel = new AccountTableModel(Reference.accounts);
+       debtAccountTableModel = new DebtAccountTableModel(Reference.debtAccounts);
       
-       Reference.accountTable = new JTable(accountTableModel);
+       Reference.debtAccountTable = new JTable(debtAccountTableModel);
        
        
        
-       Reference.m = Reference.accountTable.getColumnModel();
-       Reference.m.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-      
-       
-       scrollPane = new JScrollPane(Reference.accountTable);
+       Reference.debtTableColumnModel = Reference.bankAccountTable.getColumnModel();
+       Reference.debtTableColumnModel.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+       Reference.debtTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+     
+       scrollPane = new JScrollPane(Reference.debtAccountTable);
        
        scrollPane.setBorder(Reference.LINE_BORDER);
        
        
        
-       Reference.accountTable.setFillsViewportHeight(true);
-       Reference.accountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
-       Reference.accountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
-       Reference.accountTable.setAlignmentY(CENTER_ALIGNMENT);
-       Reference.accountTable.setAlignmentX(CENTER_ALIGNMENT);
+       Reference.debtAccountTable.setFillsViewportHeight(true);
+       Reference.debtAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
+       Reference.debtAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
+       Reference.debtAccountTable.setAlignmentY(CENTER_ALIGNMENT);
+       Reference.debtAccountTable.setAlignmentX(CENTER_ALIGNMENT);
     
        
-       Box headerBox = Reference.createHeaderBox("Account Data");
+       Box headerBox = Reference.createHeaderBox("BankDebt Account Data");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
@@ -128,7 +132,7 @@ public class AccountPanel extends JPanel
             if (e.getSource() == overviewButton)
             {
                 
-                Reference.saveAndChangePanel(Reference.overPanel, Reference.accountPanel);
+                Reference.saveAndChangePanel(Reference.overPanel, Reference.debtAccountPanel);
             }
             else if (e.getSource() == addUserButton)
             {
@@ -139,7 +143,7 @@ public class AccountPanel extends JPanel
             {
                 
                 
-                Reference.saveAndChangePanel(Reference.loginPanel, Reference.accountPanel);
+                Reference.saveAndChangePanel(Reference.loginPanel, Reference.debtAccountPanel);
                 
                 
                 
@@ -149,10 +153,10 @@ public class AccountPanel extends JPanel
                 
                 System.out.print("Saving the following accounts to file:");
                 
-                for( int i = 0; i < Reference.accounts.size(); i++)
-                    System.out.println(Reference.accounts.get(i).toString());
+                for( int i = 0; i < Reference.debtAccounts.size(); i++)
+                    System.out.println(Reference.debtAccounts.get(i).toString());
                 
-                Reference.saveAccounts(Reference.DBDB_FILE.toString());
+                Reference.saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), Reference.DEBT_ACCOUNT);
               
                 
             }
@@ -160,14 +164,14 @@ public class AccountPanel extends JPanel
             {
                 
                 
-                accountTableModel.addNewAccount();
+                debtAccountTableModel.addNewAccount();
                
               
             }
             else if (e.getSource() == delButton)
             {
                 
-                if ( Reference.accountTable.getSelectedRow() == -1)
+                if ( Reference.debtAccountTable.getSelectedRow() == -1)
                 {
                     
                     JOptionPane
@@ -180,7 +184,7 @@ public class AccountPanel extends JPanel
                 }else
                 {
                     
-                    accountTableModel.removeAccount(Reference.accountTable.getSelectedRow());
+                    debtAccountTableModel.removeAccount(Reference.debtAccountTable.getSelectedRow());
                     
                 }
                 

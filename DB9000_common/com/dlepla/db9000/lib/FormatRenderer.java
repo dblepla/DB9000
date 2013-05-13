@@ -1,4 +1,4 @@
-package com.dlepla.db9000;
+package com.dlepla.db9000.lib;
 import java.text.Format;
 import java.text.DateFormat;
 import javax.swing.table.DefaultTableCellRenderer;

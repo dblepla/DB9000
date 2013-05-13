@@ -22,7 +22,8 @@ public class OverPanel extends JPanel
     JLabel overTitle;
     JButton addUserButton;
     JButton logoutButton;
-    JButton accountsButton;
+    JButton bankAccountsButton;
+    JButton debtAccountsButton;
     JButton transButton;
 
     public OverPanel()
@@ -35,12 +36,14 @@ public class OverPanel extends JPanel
          
         addUserButton = Reference.createCustomButton("Users");
         logoutButton = Reference.createCustomButton("Logout");
-        accountsButton = Reference.createCustomButton("Accounts");
+        bankAccountsButton = Reference.createCustomButton("Bank Accounts");
+        debtAccountsButton = Reference.createCustomButton("Debt Accounts");
         
         OverviewButtonListener obl = new OverviewButtonListener();
         addUserButton.addActionListener(obl);
         logoutButton.addActionListener(obl);
-        accountsButton.addActionListener(obl);
+        bankAccountsButton.addActionListener(obl);
+        debtAccountsButton.addActionListener(obl);
         
         
         
@@ -55,9 +58,11 @@ public class OverPanel extends JPanel
         
         Box footerItems = Box.createHorizontalBox();
         footerItems.add(Box.createHorizontalStrut(20));
-        footerItems.add(accountsButton);
+        footerItems.add(bankAccountsButton);
         footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
-        footerItems.add(addUserButton);
+        footerItems.add(debtAccountsButton);
+        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        //footerItems.add(addUserButton);
         footerItems.add(Box.createHorizontalGlue());
         footerItems.add(logoutButton);
         footerItems.add(Box.createHorizontalStrut(20));
@@ -73,17 +78,16 @@ public class OverPanel extends JPanel
         public void actionPerformed(ActionEvent e)
         {
 
-            if (e.getSource() == accountsButton)
+            if (e.getSource() == bankAccountsButton)
             {
-                
-                Reference.accountPanel = new AccountPanel();
                
                 Reference.changePanelView(Reference.accountPanel,Reference.overPanel);
                 
             }
-            else if (e.getSource() == addUserButton)
+            else if (e.getSource() == debtAccountsButton)
             {
                 
+                Reference.changePanelView(Reference.debtAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == logoutButton)

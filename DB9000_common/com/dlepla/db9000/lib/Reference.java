@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +28,7 @@ import javax.crypto.SecretKey;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,9 +37,12 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import com.dlepla.db9000.Account;
+import com.dlepla.db9000.BankAccount;
+import com.dlepla.db9000.DebtAccount;
 import com.dlepla.db9000.User;
 
 // General reference class which holds all constant values and helper methods for the program.
@@ -68,20 +73,30 @@ public class Reference
     //Initializes and sets the file paths for the save files used by the program
     public static final Path PASSWORD_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\dbaccess.dat");
-    public static final Path DBDB_FILE = Paths
-            .get("C:\\Development\\source\\DB9000\\resources\\bin\\DBDB.dat");
+    //public static final Path DBDB_FILE = Paths
+            //.get("C:\\Development\\source\\DB9000\\resources\\bin\\DBDB.dat");
     public static final Path KEY_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\keyfile");
+    public static final Path BANKACCOUNT_DATABASE_FILE = Paths
+            .get("C:\\Development\\source\\DB9000\\resources\\bin\\BADB.dat");
+    public static final Path DEBTACCOUNT_DATABASE_FILE = Paths
+            .get("C:\\Development\\source\\DB9000\\resources\\bin\\DADB.dat");
     
-    public static ArrayList<Account> accounts = null;
+    public static ArrayList<BankAccount> bankAccounts = null;
+    public static ArrayList<DebtAccount> debtAccounts = null;
     
     public static JFrame mainWindow;
     public static JPanel loginPanel;
     public static JPanel accountPanel;
+    public static JPanel debtAccountPanel;
     public static JPanel overPanel;
     
-    public static JTable accountTable;
-    public static TableColumnModel m;
+    public static JTable bankAccountTable;
+    public static JTable debtAccountTable;
+    public static TableColumnModel bankTableColumnModel;
+    public static TableColumnModel debtTableColumnModel;
+    public static TableColumn typeColumn;
+    public static JComboBox<String> BATableComboBox = new JComboBox<String>();
     
     public static final EmptyBorder DB_Insets = new EmptyBorder(3,10,3,10);
     public static final LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
@@ -93,6 +108,8 @@ public class Reference
     
     
     public static boolean isSaved = true;
+    public static final int BANK_ACCOUNT = 1;
+    public static final int DEBT_ACCOUNT = 2;
 
     // Creating a helper method that allows us to easily add JComponents to a
     // JPanel using GridBagConstraints
@@ -158,10 +175,10 @@ public class Reference
                 
                 System.out.print("Saving the following accounts to file:");
                 
-                for( int i = 0; i < accounts.size(); i++)
-                    System.out.println(accounts.get(i).toString());
+                for( int i = 0; i < bankAccounts.size(); i++)
+                    System.out.println(bankAccounts.get(i).toString());
                 
-                saveAccounts(DBDB_FILE.toString());
+                saveAccounts(BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
                 
                 System.exit(0);
                 
@@ -196,10 +213,10 @@ public class Reference
                 
                 System.out.print("Saving the following accounts to file:");
                 
-                for( int i = 0; i < accounts.size(); i++)
-                    System.out.println(accounts.get(i).toString());
+                for( int i = 0; i < bankAccounts.size(); i++)
+                    System.out.println(bankAccounts.get(i).toString());
                 
-                saveAccounts(Reference.DBDB_FILE.toString());
+                saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
                 
                 changePanelView(viewPanel, removePanel);
                 
@@ -253,7 +270,7 @@ public class Reference
 
     // Defines a helper methods to read account data from and write to an binary
     // data file.
-    public static Account readAccount(DataInputStream in)
+    public static Account readBankAccount(DataInputStream in)
     {
 
         String name = " ";
@@ -281,7 +298,6 @@ public class Reference
 
         if (!Files.exists(p))
         {
-            System.out.println("File does not exist.");
             return false;
         } else
             return true;
@@ -361,7 +377,7 @@ public class Reference
         return null;
     }
     
-    public static ArrayList<Account> readAccount(String filename)
+    public static ArrayList<BankAccount> readBankAccounts(String filename)
     {
 
         File file = new File(filename);
@@ -374,9 +390,9 @@ public class Reference
                 // Read the previously stored SecretKey.
                 //
                 SecretKey key = (SecretKey) readFromFile(KEY_FILE.toString());
-                ArrayList<Account> accountList = new ArrayList<Account>();
+                ArrayList<BankAccount> accountList = new ArrayList<BankAccount>();
                 ois = new ObjectInputStream(new FileInputStream(filename));
-                Account tempAccount = null;
+                BankAccount tempAccount = null;
                 SealedObject tempSealed = null;
                 boolean eof = false;
                 while (!eof)
@@ -388,7 +404,7 @@ public class Reference
                     String algorithmName = tempSealed.getAlgorithm();
                     Cipher objCipher = Cipher.getInstance(algorithmName);
                     objCipher.init(Cipher.DECRYPT_MODE, key);
-                    tempAccount = (Account) tempSealed.getObject(objCipher);
+                    tempAccount = (BankAccount) tempSealed.getObject(objCipher);
                     if (tempAccount == null)
                     {
                         eof = true;
@@ -424,18 +440,88 @@ public class Reference
         return null;
     }
     
-    public static void saveAccounts(String filename)
+    
+    public static ArrayList<DebtAccount> readDebtAccounts(String filename)
+    {
+
+        File file = new File(filename);
+        if (file.exists())
+        {
+            ObjectInputStream ois = null;
+            try
+            {
+                //
+                // Read the previously stored SecretKey.
+                //
+                SecretKey key = (SecretKey) readFromFile(KEY_FILE.toString());
+                ArrayList<DebtAccount> accountList = new ArrayList<DebtAccount>();
+                ois = new ObjectInputStream(new FileInputStream(filename));
+                DebtAccount tempAccount = null;
+                SealedObject tempSealed = null;
+                boolean eof = false;
+                while (!eof)
+                {
+                    tempSealed = (SealedObject) ois.readObject();
+                    //
+                    // Preparing Cipher object from decryption.
+                    //
+                    String algorithmName = tempSealed.getAlgorithm();
+                    Cipher objCipher = Cipher.getInstance(algorithmName);
+                    objCipher.init(Cipher.DECRYPT_MODE, key);
+                    tempAccount = (DebtAccount) tempSealed.getObject(objCipher);
+                    if (tempAccount == null)
+                    {
+                        eof = true;
+                        break;
+                    }
+                    
+                    accountList.add(tempAccount);
+                }
+                
+                    
+                    
+                return accountList;
+                
+            } catch (EOFException e)
+            {
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            } finally
+            {
+                try
+                {
+                    if (ois != null)
+                    {
+                        ois.close();
+                    }
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    
+    public static void saveAccounts(String filename, int type)
     {
         
        File deleteAccountFile = new File(filename);
+       ArrayList<?> tempAccounts;
        
        if(deleteAccountFile.exists())
            deleteAccountFile.delete();
        
+       if(type == BANK_ACCOUNT)
+           tempAccounts = bankAccounts;
+       else
+           tempAccounts = debtAccounts;
+       
        try
        {
            
-           SealedObject sealedAccount = new SealedObject(Reference.accounts.get(0),
+           SealedObject sealedAccount = new SealedObject((Serializable) tempAccounts.get(0),
                Reference.cipher);
            writeToFile(filename, sealedAccount, false );
            
@@ -446,16 +532,86 @@ public class Reference
        }
        
        
-       if(Reference.accounts.size() > 1)
+       if(tempAccounts.size() > 1)
        {
            
-           for ( int i = 1; i <= Reference.accounts.size() -1; i++)
+           for ( int i = 1; i <= tempAccounts.size() -1; i++)
            {
                
                try
                {
                    
-                   SealedObject sealedAccount = new SealedObject(Reference.accounts.get(i),
+                   SealedObject sealedAccount = new SealedObject((Serializable) tempAccounts.get(i),
+                       Reference.cipher);
+                   writeToFile(filename, sealedAccount, true );
+                   
+               }catch (Exception e)
+               {
+                   
+                   e.printStackTrace();
+               }
+               
+               
+               
+           }
+             
+           
+       }
+       
+       
+       try
+       {
+           
+           Account nullAccount = null;
+           SealedObject sealedAccount = new SealedObject(nullAccount,
+               Reference.cipher);
+            writeToFile(filename, sealedAccount, true);
+            
+            Reference.isSaved = true;
+            
+       }catch(Exception e)
+       {
+           
+           e.printStackTrace();
+       }
+       
+       
+      
+        
+    }
+    
+    public static void saveDebtAccounts(String filename)
+    {
+        
+       File deleteAccountFile = new File(filename);
+       
+       if(deleteAccountFile.exists())
+           deleteAccountFile.delete();
+       
+       try
+       {
+           
+           SealedObject sealedAccount = new SealedObject(bankAccounts.get(0),
+               Reference.cipher);
+           writeToFile(filename, sealedAccount, false );
+           
+       }catch (Exception e)
+       {
+           
+           e.printStackTrace();
+       }
+       
+       
+       if(bankAccounts.size() > 1)
+       {
+           
+           for ( int i = 1; i <= bankAccounts.size() -1; i++)
+           {
+               
+               try
+               {
+                   
+                   SealedObject sealedAccount = new SealedObject(bankAccounts.get(i),
                        Reference.cipher);
                    writeToFile(filename, sealedAccount, true );
                    

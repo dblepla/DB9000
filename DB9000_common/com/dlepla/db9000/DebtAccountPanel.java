@@ -31,6 +31,7 @@ public class DebtAccountPanel extends JPanel
     JButton addUserButton;
     JButton logoutButton;
     JButton overviewButton;
+    JButton bankButton;
     JButton saveButton;
     JButton newButton;
     JButton delButton;
@@ -50,6 +51,7 @@ public class DebtAccountPanel extends JPanel
        addUserButton = Reference.createCustomButton("Users");
        logoutButton = Reference.createCustomButton("Logout");
        overviewButton =  Reference.createCustomButton("Overview");
+       bankButton =  Reference.createCustomButton("Bank Accounts");
        saveButton =  Reference.createCustomButton("Save");
        newButton =  Reference.createCustomButton("New Account");
        delButton =  Reference.createCustomButton("Remove Account");
@@ -58,6 +60,7 @@ public class DebtAccountPanel extends JPanel
        addUserButton.addActionListener(abl);
        logoutButton.addActionListener(abl);
        overviewButton.addActionListener(abl);
+       bankButton.addActionListener(abl);
        saveButton.addActionListener(abl);
        newButton.addActionListener(abl);
        delButton.addActionListener(abl);
@@ -86,7 +89,7 @@ public class DebtAccountPanel extends JPanel
        Reference.debtAccountTable.setAlignmentX(CENTER_ALIGNMENT);
     
        
-       Box headerBox = Reference.createHeaderBox("BankDebt Account Data");
+       Box headerBox = Reference.createHeaderBox("Debt Account Data");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
@@ -113,7 +116,7 @@ public class DebtAccountPanel extends JPanel
        footerItems.add(Box.createHorizontalStrut(20));
        footerItems.add(overviewButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
-       footerItems.add(addUserButton);
+       footerItems.add(bankButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
        footerItems.add(Box.createHorizontalStrut(20));
@@ -132,18 +135,19 @@ public class DebtAccountPanel extends JPanel
             if (e.getSource() == overviewButton)
             {
                 
-                Reference.saveAndChangePanel(Reference.overPanel, Reference.debtAccountPanel);
+                Reference.saveAndChangePanel(Reference.overPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
             }
-            else if (e.getSource() == addUserButton)
+            else if (e.getSource() == bankButton)
             {
                 
+                Reference.saveAndChangePanel(Reference.bankAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
                 
             }
             else if (e.getSource() == logoutButton)
             {
                 
                 
-                Reference.saveAndChangePanel(Reference.loginPanel, Reference.debtAccountPanel);
+                Reference.saveAndChangePanel(Reference.loginPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
                 
                 
                 

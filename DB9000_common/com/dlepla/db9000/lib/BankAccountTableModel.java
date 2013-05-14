@@ -7,19 +7,19 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.table.AbstractTableModel;
 import com.dlepla.db9000.BankAccount;
 
-public class AccountTableModel extends AbstractTableModel {
+public class BankAccountTableModel extends AbstractTableModel {
 
     /**
      * 
      */
     private static final long serialVersionUID = -1787961292270867038L;
     
-    public ArrayList<BankAccount> accounts;
+    public ArrayList<BankAccount> bankAccounts;
     
     
 
-    public AccountTableModel(ArrayList<BankAccount> accounts) {
-        this.accounts = accounts;
+    public BankAccountTableModel(ArrayList<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
         
         
         
@@ -29,7 +29,7 @@ public class AccountTableModel extends AbstractTableModel {
     {
         
         BankAccount newBlankAccount = new BankAccount();
-        this.accounts.add(newBlankAccount);
+        this.bankAccounts.add(newBlankAccount);
         this.fireTableStructureChanged();
         Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
@@ -45,7 +45,7 @@ public class AccountTableModel extends AbstractTableModel {
     }
 
     public int getRowCount() {
-        return this.accounts.size();
+        return this.bankAccounts.size();
     }
     
     public boolean isCellEditable(int rowIndex, int columIndex)
@@ -66,7 +66,7 @@ public class AccountTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        BankAccount account = this.accounts.get(rowIndex);
+        BankAccount account = this.bankAccounts.get(rowIndex);
 
         switch (columnIndex) {
         case 0: return account.accountName;
@@ -91,7 +91,7 @@ public class AccountTableModel extends AbstractTableModel {
     public ArrayList<BankAccount> getAccountsAll()
     {
         
-        return this.accounts;
+        return this.bankAccounts;
         
     }
    
@@ -99,22 +99,22 @@ public class AccountTableModel extends AbstractTableModel {
     public void removeAccount(int row)
     {
         
-        if(this.accounts.size() <= 1)
+        if(this.bankAccounts.size() <= 1)
         {
             
             BankAccount newBlankAccount = new BankAccount();
-            this.accounts.add(newBlankAccount);
-            this.accounts.remove(0);
+            this.bankAccounts.add(newBlankAccount);
+            this.bankAccounts.remove(0);
                
         }else
         {
             
-            this.accounts.remove(row);
+            this.bankAccounts.remove(row);
             
         
         }
         
-        Reference.bankAccounts = this.accounts;
+        Reference.bankAccounts = this.bankAccounts;
         this.fireTableStructureChanged();
         Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
@@ -132,17 +132,17 @@ public class AccountTableModel extends AbstractTableModel {
         
         
         Reference.isSaved = false;
-        BankAccount account = accounts.get(rowIndex);
+        BankAccount account = bankAccounts.get(rowIndex);
         switch (columnIndex) {
             case 0:
             {
                
                 account.accountName = (String) value;
-                accounts.remove(rowIndex);
-                accounts.add(rowIndex, account);
+                bankAccounts.remove(rowIndex);
+                bankAccounts.add(rowIndex, account);
                     
                 
-                    Reference.bankAccounts = accounts;
+                    Reference.bankAccounts = bankAccounts;
                     break;
             }   
             case 1: 
@@ -156,29 +156,29 @@ public class AccountTableModel extends AbstractTableModel {
                 else
                     account.bankOrChecking = 1;
                     
-                accounts.remove(rowIndex);
-                accounts.add(rowIndex, account);
+                bankAccounts.remove(rowIndex);
+                bankAccounts.add(rowIndex, account);
                 
-                Reference.bankAccounts = accounts;
+                Reference.bankAccounts = bankAccounts;
                 break;
             }
             case 2: 
             {
                 account.balance = Float.parseFloat((String) value);
-                accounts.remove(rowIndex);
-                accounts.add(rowIndex, account);
+                bankAccounts.remove(rowIndex);
+                bankAccounts.add(rowIndex, account);
                 
-                Reference.bankAccounts = accounts;
+                Reference.bankAccounts = bankAccounts;
                 break;
             }
             case 3:
             {
                 
                 account.monthlyIncome = Float.parseFloat((String) value);
-                accounts.remove(rowIndex);
-                accounts.add(rowIndex, account);
+                bankAccounts.remove(rowIndex);
+                bankAccounts.add(rowIndex, account);
                 
-                Reference.bankAccounts = accounts;
+                Reference.bankAccounts = bankAccounts;
                 break;
                 
             }
@@ -186,10 +186,10 @@ public class AccountTableModel extends AbstractTableModel {
             {
                 
                 account.monthlyBills = Float.parseFloat((String) value);
-                accounts.remove(rowIndex);
-                accounts.add(rowIndex, account);
+                bankAccounts.remove(rowIndex);
+                bankAccounts.add(rowIndex, account);
                 
-                Reference.bankAccounts = accounts;
+                Reference.bankAccounts = bankAccounts;
                 break;
                 
             }

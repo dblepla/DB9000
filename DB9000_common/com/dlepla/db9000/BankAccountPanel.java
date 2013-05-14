@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import com.dlepla.db9000.lib.AccountTableModel;
+import com.dlepla.db9000.lib.BankAccountTableModel;
 import com.dlepla.db9000.lib.NumberRenderer;
 import com.dlepla.db9000.lib.Reference;
 
@@ -30,11 +30,12 @@ public class BankAccountPanel extends JPanel
     JButton addUserButton;
     JButton logoutButton;
     JButton overviewButton;
+    JButton debtButton;
     JButton saveButton;
     JButton newButton;
     JButton delButton;
     
-    AccountTableModel accountTableModel = null;
+    BankAccountTableModel accountTableModel = null;
     
     
     
@@ -46,7 +47,7 @@ public class BankAccountPanel extends JPanel
        this.setOpaque(true);
        
        
-       addUserButton = Reference.createCustomButton("Users");
+       debtButton = Reference.createCustomButton("Debt Accounts");
        logoutButton = Reference.createCustomButton("Logout");
        overviewButton =  Reference.createCustomButton("Overview");
        saveButton =  Reference.createCustomButton("Save");
@@ -54,7 +55,7 @@ public class BankAccountPanel extends JPanel
        delButton =  Reference.createCustomButton("Remove Account");
        
        AccountButtonListener abl = new AccountButtonListener();
-       addUserButton.addActionListener(abl);
+       debtButton.addActionListener(abl);
        logoutButton.addActionListener(abl);
        overviewButton.addActionListener(abl);
        saveButton.addActionListener(abl);
@@ -62,7 +63,7 @@ public class BankAccountPanel extends JPanel
        delButton.addActionListener(abl);
 
        
-       accountTableModel = new AccountTableModel(Reference.bankAccounts);
+       accountTableModel = new BankAccountTableModel(Reference.bankAccounts);
       
        Reference.bankAccountTable = new JTable(accountTableModel);
        
@@ -122,7 +123,7 @@ public class BankAccountPanel extends JPanel
        footerItems.add(Box.createHorizontalStrut(20));
        footerItems.add(overviewButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
-       footerItems.add(addUserButton);
+       footerItems.add(debtButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
        footerItems.add(Box.createHorizontalStrut(20));
@@ -141,18 +142,19 @@ public class BankAccountPanel extends JPanel
             if (e.getSource() == overviewButton)
             {
                 
-                Reference.saveAndChangePanel(Reference.overPanel, Reference.accountPanel);
+                Reference.saveAndChangePanel(Reference.overPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
             }
-            else if (e.getSource() == addUserButton)
+            else if (e.getSource() == debtButton)
             {
                 
+                Reference.saveAndChangePanel(Reference.debtAccountPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
                 
             }
             else if (e.getSource() == logoutButton)
             {
                 
                 
-                Reference.saveAndChangePanel(Reference.loginPanel, Reference.accountPanel);
+                Reference.saveAndChangePanel(Reference.loginPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
                 
                 
                 

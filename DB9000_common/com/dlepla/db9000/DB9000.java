@@ -241,6 +241,13 @@ public class DB9000 extends JFrame
                         
                         Reference.saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), Reference.BANK_ACCOUNT);
                         
+                        System.out.print("Saving the following accounts to file:");
+                        
+                        for( int i = 0; i < Reference.debtAccounts.size(); i++)
+                            System.out.println(Reference.debtAccounts.get(i).toString());
+                        
+                        Reference.saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), Reference.DEBT_ACCOUNT);
+                        
                         System.exit(0);
                         
                     }
@@ -262,7 +269,7 @@ public class DB9000 extends JFrame
         
         // getting reference to JFrame object instance.
         Reference.mainWindow = this;
-        Reference.accountPanel = new BankAccountPanel();
+        Reference.bankAccountPanel = new BankAccountPanel();
         Reference.overPanel = new OverPanel();
         Reference.loginPanel = new LoginPanel();
         Reference.debtAccountPanel = new DebtAccountPanel();

@@ -81,7 +81,7 @@ public class OverPanel extends JPanel
             if (e.getSource() == bankAccountsButton)
             {
                
-                Reference.changePanelView(Reference.accountPanel,Reference.overPanel);
+                Reference.changePanelView(Reference.bankAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == debtAccountsButton)

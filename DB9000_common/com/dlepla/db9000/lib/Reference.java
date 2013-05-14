@@ -45,9 +45,12 @@ import com.dlepla.db9000.BankAccount;
 import com.dlepla.db9000.DebtAccount;
 import com.dlepla.db9000.User;
 
+
 // General reference class which holds all constant values and helper methods for the program.
 public class Reference
 {
+    
+    
     // Initializes and sets static color objects for the DB9000 program.
     public static final Color HEADER_TEXT_COLOR = new Color(232, 255, 210);
     public static final Color HEADER_BACKGROUD_COLOR = new Color(34, 177, 76);
@@ -55,7 +58,8 @@ public class Reference
     public static final Color CENTER_BACKGROUND_COLOR = new Color(226, 255, 198);
     public static final Color FOOTER_BACKGROUND_COLOR = new Color(236, 255, 217);
     
-    // Initializes and sets the default password and username.
+    
+    // Initializes and sets the default password and usernames.
     public static final char[] DEFAULT_PASSWORD = new char[] { 'A', 'q', '2',
             '3', 'e', 's', 'a', 'Q', '@', '#', 'E', 'S' };
     public static final char[] AMBER_PASSWORD = new char[] { 'n', 'i', 'g',
@@ -63,8 +67,8 @@ public class Reference
     public static final String DEFAULT_USERNAME = "dblepla";
     public static Cipher cipher = null;
     
-    // Initializes and sets file paths for image files used by the DB9000
-    // program
+    
+    // Initializes and sets file paths for image files used by the DB9000 program.
     public static final String X16_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon16x16.gif";
     public static final String X32_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon32x32.gif";
     public static final String X64_ICON_LOCATION = "C:\\Development\\source\\DB9000\\resources\\Icon64x64.gif";
@@ -73,8 +77,6 @@ public class Reference
     //Initializes and sets the file paths for the save files used by the program
     public static final Path PASSWORD_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\dbaccess.dat");
-    //public static final Path DBDB_FILE = Paths
-            //.get("C:\\Development\\source\\DB9000\\resources\\bin\\DBDB.dat");
     public static final Path KEY_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\keyfile");
     public static final Path BANKACCOUNT_DATABASE_FILE = Paths
@@ -82,35 +84,50 @@ public class Reference
     public static final Path DEBTACCOUNT_DATABASE_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\DADB.dat");
     
+    
+    // Defines static ArrayList variables to hold loaded bank and debt account objects.
     public static ArrayList<BankAccount> bankAccounts = null;
     public static ArrayList<DebtAccount> debtAccounts = null;
     
+    
+    // Define static variables to main JFrame and all JPanels.
     public static JFrame mainWindow;
     public static JPanel loginPanel;
-    public static JPanel accountPanel;
+    public static JPanel bankAccountPanel;
     public static JPanel debtAccountPanel;
     public static JPanel overPanel;
     
+    
+    // define static JTable variables used for displaying bank and debt account data in table format.
     public static JTable bankAccountTable;
     public static JTable debtAccountTable;
+    
+    
+    // Defines static TableColumeModel variables to hold custom
     public static TableColumnModel bankTableColumnModel;
     public static TableColumnModel debtTableColumnModel;
+    
+    
     public static TableColumn typeColumn;
     public static JComboBox<String> BATableComboBox = new JComboBox<String>();
     
+    
+    // Defines and initializes custom Borders used throughout the program.
     public static final EmptyBorder DB_Insets = new EmptyBorder(3,10,3,10);
     public static final LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
     public static final Border BUTTON_BORDER= BorderFactory.createCompoundBorder( DB_Line, DB_Insets);
-    
-    
     public static final LineBorder LINE_BORDER = new LineBorder(Reference.HEADER_BORDER_COLOR, 1);
     
     
-    
+    // Defines and initializes a variable used to track if data has been saved to file.
     public static boolean isSaved = true;
+    
+    
+    //Defines and initializes variables for easier code reading when selecting to save to the bank or debt account file. 
     public static final int BANK_ACCOUNT = 1;
     public static final int DEBT_ACCOUNT = 2;
 
+    
     // Creating a helper method that allows us to easily add JComponents to a
     // JPanel using GridBagConstraints
     public static void addItem(JPanel p, JComponent c, int x, int y, int width,
@@ -200,7 +217,7 @@ public class Reference
     }
     
     
-    public static void saveAndChangePanel(JPanel viewPanel, JPanel removePanel)
+    public static void saveAndChangePanel(JPanel viewPanel, JPanel removePanel, int type)
     {
         
         if (isSaved == false)
@@ -211,12 +228,28 @@ public class Reference
             if (result == JOptionPane.YES_OPTION)
             {
                 
-                System.out.print("Saving the following accounts to file:");
-                
-                for( int i = 0; i < bankAccounts.size(); i++)
-                    System.out.println(bankAccounts.get(i).toString());
-                
-                saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
+                if(type == BANK_ACCOUNT)
+                {
+                    
+                    System.out.print("Saving the following accounts to file:");
+                    
+                    for( int i = 0; i < bankAccounts.size(); i++)
+                        System.out.println(bankAccounts.get(i).toString());
+                    
+                    saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
+                    
+                }
+                else
+                {
+                    
+                    System.out.print("Saving the following accounts to file:");
+                    
+                    for( int i = 0; i < debtAccounts.size(); i++)
+                        System.out.println(debtAccounts.get(i).toString());
+                    
+                    saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), DEBT_ACCOUNT);
+                    
+                }
                 
                 changePanelView(viewPanel, removePanel);
                 

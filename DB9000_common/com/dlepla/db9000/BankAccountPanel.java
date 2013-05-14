@@ -142,6 +142,7 @@ public class BankAccountPanel extends JPanel
             if (e.getSource() == overviewButton)
             {
                 
+                Reference.overPanel = new OverPanel();
                 Reference.saveAndChangePanel(Reference.overPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
             }
             else if (e.getSource() == debtButton)
@@ -168,6 +169,7 @@ public class BankAccountPanel extends JPanel
                     System.out.println(Reference.bankAccounts.get(i).toString());
                 
                 Reference.saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), Reference.BANK_ACCOUNT);
+                
               
                 
             }

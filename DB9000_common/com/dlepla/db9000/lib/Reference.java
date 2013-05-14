@@ -33,12 +33,15 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+
+import org.joda.time.DateTime;
 
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.BankAccount;
@@ -103,6 +106,12 @@ public class Reference
     public static JTable debtAccountTable;
     
     
+    // defines static JLabels for the Overview Panel.
+    public static JLabel monthlyIncomeLabel;
+    public static JLabel monthlyBillsLabel;
+    public static JLabel availibleCashLabel;
+    
+    
     // Defines static TableColumeModel variables to hold custom
     public static TableColumnModel bankTableColumnModel;
     public static TableColumnModel debtTableColumnModel;
@@ -110,6 +119,8 @@ public class Reference
     
     public static TableColumn typeColumn;
     public static JComboBox<String> BATableComboBox = new JComboBox<String>();
+    
+    public static JProgressBar payOffBar;
     
     
     // Defines and initializes custom Borders used throughout the program.
@@ -126,6 +137,9 @@ public class Reference
     //Defines and initializes variables for easier code reading when selecting to save to the bank or debt account file. 
     public static final int BANK_ACCOUNT = 1;
     public static final int DEBT_ACCOUNT = 2;
+    
+    //Get a reference to the current local date and time
+    public static final DateTime currentDate = new DateTime();
 
     
     // Creating a helper method that allows us to easily add JComponents to a
@@ -770,6 +784,55 @@ public class Reference
 
         }
     }
+    
+    
+    // Defines a method which calculates the total Monthly Income.
+    public static float getTotalMonthlyIncome()
+    {
+        
+        float totalIncome = 0;
+        
+        
+        for ( int i = 0; i <= bankAccounts.size() - 1; i++)
+            totalIncome += bankAccounts.get(i).monthlyIncome;
+        
+        return totalIncome;
+        
+    }
+    
+    
+   // Defines a method which calculates the total Monthly bills.
+    public static float getTotalMonthlyBills()
+    {
+        
+        float totalPaymentBills = 0;
+        float totalBills = 0;
+        
+        
+        for ( int i = 0; i <= debtAccounts.size() - 1; i++)
+            totalPaymentBills += debtAccounts.get(i).monthlyPayment;
+        
+        for ( int i = 0; i <= bankAccounts.size() - 1; i++)
+            totalBills += bankAccounts.get(i).monthlyBills;
+        
+        return totalPaymentBills + totalBills;
+        
+    }
+    
+    
+    // Defines a method which calculates the total available cash given the total income and bills.
+    public static float getTotalCash()
+    {
+        
+        float totalIncome = getTotalMonthlyIncome();
+        float totalBills = getTotalMonthlyBills();
+        
+        return totalIncome - totalBills;
+        
+    }
+    
+    
+    // Defines a method user to get best Debt account to pay off.
 
     // Defines and returns the standard Header Box for the DB9000 program.
     public static Box createHeaderBox(String title)

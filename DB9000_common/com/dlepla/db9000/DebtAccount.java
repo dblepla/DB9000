@@ -15,6 +15,7 @@ public class DebtAccount extends Account implements Serializable
     
     public float apr = 0;
     public float monthlyPayment = 0;
+    public float initialBalance = 0;
     
     
     public DebtAccount() {}
@@ -26,6 +27,18 @@ public class DebtAccount extends Account implements Serializable
         this.balance = bal;
         this.monthlyPayment = payment;
         this.apr = apr;
+        
+    }
+    
+    public DebtAccount(String name, float bal, float payment, float apr, float initBal)
+    {
+        
+        this.accountName = name;
+        this.balance = bal;
+        this.monthlyPayment = payment;
+        this.apr = apr;
+        this.initialBalance = initBal;
+        
     }
     
     

@@ -5,11 +5,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
+import org.joda.time.DateTime;
 
 import com.dlepla.db9000.lib.Reference;
 
@@ -19,13 +23,18 @@ public class OverPanel extends JPanel
      * 
      */
     private static final long serialVersionUID = 1L;
-    JLabel overTitle;
+    //JLabel overTitle;
+    JLabel currentDateLabel;
     JButton addUserButton;
     JButton logoutButton;
     JButton bankAccountsButton;
     JButton debtAccountsButton;
     JButton transButton;
-
+    DateTime CurrentDate;
+    
+    
+    NumberFormat cf = NumberFormat.getCurrencyInstance();
+    
     public OverPanel()
     {
 
@@ -38,6 +47,9 @@ public class OverPanel extends JPanel
         logoutButton = Reference.createCustomButton("Logout");
         bankAccountsButton = Reference.createCustomButton("Bank Accounts");
         debtAccountsButton = Reference.createCustomButton("Debt Accounts");
+        Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(Reference.getTotalMonthlyIncome()));
+        Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(Reference.getTotalMonthlyBills()));
+        Reference.availibleCashLabel = new JLabel("Availible Cash: " + cf.format(Reference.getTotalCash()));
         
         OverviewButtonListener obl = new OverviewButtonListener();
         addUserButton.addActionListener(obl);
@@ -45,15 +57,36 @@ public class OverPanel extends JPanel
         bankAccountsButton.addActionListener(obl);
         debtAccountsButton.addActionListener(obl);
         
+        currentDateLabel = new JLabel("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy"));
+        
+        Reference.payOffBar = new JProgressBar(0,(int)Reference.bankAccounts.get(0).balance);
+        Reference.payOffBar.setValue((int)Reference.bankAccounts.get(0).balance);
+        Reference.payOffBar.setStringPainted(true);
+        
         
         
         Box headerBox = Reference.createHeaderBox("Debt Overview");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         
+        Box topTotalsBox = Box.createHorizontalBox();
+        topTotalsBox.add(Box.createHorizontalStrut(20));
+        topTotalsBox.add(Reference.monthlyIncomeLabel);
+        topTotalsBox.add(Box.createRigidArea(new Dimension(10, 0)));
+        topTotalsBox.add(Reference.monthlyBillsLabel);
+        topTotalsBox.add(Box.createRigidArea(new Dimension(10, 0)));
+        topTotalsBox.add(Reference.availibleCashLabel);
+        topTotalsBox.add(Box.createHorizontalGlue());
+        topTotalsBox.add(currentDateLabel);
+        topTotalsBox.add(Box.createHorizontalStrut(20));
+        
+        Reference.addItem(this, topTotalsBox, 0, 1, 1, 1,
+                GridBagConstraints.NORTH, GridBagConstraints.BOTH);
+        
         Box centerItems = Box.createHorizontalBox();
+        centerItems.add(Reference.payOffBar);
         Box centerBox = Reference.createCenterBox(centerItems);
-        Reference.addItem(this, centerBox, 0, 1, 1, 1,
+        Reference.addItem(this, centerBox, 0, 2, 1, 1,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         
         Box footerItems = Box.createHorizontalBox();
@@ -68,7 +101,7 @@ public class OverPanel extends JPanel
         footerItems.add(Box.createHorizontalStrut(20));
         
         Box footerBox = Reference.createFooterBox(footerItems);
-        Reference.addItem(this, footerBox, 0, 2, 1, 1,
+        Reference.addItem(this, footerBox, 0, 3, 1, 1,
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
     }
     

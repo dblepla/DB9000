@@ -1,9 +1,11 @@
 package com.dlepla.db9000.lib;
 
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 import com.dlepla.db9000.BankAccount;
 
@@ -15,6 +17,8 @@ public class BankAccountTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -1787961292270867038L;
     
     public ArrayList<BankAccount> bankAccounts;
+    
+    NumberFormat cf = NumberFormat.getCurrencyInstance();
     
     
 
@@ -179,6 +183,7 @@ public class BankAccountTableModel extends AbstractTableModel {
                 bankAccounts.add(rowIndex, account);
                 
                 Reference.bankAccounts = bankAccounts;
+                Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(Reference.getTotalMonthlyIncome()));
                 break;
                 
             }
@@ -190,6 +195,7 @@ public class BankAccountTableModel extends AbstractTableModel {
                 bankAccounts.add(rowIndex, account);
                 
                 Reference.bankAccounts = bankAccounts;
+                Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(Reference.getTotalMonthlyBills()));
                 break;
                 
             }

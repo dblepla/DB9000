@@ -135,6 +135,7 @@ public class DebtAccountPanel extends JPanel
             if (e.getSource() == overviewButton)
             {
                 
+                Reference.overPanel = new OverPanel();
                 Reference.saveAndChangePanel(Reference.overPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
             }
             else if (e.getSource() == bankButton)

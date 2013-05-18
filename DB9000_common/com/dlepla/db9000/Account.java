@@ -16,7 +16,9 @@ public class Account implements Serializable
     // Declare account generic variables.
     public String accountName = "Enter Account Name";
     public float balance = 0;
+    public float startingBalance = 0;
     public float apr = 0;
+    public boolean isNew = true;
 
     public Account(){}
     

@@ -40,9 +40,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-
 import org.joda.time.DateTime;
-
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.BankAccount;
 import com.dlepla.db9000.DebtAccount;
@@ -164,6 +162,34 @@ public class Reference
         // Adds the passed JComponent c to the passed JPanel p using the
         // GridBagConstraints set in gc
         p.add(c, gc);
+    }
+    
+    
+    public static int getPercentCompleted(DebtAccount account)
+    {
+        
+        
+        System.out.println("Starting Balance: " + account.startingBalance);
+        System.out.println("Current Balance: " + account.balance);
+        float percentComplete = 0;
+        
+        if(account.startingBalance == 0)
+            return 0;
+        else if (account.balance == 0)
+            return 100;
+        else
+        {
+            
+             percentComplete = ((account.startingBalance - account.balance) / account.startingBalance) * 100;
+            
+        }
+           
+        
+        
+        System.out.println("Percent Completed: " + percentComplete);
+        
+        return (int)percentComplete;
+            
     }
     
     public static void changePanelView(JPanel viewPanel, JPanel removePanel)

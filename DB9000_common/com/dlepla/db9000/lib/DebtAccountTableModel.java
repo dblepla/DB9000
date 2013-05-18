@@ -133,7 +133,18 @@ public class DebtAccountTableModel extends AbstractTableModel {
             {
                 
                 
-                account.balance = Float.parseFloat((String) value);
+                if(account.isNew)
+                {
+                    
+                    account.balance = Float.parseFloat((String) value);
+                    account.startingBalance = Float.parseFloat((String) value);  
+                    account.isNew = false;
+                    
+                }
+                else
+                    account.balance = Float.parseFloat((String) value);
+                
+                
                 debtAccounts.remove(rowIndex);
                 debtAccounts.add(rowIndex, account);
                 

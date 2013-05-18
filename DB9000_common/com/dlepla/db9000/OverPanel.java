@@ -59,11 +59,12 @@ public class OverPanel extends JPanel
         
         currentDateLabel = new JLabel("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy"));
         
-        Reference.payOffBar = new JProgressBar(0,(int)Reference.bankAccounts.get(0).balance);
-        Reference.payOffBar.setValue((int)Reference.bankAccounts.get(0).balance);
+        Reference.payOffBar = new JProgressBar(0, 100);
+        Reference.payOffBar.setValue(Reference.getPercentCompleted(Reference.debtAccounts.get(0)));
         Reference.payOffBar.setStringPainted(true);
-        
-        
+        Reference.payOffBar.setBorder(Reference.DB_Line);
+        Reference.payOffBar.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
+        Reference.payOffBar.setForeground(Reference.HEADER_BACKGROUD_COLOR);
         
         Box headerBox = Reference.createHeaderBox("Debt Overview");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
@@ -84,6 +85,7 @@ public class OverPanel extends JPanel
                 GridBagConstraints.NORTH, GridBagConstraints.BOTH);
         
         Box centerItems = Box.createHorizontalBox();
+        centerItems.add(Box.createVerticalStrut(20));
         centerItems.add(Reference.payOffBar);
         Box centerBox = Reference.createCenterBox(centerItems);
         Reference.addItem(this, centerBox, 0, 2, 1, 1,

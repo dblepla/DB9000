@@ -3,7 +3,6 @@ package com.dlepla.db9000.lib;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 
 import com.dlepla.db9000.DebtAccount;
@@ -145,6 +144,9 @@ public class DebtAccountTableModel extends AbstractTableModel {
                     account.balance = Float.parseFloat((String) value);
                 
                 
+                if(account.balance <= 0)
+                    account.isNew = true;
+                
                 debtAccounts.remove(rowIndex);
                 debtAccounts.add(rowIndex, account);
                 
@@ -159,7 +161,7 @@ public class DebtAccountTableModel extends AbstractTableModel {
                 debtAccounts.add(rowIndex, account);
                 
                 Reference.debtAccounts = debtAccounts;
-                Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(Reference.getTotalMonthlyBills()));
+                Reference.monthlyBillsLabel.setText("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
                 break;
             }
             case 3:

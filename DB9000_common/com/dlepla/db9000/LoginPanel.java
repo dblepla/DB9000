@@ -95,9 +95,11 @@ public class LoginPanel extends JPanel
         // Create centerItems box to house all Boxes that will go into the
         // centerBox.
         Box centerItems = Box.createHorizontalBox();
+        centerItems.add(Box.createHorizontalStrut(10));
         centerItems.add(upLabelBox);
         centerItems.add(Box.createRigidArea(new Dimension(5, 7)));
         centerItems.add(plBox);
+        centerItems.add(Box.createHorizontalStrut(10));
         // Create centerBox and pass centerItems Box to be added to centerBox
         Box centerBox = Reference.createCenterBox(centerItems);
         // Add centerBox to JFrame using gridbag layout

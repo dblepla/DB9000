@@ -183,7 +183,7 @@ public class BankAccountTableModel extends AbstractTableModel {
                 bankAccounts.add(rowIndex, account);
                 
                 Reference.bankAccounts = bankAccounts;
-                Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(Reference.getTotalMonthlyIncome()));
+                Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
                 break;
                 
             }
@@ -195,7 +195,7 @@ public class BankAccountTableModel extends AbstractTableModel {
                 bankAccounts.add(rowIndex, account);
                 
                 Reference.bankAccounts = bankAccounts;
-                Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(Reference.getTotalMonthlyBills()));
+                Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
                 break;
                 
             }

@@ -51,6 +51,8 @@ import com.dlepla.db9000.User;
 public class Reference
 {
     
+    //Sets Minumim ammount of cash to have in savings
+    public static final float MIN_SAVINGS = 2000;
     
     // Initializes and sets static color objects for the DB9000 program.
     public static final Color HEADER_TEXT_COLOR = new Color(232, 255, 210);
@@ -105,9 +107,9 @@ public class Reference
     
     
     // defines static JLabels for the Overview Panel.
-    public static JLabel monthlyIncomeLabel;
-    public static JLabel monthlyBillsLabel;
-    public static JLabel availibleCashLabel;
+    public static JLabel monthlyIncomeLabel = new JLabel(" ");
+    public static JLabel monthlyBillsLabel = new JLabel(" ");
+    public static JLabel availibleCashLabel = new JLabel(" ");
     
     
     // Defines static TableColumeModel variables to hold custom
@@ -133,12 +135,14 @@ public class Reference
     
     
     //Defines and initializes variables for easier code reading when selecting to save to the bank or debt account file. 
-    public static final int BANK_ACCOUNT = 1;
-    public static final int DEBT_ACCOUNT = 2;
+    public static final int BANK_ACCOUNT = 2;
+    public static final int DEBT_ACCOUNT = 1;
     
     //Get a reference to the current local date and time
     public static final DateTime currentDate = new DateTime();
 
+    
+    
     
     // Creating a helper method that allows us to easily add JComponents to a
     // JPanel using GridBagConstraints
@@ -164,33 +168,6 @@ public class Reference
         p.add(c, gc);
     }
     
-    
-    public static int getPercentCompleted(DebtAccount account)
-    {
-        
-        
-        System.out.println("Starting Balance: " + account.startingBalance);
-        System.out.println("Current Balance: " + account.balance);
-        float percentComplete = 0;
-        
-        if(account.startingBalance == 0)
-            return 0;
-        else if (account.balance == 0)
-            return 100;
-        else
-        {
-            
-             percentComplete = ((account.startingBalance - account.balance) / account.startingBalance) * 100;
-            
-        }
-           
-        
-        
-        System.out.println("Percent Completed: " + percentComplete);
-        
-        return (int)percentComplete;
-            
-    }
     
     public static void changePanelView(JPanel viewPanel, JPanel removePanel)
     {
@@ -810,56 +787,8 @@ public class Reference
 
         }
     }
+     
     
-    
-    // Defines a method which calculates the total Monthly Income.
-    public static float getTotalMonthlyIncome()
-    {
-        
-        float totalIncome = 0;
-        
-        
-        for ( int i = 0; i <= bankAccounts.size() - 1; i++)
-            totalIncome += bankAccounts.get(i).monthlyIncome;
-        
-        return totalIncome;
-        
-    }
-    
-    
-   // Defines a method which calculates the total Monthly bills.
-    public static float getTotalMonthlyBills()
-    {
-        
-        float totalPaymentBills = 0;
-        float totalBills = 0;
-        
-        
-        for ( int i = 0; i <= debtAccounts.size() - 1; i++)
-            totalPaymentBills += debtAccounts.get(i).monthlyPayment;
-        
-        for ( int i = 0; i <= bankAccounts.size() - 1; i++)
-            totalBills += bankAccounts.get(i).monthlyBills;
-        
-        return totalPaymentBills + totalBills;
-        
-    }
-    
-    
-    // Defines a method which calculates the total available cash given the total income and bills.
-    public static float getTotalCash()
-    {
-        
-        float totalIncome = getTotalMonthlyIncome();
-        float totalBills = getTotalMonthlyBills();
-        
-        return totalIncome - totalBills;
-        
-    }
-    
-    
-    // Defines a method user to get best Debt account to pay off.
-
     // Defines and returns the standard Header Box for the DB9000 program.
     public static Box createHeaderBox(String title)
     {
@@ -873,6 +802,7 @@ public class Reference
         htextBox.add(headerTitle);
         htextBox.add(Box.createHorizontalGlue());
         htextBox.add(Box.createHorizontalStrut(10));
+        
         Box hbBox = Box.createHorizontalBox();
         hbBox.setOpaque(true);
         hbBox.setBackground(Reference.HEADER_BORDER_COLOR);
@@ -891,12 +821,12 @@ public class Reference
     public static Box createCenterBox(Box boxObject)
     {
 
-        Box centerBox = Box.createHorizontalBox();
-        centerBox.add(Box.createHorizontalStrut(10));
-        centerBox.add(Box.createHorizontalGlue());
+        Box centerBox = Box.createVerticalBox();
+        centerBox.add(Box.createVerticalStrut(10));
+        centerBox.add(Box.createVerticalGlue());
         centerBox.add(boxObject);
-        centerBox.add(Box.createHorizontalGlue());
-        centerBox.add(Box.createHorizontalStrut(10));
+        centerBox.add(Box.createVerticalGlue());
+        centerBox.add(Box.createVerticalStrut(10));
         return centerBox;
     }
 

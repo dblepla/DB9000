@@ -19,6 +19,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.Reference;
 // Login Panel class which sets up a JPanel with several Boxes to display the initial login screen.
 
@@ -46,7 +48,7 @@ public class LoginPanel extends JPanel
         
         
         // create default header box with passed title text.
-        Box headerBox = Reference.createHeaderBox("Debt Blaster 9000");
+        Box headerBox = GUIManager.createHeaderBox("Debt Blaster 9000");
         // Add header Box to JFrame using gridbag layout.
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
@@ -101,13 +103,15 @@ public class LoginPanel extends JPanel
         centerItems.add(plBox);
         centerItems.add(Box.createHorizontalStrut(10));
         // Create centerBox and pass centerItems Box to be added to centerBox
-        Box centerBox = Reference.createCenterBox(centerItems);
+        Box centerBox = GUIManager.createCenterBox(centerItems);
         // Add centerBox to JFrame using gridbag layout
         Reference.addItem(this, centerBox, 0, 1, 1, 1,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        
         Box footerItems = Box.createHorizontalBox();
         footerItems.add(Box.createHorizontalStrut(110));
-        Box footerBox = Reference.createFooterBox(footerItems);
+        footerItems.add(Box.createRigidArea(new Dimension(0,27)));
+        Box footerBox = GUIManager.createFooterBox(footerItems);
         Reference.addItem(this, footerBox, 0, 2, 1, 1,
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
     }

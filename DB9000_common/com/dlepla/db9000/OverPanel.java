@@ -16,6 +16,7 @@ import javax.swing.JProgressBar;
 import org.joda.time.DateTime;
 
 import com.dlepla.db9000.lib.AccountManager;
+import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.Reference;
 
 public class OverPanel extends JPanel
@@ -36,7 +37,7 @@ public class OverPanel extends JPanel
     JButton debtAccountsButton;
     JButton transButton;
     DateTime CurrentDate;
-    Dimension proBarDim = new Dimension(200, 30);
+
     
     
     NumberFormat cf = NumberFormat.getCurrencyInstance();
@@ -49,10 +50,10 @@ public class OverPanel extends JPanel
         this.setOpaque(true);
         
          
-        addUserButton = Reference.createCustomButton("Users");
-        logoutButton = Reference.createCustomButton("Logout");
-        bankAccountsButton = Reference.createCustomButton("Bank Accounts");
-        debtAccountsButton = Reference.createCustomButton("Debt Accounts");
+        addUserButton = GUIManager.createCustomButton("Users");
+        logoutButton = GUIManager.createCustomButton("Logout");
+        bankAccountsButton = GUIManager.createCustomButton("Bank Accounts");
+        debtAccountsButton = GUIManager.createCustomButton("Debt Accounts");
         Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
         Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
         Reference.availibleCashLabel = new JLabel("Availible Cash: " + cf.format(AccountManager.getTotalCash()));
@@ -79,13 +80,18 @@ public class OverPanel extends JPanel
         else 
             Reference.payOffBar.setValue(0);
         
+        Dimension proBarDim = Reference.payOffBar.getPreferredSize();
+        
+        proBarDim.width = 200;
+        proBarDim.height = 30;
+        
         Reference.payOffBar.setStringPainted(false);
         Reference.payOffBar.setPreferredSize(proBarDim);
         Reference.payOffBar.setBorder(Reference.DB_Line);
         Reference.payOffBar.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
         Reference.payOffBar.setForeground(Reference.HEADER_BACKGROUD_COLOR);
         
-        Box headerBox = Reference.createHeaderBox("Debt Overview");
+        Box headerBox = GUIManager.createHeaderBox("Debt Overview");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         
@@ -93,6 +99,7 @@ public class OverPanel extends JPanel
         
         
         Box topLabelsBox = Box.createHorizontalBox();
+        topLabelsBox.setAlignmentY(TOP_ALIGNMENT);
         topLabelsBox.add(Box.createHorizontalStrut(10));
         topLabelsBox.add(Reference.monthlyIncomeLabel);
         topLabelsBox.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -103,39 +110,42 @@ public class OverPanel extends JPanel
         topLabelsBox.add(currentDateLabel);
         topLabelsBox.add(Box.createHorizontalStrut(10));
         
+        Box topInfoBox = Box.createVerticalBox();
+        topInfoBox.add(Box.createVerticalStrut(5));
+        topInfoBox.add(topLabelsBox);
+        topInfoBox.add(Box.createVerticalGlue());
+        topInfoBox.add(Box.createVerticalStrut(5));
         
-        Reference.addItem(this, topLabelsBox, 0, 1, 1, 1,
-                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
+        
+        Reference.addItem(this, topInfoBox, 0, 1, 1, 1,
+               GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         
         
         Box proTitle = Box.createHorizontalBox();
         proTitle.add(accountName);
         
         Box proText = Box.createHorizontalBox();
-        proText.add(Box.createHorizontalStrut(10));
+        proText.add(Box.createHorizontalStrut(1));
         proText.add(initBalance);
         proText.add(Box.createHorizontalGlue());
         proText.add(currentBalance);
         proText.add(Box.createHorizontalGlue());
         proText.add(minBalance);
-        proText.add(Box.createHorizontalStrut(10));
-        
+        proText.add(Box.createHorizontalStrut(1));
         
         Box centerItems = Box.createVerticalBox();
-        
-        centerItems.add(Box.createVerticalStrut(20));
         centerItems.add(proTitle);
-        centerItems.add(Box.createVerticalStrut(10));
+        centerItems.add(Box.createRigidArea(new Dimension(0,10)));
         centerItems.add(Reference.payOffBar);
+        centerItems.add(Box.createRigidArea(new Dimension(0,5)));
         centerItems.add(proText);
-        Box centerBox = Reference.createCenterBox(centerItems);
+        Box centerBox = GUIManager.createCenterBox(centerItems);
         
         
         Reference.addItem(this, centerBox, 0, 2, 1, 1,
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
         
         Box footerItems = Box.createHorizontalBox();
-        footerItems.add(Box.createHorizontalStrut(20));
         footerItems.add(bankAccountsButton);
         footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
         footerItems.add(debtAccountsButton);
@@ -143,9 +153,9 @@ public class OverPanel extends JPanel
         //footerItems.add(addUserButton);
         footerItems.add(Box.createHorizontalGlue());
         footerItems.add(logoutButton);
-        footerItems.add(Box.createHorizontalStrut(20));
+    
         
-        Box footerBox = Reference.createFooterBox(footerItems);
+        Box footerBox = GUIManager.createFooterBox(footerItems);
         Reference.addItem(this, footerBox, 0, 3, 1, 1,
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
     }

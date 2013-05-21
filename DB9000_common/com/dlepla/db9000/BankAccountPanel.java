@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import com.dlepla.db9000.lib.BankAccountTableModel;
+import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.NumberRenderer;
 import com.dlepla.db9000.lib.Reference;
 
@@ -47,12 +48,12 @@ public class BankAccountPanel extends JPanel
        this.setOpaque(true);
        
        
-       debtButton = Reference.createCustomButton("Debt Accounts");
-       logoutButton = Reference.createCustomButton("Logout");
-       overviewButton =  Reference.createCustomButton("Overview");
-       saveButton =  Reference.createCustomButton("Save");
-       newButton =  Reference.createCustomButton("New Account");
-       delButton =  Reference.createCustomButton("Remove Account");
+       debtButton = GUIManager.createCustomButton("Debt Accounts");
+       logoutButton = GUIManager.createCustomButton("Logout");
+       overviewButton =  GUIManager.createCustomButton("Overview");
+       saveButton =  GUIManager.createCustomButton("Save");
+       newButton =  GUIManager.createCustomButton("New Account");
+       delButton =  GUIManager.createCustomButton("Remove Account");
        
        AccountButtonListener abl = new AccountButtonListener();
        debtButton.addActionListener(abl);
@@ -96,14 +97,15 @@ public class BankAccountPanel extends JPanel
        Reference.bankAccountTable.setAlignmentX(CENTER_ALIGNMENT);
     
        
-       Box headerBox = Reference.createHeaderBox("Bank Account Data");
+       Box headerBox = GUIManager.createHeaderBox("Bank Account Data");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
        Box centerItems = Box.createVerticalBox();
        centerItems.add(scrollPane);
-       
        centerItems.add(Box.createVerticalStrut(10));
+       
+       
        Box addsaveBox = Box.createHorizontalBox();
        
        addsaveBox.add(newButton);
@@ -115,20 +117,18 @@ public class BankAccountPanel extends JPanel
        
        centerItems.add(addsaveBox);
        
-       Box centerBox = Reference.createCenterBox(centerItems);
+       Box centerBox = GUIManager.createCenterBox(centerItems);
        Reference.addItem(this, centerBox, 0, 1, 1, 1,
                GridBagConstraints.CENTER, GridBagConstraints.BOTH);
        
        Box footerItems = Box.createHorizontalBox();
-       footerItems.add(Box.createHorizontalStrut(20));
        footerItems.add(overviewButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
        footerItems.add(debtButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
-       footerItems.add(Box.createHorizontalStrut(20));
        
-       Box footerBox = Reference.createFooterBox(footerItems);
+       Box footerBox = GUIManager.createFooterBox(footerItems);
        Reference.addItem(this, footerBox, 0, 2, 1, 1,
                GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
     }

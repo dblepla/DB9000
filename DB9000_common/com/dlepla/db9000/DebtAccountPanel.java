@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.dlepla.db9000.lib.DebtAccountTableModel;
+import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.NumberRenderer;
 import com.dlepla.db9000.lib.Reference;
 
@@ -48,13 +49,13 @@ public class DebtAccountPanel extends JPanel
        this.setOpaque(true);
        
        
-       addUserButton = Reference.createCustomButton("Users");
-       logoutButton = Reference.createCustomButton("Logout");
-       overviewButton =  Reference.createCustomButton("Overview");
-       bankButton =  Reference.createCustomButton("Bank Accounts");
-       saveButton =  Reference.createCustomButton("Save");
-       newButton =  Reference.createCustomButton("New Account");
-       delButton =  Reference.createCustomButton("Remove Account");
+       addUserButton = GUIManager.createCustomButton("Users");
+       logoutButton = GUIManager.createCustomButton("Logout");
+       overviewButton =  GUIManager.createCustomButton("Overview");
+       bankButton =  GUIManager.createCustomButton("Bank Accounts");
+       saveButton =  GUIManager.createCustomButton("Save");
+       newButton =  GUIManager.createCustomButton("New Account");
+       delButton =  GUIManager.createCustomButton("Remove Account");
        
        AccountButtonListener abl = new AccountButtonListener();
        addUserButton.addActionListener(abl);
@@ -89,7 +90,7 @@ public class DebtAccountPanel extends JPanel
        Reference.debtAccountTable.setAlignmentX(CENTER_ALIGNMENT);
     
        
-       Box headerBox = Reference.createHeaderBox("Debt Account Data");
+       Box headerBox = GUIManager.createHeaderBox("Debt Account Data");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
@@ -108,20 +109,19 @@ public class DebtAccountPanel extends JPanel
        
        centerItems.add(addsaveBox);
        
-       Box centerBox = Reference.createCenterBox(centerItems);
+       Box centerBox = GUIManager.createCenterBox(centerItems);
        Reference.addItem(this, centerBox, 0, 1, 1, 1,
                GridBagConstraints.CENTER, GridBagConstraints.BOTH);
        
        Box footerItems = Box.createHorizontalBox();
-       footerItems.add(Box.createHorizontalStrut(20));
        footerItems.add(overviewButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
        footerItems.add(bankButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
-       footerItems.add(Box.createHorizontalStrut(20));
+  
        
-       Box footerBox = Reference.createFooterBox(footerItems);
+       Box footerBox = GUIManager.createFooterBox(footerItems);
        Reference.addItem(this, footerBox, 0, 2, 1, 1,
                GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
     }

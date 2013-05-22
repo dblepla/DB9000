@@ -48,7 +48,7 @@ public class DebtAccount extends Account implements Serializable
         String msg;
         cf = NumberFormat.getCurrencyInstance();
         msg = "Name: " + this.accountName;
-        msg = "Balance: " + cf.format(this.balance);
+        msg += "Balance: " + cf.format(this.balance);
         msg += ", Monthly Payment: "+ cf.format(this.monthlyPayment);
         msg += ", APR: " + apr;
         return msg;

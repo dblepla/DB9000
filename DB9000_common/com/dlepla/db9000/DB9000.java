@@ -180,7 +180,6 @@ public class DB9000 extends JFrame
         if (!Reference.doesFileExist(Reference.DEBTACCOUNT_DATABASE_FILE))
         {
             
-            // Reference.createFile(Reference.BANKACCOUNT_DATABASE_FILE);
             
             DebtAccount placeHolderAccount = new DebtAccount();
             DebtAccount nullAccount = null;
@@ -210,6 +209,44 @@ public class DB9000 extends JFrame
                     .println("Debt account database file does exist. Loading debt accounts.");
             
             Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+            
+        }
+        
+        
+     // Checks to see if Bill account database file exists and creates a new file
+        // if needed.
+        if (!Reference.doesFileExist(Reference.BILLACCOUNT_DATABASE_FILE))
+        {
+            
+            
+            BillAccount placeHolderAccount = new BillAccount();
+            BillAccount nullAccount = null;
+            
+            try
+            {
+                
+                 SealedObject sealedUser = new SealedObject(placeHolderAccount,
+                    Reference.cipher);
+                 Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
+                    sealedUser, false);
+                 sealedUser = new SealedObject(nullAccount, Reference.cipher);
+                 Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
+                    sealedUser, true);
+                 
+                 Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+                 
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+           
+            
+        } else
+        {
+            System.out
+                    .println("Bill account database file does exist. Loading bills.");
+            
+            Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
             
         }
         
@@ -273,6 +310,7 @@ public class DB9000 extends JFrame
         Reference.overPanel = new OverPanel();
         Reference.loginPanel = new LoginPanel();
         Reference.debtAccountPanel = new DebtAccountPanel();
+        Reference.billAccountPanel = new BillAccountPanel();
         
         // sets Button select on click color
         UIManager.put("Button.select",new ColorUIResource(Reference.HEADER_BORDER_COLOR));

@@ -60,7 +60,7 @@ public class AccountManager
         if(Reference.debtAccounts.size() > 1)
         {
             
-                if( getTotalSavings() < Reference.MIN_SAVINGS )
+            if( (getTotalSavings() < Reference.MIN_SAVINGS) && !(Reference.bankAccounts.get(0).accountName.equals("Enter Account Name") ))
                 return getLowestSavingsAccount();
             else
             {
@@ -187,7 +187,8 @@ public class AccountManager
             if( Reference.bankAccounts.get(a).bankOrChecking == Reference.BANK_ACCOUNT)
                 bankAccounts.add(Reference.bankAccounts.get(a));
         
-        lowestSavingsAccount = bankAccounts.get(0);
+        if (bankAccounts.size() > 0 )
+            lowestSavingsAccount = bankAccounts.get(0);
         
         for( int b = 0; b < bankAccounts.size(); b++)
             if( bankAccounts.get(b).balance < lowestSavingsAccount.balance)
@@ -230,8 +231,8 @@ public class AccountManager
         for ( int i = 0; i <= Reference.debtAccounts.size() - 1; i++)
             totalPaymentBills += Reference.debtAccounts.get(i).monthlyPayment;
         
-        for ( int i = 0; i <= Reference.bankAccounts.size() - 1; i++)
-            totalBills += Reference.bankAccounts.get(i).monthlyBills;
+        for ( int i = 0; i <= Reference.billAccounts.size() - 1; i++)
+            totalBills += Reference.billAccounts.get(i).monthlyPayment;
         
         return totalPaymentBills + totalBills;
         

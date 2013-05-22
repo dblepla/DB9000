@@ -33,6 +33,7 @@ public class DebtAccountPanel extends JPanel
     JButton logoutButton;
     JButton overviewButton;
     JButton bankButton;
+    JButton billButton;
     JButton saveButton;
     JButton newButton;
     JButton delButton;
@@ -53,6 +54,7 @@ public class DebtAccountPanel extends JPanel
        logoutButton = GUIManager.createCustomButton("Logout");
        overviewButton =  GUIManager.createCustomButton("Overview");
        bankButton =  GUIManager.createCustomButton("Bank Accounts");
+       billButton =  GUIManager.createCustomButton("Monthly Bills");
        saveButton =  GUIManager.createCustomButton("Save");
        newButton =  GUIManager.createCustomButton("New Account");
        delButton =  GUIManager.createCustomButton("Remove Account");
@@ -62,6 +64,7 @@ public class DebtAccountPanel extends JPanel
        logoutButton.addActionListener(abl);
        overviewButton.addActionListener(abl);
        bankButton.addActionListener(abl);
+       billButton.addActionListener(abl);
        saveButton.addActionListener(abl);
        newButton.addActionListener(abl);
        delButton.addActionListener(abl);
@@ -90,7 +93,7 @@ public class DebtAccountPanel extends JPanel
        Reference.debtAccountTable.setAlignmentX(CENTER_ALIGNMENT);
     
        
-       Box headerBox = GUIManager.createHeaderBox("Debt Account Data");
+       Box headerBox = GUIManager.createHeaderBox("Loans & Credit");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
@@ -117,6 +120,8 @@ public class DebtAccountPanel extends JPanel
        footerItems.add(overviewButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
        footerItems.add(bankButton);
+       footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
+       footerItems.add(billButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
   
@@ -142,6 +147,12 @@ public class DebtAccountPanel extends JPanel
             {
                 
                 Reference.saveAndChangePanel(Reference.bankAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
+                
+            }
+            else if (e.getSource() == billButton)
+            {
+                
+                Reference.saveAndChangePanel(Reference.billAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
                 
             }
             else if (e.getSource() == logoutButton)

@@ -5,19 +5,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Box;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import com.dlepla.db9000.lib.BankAccountTableModel;
+
+import com.dlepla.db9000.lib.BillAccountTableModel;
 import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.NumberRenderer;
 import com.dlepla.db9000.lib.Reference;
 
-public class BankAccountPanel extends JPanel
+public class BillAccountPanel extends JPanel
 {
 
     /**
@@ -32,16 +33,16 @@ public class BankAccountPanel extends JPanel
     JButton logoutButton;
     JButton overviewButton;
     JButton debtButton;
-    JButton billButton;
+    JButton bankButton;
     JButton saveButton;
     JButton newButton;
     JButton delButton;
     
-    BankAccountTableModel accountTableModel = null;
+    BillAccountTableModel accountTableModel = null;
     
     
     
-    public BankAccountPanel()
+    public BillAccountPanel()
     {
         
        this.setLayout(new GridBagLayout());
@@ -50,16 +51,16 @@ public class BankAccountPanel extends JPanel
        
        
        debtButton = GUIManager.createCustomButton("Loans & Credit");
-       billButton = GUIManager.createCustomButton("Monthly Bills");
+       bankButton = GUIManager.createCustomButton("Bank Accounts");
        logoutButton = GUIManager.createCustomButton("Logout");
        overviewButton =  GUIManager.createCustomButton("Overview");
        saveButton =  GUIManager.createCustomButton("Save");
-       newButton =  GUIManager.createCustomButton("New Account");
-       delButton =  GUIManager.createCustomButton("Remove Account");
+       newButton =  GUIManager.createCustomButton("New Bill");
+       delButton =  GUIManager.createCustomButton("Remove Bill");
        
        AccountButtonListener abl = new AccountButtonListener();
        debtButton.addActionListener(abl);
-       billButton.addActionListener(abl);
+       bankButton.addActionListener(abl);
        logoutButton.addActionListener(abl);
        overviewButton.addActionListener(abl);
        saveButton.addActionListener(abl);
@@ -67,40 +68,29 @@ public class BankAccountPanel extends JPanel
        delButton.addActionListener(abl);
 
        
-       accountTableModel = new BankAccountTableModel(Reference.bankAccounts);
+       accountTableModel = new BillAccountTableModel(Reference.billAccounts);
       
-       Reference.bankAccountTable = new JTable(accountTableModel);
+       Reference.billAccountTable = new JTable(accountTableModel);
        
        
        
-       Reference.bankTableColumnModel = Reference.bankAccountTable.getColumnModel();
-       Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-       Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-       Reference.bankTableColumnModel.getColumn(4).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+       Reference.billTableColumnModel = Reference.billAccountTable.getColumnModel();
+       Reference.billTableColumnModel.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
        
-       Reference.typeColumn = Reference.bankAccountTable.getColumnModel().getColumn(1);
-     
-      
-       Reference.BATableComboBox.addItem("Checking");
-       Reference.BATableComboBox.addItem("Savings");
-
-       Reference.typeColumn.setCellEditor(new DefaultCellEditor(Reference.BATableComboBox));
-      
-       
-       scrollPane = new JScrollPane(Reference.bankAccountTable);
+       scrollPane = new JScrollPane(Reference.billAccountTable);
        
        scrollPane.setBorder(Reference.LINE_BORDER);
        
        
        
-       Reference.bankAccountTable.setFillsViewportHeight(true);
-       Reference.bankAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
-       Reference.bankAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
-       Reference.bankAccountTable.setAlignmentY(CENTER_ALIGNMENT);
-       Reference.bankAccountTable.setAlignmentX(CENTER_ALIGNMENT);
+       Reference.billAccountTable.setFillsViewportHeight(true);
+       Reference.billAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
+       Reference.billAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
+       Reference.billAccountTable.setAlignmentY(CENTER_ALIGNMENT);
+       Reference.billAccountTable.setAlignmentX(CENTER_ALIGNMENT);
     
        
-       Box headerBox = GUIManager.createHeaderBox("Bank Accounts");
+       Box headerBox = GUIManager.createHeaderBox("Monthly Bills");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
@@ -129,7 +119,7 @@ public class BankAccountPanel extends JPanel
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
        footerItems.add(debtButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
-       footerItems.add(billButton);
+       footerItems.add(bankButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
        
@@ -148,25 +138,25 @@ public class BankAccountPanel extends JPanel
             {
                 
                 Reference.overPanel = new OverPanel();
-                Reference.saveAndChangePanel(Reference.overPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
+                Reference.saveAndChangePanel(Reference.overPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
             }
             else if (e.getSource() == debtButton)
             {
                 
-                Reference.saveAndChangePanel(Reference.debtAccountPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
+                Reference.saveAndChangePanel(Reference.debtAccountPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
                 
             }
-            else if (e.getSource() == billButton)
+            else if (e.getSource() == bankButton)
             {
                 
-                Reference.saveAndChangePanel(Reference.billAccountPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
+                Reference.saveAndChangePanel(Reference.bankAccountPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
                 
             }
             else if (e.getSource() == logoutButton)
             {
                 
                 
-                Reference.saveAndChangePanel(Reference.loginPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
+                Reference.saveAndChangePanel(Reference.loginPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
                 
                 
                 
@@ -176,10 +166,10 @@ public class BankAccountPanel extends JPanel
                 
                 System.out.print("Saving the following accounts to file:");
                 
-                for( int i = 0; i < Reference.bankAccounts.size(); i++)
-                    System.out.println(Reference.bankAccounts.get(i).toString());
+                for( int i = 0; i < Reference.billAccounts.size(); i++)
+                    System.out.println(Reference.billAccounts.get(i).toString());
                 
-                Reference.saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), Reference.BANK_ACCOUNT);
+                Reference.saveAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString(), Reference.BILL_ACCOUNT);
                 
               
                 
@@ -195,7 +185,7 @@ public class BankAccountPanel extends JPanel
             else if (e.getSource() == delButton)
             {
                 
-                if ( Reference.bankAccountTable.getSelectedRow() == -1)
+                if ( Reference.billAccountTable.getSelectedRow() == -1)
                 {
                     
                     JOptionPane
@@ -208,7 +198,7 @@ public class BankAccountPanel extends JPanel
                 }else
                 {
                     
-                    accountTableModel.removeAccount(Reference.bankAccountTable.getSelectedRow());
+                    accountTableModel.removeAccount(Reference.billAccountTable.getSelectedRow());
                     
                 }
                 

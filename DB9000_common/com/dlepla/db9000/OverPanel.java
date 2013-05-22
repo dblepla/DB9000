@@ -35,8 +35,9 @@ public class OverPanel extends JPanel
     JButton logoutButton;
     JButton bankAccountsButton;
     JButton debtAccountsButton;
+    JButton billAccountsButton;
     JButton transButton;
-    DateTime CurrentDate;
+    DateTime currentDate;
 
     
     
@@ -53,7 +54,8 @@ public class OverPanel extends JPanel
         addUserButton = GUIManager.createCustomButton("Users");
         logoutButton = GUIManager.createCustomButton("Logout");
         bankAccountsButton = GUIManager.createCustomButton("Bank Accounts");
-        debtAccountsButton = GUIManager.createCustomButton("Debt Accounts");
+        debtAccountsButton = GUIManager.createCustomButton("Loans & Credit");
+        billAccountsButton = GUIManager.createCustomButton("Monthly Bills");
         Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
         Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
         Reference.availibleCashLabel = new JLabel("Availible Cash: " + cf.format(AccountManager.getTotalCash()));
@@ -63,6 +65,7 @@ public class OverPanel extends JPanel
         logoutButton.addActionListener(obl);
         bankAccountsButton.addActionListener(obl);
         debtAccountsButton.addActionListener(obl);
+        billAccountsButton.addActionListener(obl);
         
         currentDateLabel = new JLabel("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy"));
         
@@ -91,7 +94,7 @@ public class OverPanel extends JPanel
         Reference.payOffBar.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
         Reference.payOffBar.setForeground(Reference.HEADER_BACKGROUD_COLOR);
         
-        Box headerBox = GUIManager.createHeaderBox("Debt Overview");
+        Box headerBox = GUIManager.createHeaderBox("Account Overview");
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         
@@ -150,7 +153,7 @@ public class OverPanel extends JPanel
         footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
         footerItems.add(debtAccountsButton);
         footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
-        //footerItems.add(addUserButton);
+        footerItems.add(billAccountsButton);
         footerItems.add(Box.createHorizontalGlue());
         footerItems.add(logoutButton);
     
@@ -176,6 +179,12 @@ public class OverPanel extends JPanel
             {
                 
                 Reference.changePanelView(Reference.debtAccountPanel,Reference.overPanel);
+                
+            }
+            else if (e.getSource() == billAccountsButton)
+            {
+                
+                Reference.changePanelView(Reference.billAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == logoutButton)

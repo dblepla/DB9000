@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +39,7 @@ import javax.swing.table.TableColumnModel;
 import org.joda.time.DateTime;
 import com.dlepla.db9000.Account;
 import com.dlepla.db9000.BankAccount;
+import com.dlepla.db9000.BillAccount;
 import com.dlepla.db9000.DebtAccount;
 import com.dlepla.db9000.User;
 
@@ -83,11 +83,14 @@ public class Reference
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\BADB.dat");
     public static final Path DEBTACCOUNT_DATABASE_FILE = Paths
             .get("C:\\Development\\source\\DB9000\\resources\\bin\\DADB.dat");
+    public static final Path BILLACCOUNT_DATABASE_FILE = Paths
+            .get("C:\\Development\\source\\DB9000\\resources\\bin\\BIDB.dat");
     
     
     // Defines static ArrayList variables to hold loaded bank and debt account objects.
     public static ArrayList<BankAccount> bankAccounts = null;
     public static ArrayList<DebtAccount> debtAccounts = null;
+    public static ArrayList<BillAccount> billAccounts = null;
     
     
     // Define static variables to main JFrame and all JPanels.
@@ -95,12 +98,15 @@ public class Reference
     public static JPanel loginPanel;
     public static JPanel bankAccountPanel;
     public static JPanel debtAccountPanel;
+    public static JPanel billAccountPanel;
     public static JPanel overPanel;
+  
     
     
     // define static JTable variables used for displaying bank and debt account data in table format.
     public static JTable bankAccountTable;
     public static JTable debtAccountTable;
+    public static JTable billAccountTable;
     
     
     // defines static JLabels for the Overview Panel.
@@ -112,9 +118,11 @@ public class Reference
     // Defines static TableColumeModel variables to hold custom
     public static TableColumnModel bankTableColumnModel;
     public static TableColumnModel debtTableColumnModel;
+    public static TableColumnModel billTableColumnModel;
     
     
     public static TableColumn typeColumn;
+    
     public static JComboBox<String> BATableComboBox = new JComboBox<String>();
     
     public static JProgressBar payOffBar;
@@ -133,9 +141,10 @@ public class Reference
     public static boolean isSaved = true;
     
     
-    //Defines and initializes variables for easier code reading when selecting to save to the bank or debt account file. 
-    public static final int BANK_ACCOUNT = 2;
+    //Defines and initializes variables for easier code reading when selecting to save to the bank or debt account file.
     public static final int DEBT_ACCOUNT = 1;
+    public static final int BANK_ACCOUNT = 2;
+    public static final int BILL_ACCOUNT = 3;
     
     //Get a reference to the current local date and time
     public static final DateTime currentDate = new DateTime();
@@ -255,7 +264,7 @@ public class Reference
                     saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
                     
                 }
-                else
+                else if (type == DEBT_ACCOUNT)
                 {
                     
                     System.out.print("Saving the following accounts to file:");
@@ -264,6 +273,17 @@ public class Reference
                         System.out.println(debtAccounts.get(i).toString());
                     
                     saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), DEBT_ACCOUNT);
+                    
+                }
+                else
+                {
+                    
+                    System.out.print("Saving the following accounts to file:");
+                    
+                    for( int i = 0; i < billAccounts.size(); i++)
+                        System.out.println(billAccounts.get(i).toString());
+                    
+                    saveAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString(), BILL_ACCOUNT);
                     
                 }
                 
@@ -317,7 +337,7 @@ public class Reference
             return false;
     }
 
-    // Defines a helper methods to read account data from and write to an binary
+    /* Defines a helper methods to read account data from and write to an binary
     // data file.
     public static Account readBankAccount(DataInputStream in)
     {
@@ -340,6 +360,32 @@ public class Reference
         }
         return new Account(name, bal, apr);
     }
+    
+    
+    
+    / Defines a helper methods to read account data from and write to an binary
+    // data file.
+    public static Account readBillAccount(DataInputStream in)
+    {
+
+        String name = " ";
+        float bal = 0;
+        float apr = 0;
+        try
+        {
+            name = in.readUTF();
+            bal = in.readFloat();
+            apr = in.readFloat();
+        } catch (EOFException e)
+        {
+            return null;
+        } catch (IOException e)
+        {
+            System.out.println("I/O Error");
+            System.exit(0);
+        }
+        return new Account(name, bal, apr);
+    } */
 
     // Helper Method to check and see if file exists.
     public static boolean doesFileExist(Path p)
@@ -477,6 +523,71 @@ public class Reference
     }
     
     
+  
+    public static ArrayList<BillAccount> readBillAccounts(String filename)
+    {
+
+        File file = new File(filename);
+        if (file.exists())
+        {
+            ObjectInputStream ois = null;
+            try
+            {
+                //
+                // Read the previously stored SecretKey.
+                //
+                SecretKey key = (SecretKey) readFromFile(KEY_FILE.toString());
+                ArrayList<BillAccount> accountList = new ArrayList<BillAccount>();
+                ois = new ObjectInputStream(new FileInputStream(filename));
+                BillAccount tempAccount = null;
+                SealedObject tempSealed = null;
+                boolean eof = false;
+                while (!eof)
+                {
+                    tempSealed = (SealedObject) ois.readObject();
+                    //
+                    // Preparing Cipher object from decryption.
+                    //
+                    String algorithmName = tempSealed.getAlgorithm();
+                    Cipher objCipher = Cipher.getInstance(algorithmName);
+                    objCipher.init(Cipher.DECRYPT_MODE, key);
+                    tempAccount = (BillAccount) tempSealed.getObject(objCipher);
+                    if (tempAccount == null)
+                    {
+                        eof = true;
+                        break;
+                    }
+                    
+                    accountList.add(tempAccount);
+                }
+                
+                    
+                    
+                return accountList;
+                
+            } catch (EOFException e)
+            {
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            } finally
+            {
+                try
+                {
+                    if (ois != null)
+                    {
+                        ois.close();
+                    }
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    
+    
     public static ArrayList<DebtAccount> readDebtAccounts(String filename)
     {
 
@@ -551,8 +662,10 @@ public class Reference
        
        if(type == BANK_ACCOUNT)
            tempAccounts = bankAccounts;
-       else
+       else if(type == DEBT_ACCOUNT)
            tempAccounts = debtAccounts;
+       else
+           tempAccounts = billAccounts;
        
        try
        {
@@ -616,7 +729,7 @@ public class Reference
         
     }
     
-    public static void saveDebtAccounts(String filename)
+    /*public static void saveDebtAccounts(String filename)
     {
         
        File deleteAccountFile = new File(filename);
@@ -685,6 +798,8 @@ public class Reference
       
         
     }
+    
+    */
 
     public static void writeToFile(String filename, Object object,boolean append)
     {

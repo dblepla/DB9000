@@ -86,19 +86,28 @@ public class BankAccountPanel extends JPanel
 
        Reference.typeColumn.setCellEditor(new DefaultCellEditor(Reference.BATableComboBox));
       
-       
-       scrollPane = new JScrollPane(Reference.bankAccountTable);
-       
-       scrollPane.setBorder(Reference.LINE_BORDER);
-       
-       
-       
+       /*
        Reference.bankAccountTable.setFillsViewportHeight(true);
        Reference.bankAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
        Reference.bankAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
        Reference.bankAccountTable.setAlignmentY(CENTER_ALIGNMENT);
        Reference.bankAccountTable.setAlignmentX(CENTER_ALIGNMENT);
+       Reference.bankAccountTable.getTableHeader().setBackground(Reference.HEADER_BACKGROUD_COLOR);
+       Reference.bankAccountTable.getTableHeader().setForeground(Reference.HEADER_TEXT_COLOR);
+       Reference.bankAccountTable.getTableHeader().setFont(Reference.HEADER_FONT); */
+       
+       Reference.bankAccountTable = GUIManager.createCustomTable(Reference.bankAccountTable);
     
+       
+       try{  
+           javax.swing.UIManager.put("ScrollBar.thumb", new javax.swing.plaf.ColorUIResource(33,129,176));  
+           javax.swing.UIManager.put("Button.foreground", new javax.swing.plaf.ColorUIResource(0,0,0));  
+           }catch(Exception e){  
+           e.printStackTrace();  
+           }  
+       
+       scrollPane = new JScrollPane(Reference.bankAccountTable);
+       scrollPane.setBorder(Reference.DB_Line);
        
        Box headerBox = GUIManager.createHeaderBox("Bank Accounts");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,

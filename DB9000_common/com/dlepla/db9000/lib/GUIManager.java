@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 
 public class GUIManager
 {
@@ -26,6 +27,28 @@ public class GUIManager
         newButton.setBorder(Reference.BUTTON_BORDER);
         
         return newButton;
+        
+    }
+    
+    
+    //**********************************************************************
+    //
+    // Defines and returns the standard Table formated for the DB9000 program.
+    //
+    //**********************************************************************
+    public static JTable createCustomTable(JTable table)
+    {
+        
+        JTable tempTable = table;
+        
+        tempTable.setFillsViewportHeight(true);
+        tempTable.setGridColor(Reference.HEADER_BORDER_COLOR);
+        tempTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
+        tempTable.getTableHeader().setBackground(Reference.HEADER_BACKGROUD_COLOR);
+        tempTable.getTableHeader().setForeground(Reference.HEADER_TEXT_COLOR);
+        tempTable.getTableHeader().setFont(Reference.HEADER_FONT);
+        
+        return tempTable;
         
     }
     

@@ -84,14 +84,13 @@ public class DebtAccountPanel extends JPanel
        
        scrollPane.setBorder(Reference.LINE_BORDER);
        
+       scrollPane.getVerticalScrollBar().setBackground(Reference.HEADER_BACKGROUD_COLOR);
+       scrollPane.getVerticalScrollBar().setForeground(Reference.CENTER_BACKGROUND_COLOR);
+
+           
        
        
-       Reference.debtAccountTable.setFillsViewportHeight(true);
-       Reference.debtAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
-       Reference.debtAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
-       Reference.debtAccountTable.setAlignmentY(CENTER_ALIGNMENT);
-       Reference.debtAccountTable.setAlignmentX(CENTER_ALIGNMENT);
-    
+       Reference.debtAccountTable = GUIManager.createCustomTable(Reference.debtAccountTable);
        
        Box headerBox = GUIManager.createHeaderBox("Loans & Credit");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,

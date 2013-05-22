@@ -2,6 +2,7 @@ package com.dlepla.db9000.lib;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.EOFException;
@@ -57,6 +58,9 @@ public class Reference
     public static final Color HEADER_BORDER_COLOR = new Color(17, 89, 38);
     public static final Color CENTER_BACKGROUND_COLOR = new Color(226, 255, 198);
     public static final Color FOOTER_BACKGROUND_COLOR = new Color(236, 255, 217);
+    
+    
+    public static final Font HEADER_FONT = new Font("Elephant", Font.PLAIN, 14);
     
     
     // Initializes and sets the default password and usernames.

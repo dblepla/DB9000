@@ -82,12 +82,12 @@ public class BillAccountPanel extends JPanel
        scrollPane.setBorder(Reference.LINE_BORDER);
        
        
-       
-       Reference.billAccountTable.setFillsViewportHeight(true);
+       Reference.billAccountTable = GUIManager.createCustomTable(Reference.billAccountTable);
+       /*Reference.billAccountTable.setFillsViewportHeight(true);
        Reference.billAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
        Reference.billAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
        Reference.billAccountTable.setAlignmentY(CENTER_ALIGNMENT);
-       Reference.billAccountTable.setAlignmentX(CENTER_ALIGNMENT);
+       Reference.billAccountTable.setAlignmentX(CENTER_ALIGNMENT);*/
     
        
        Box headerBox = GUIManager.createHeaderBox("Monthly Bills");

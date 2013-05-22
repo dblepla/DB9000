@@ -30,7 +30,11 @@ public class AccountManager
         else
         {
             
-             percentComplete = ((account.startingBalance - account.balance) / account.startingBalance) * 100;
+            if (account instanceof BankAccount)
+                percentComplete = ((account.balance) / Reference.MIN_SAVINGS) * 100;
+            else
+                percentComplete = ((account.startingBalance - account.balance) / account.startingBalance) * 100;
+            
             
         }
            

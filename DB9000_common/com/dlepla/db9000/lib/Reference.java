@@ -64,10 +64,10 @@ public class Reference
     
     
     // Initializes and sets the default password and usernames.
-    public static final char[] DEFAULT_PASSWORD = new char[] { 'A', 'q', '2',
-            '3', 'e', 's', 'a', 'Q', '@', '#', 'E', 'S' };
-    public static final char[] AMBER_PASSWORD = new char[] { 'n', 'i', 'g',
-            'e', 'l', '4', '2', '3' };
+    public static final char[] DEFAULT_PASSWORD = new char[] { 'a', 'd', 'm',
+            'i', 'n'};
+    public static final char[] AMBER_PASSWORD = new char[] { 'a', 'd', 'm',
+            'i', 'n' };
     public static final String DEFAULT_USERNAME = "dblepla";
     public static Cipher cipher = null;
     

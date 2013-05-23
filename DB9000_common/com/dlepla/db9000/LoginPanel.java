@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -36,6 +37,7 @@ public class LoginPanel extends JPanel
     JButton_Default loginButton;
     JLabel headerTitle;
     JLabel overTitle;
+    JButton closeButton;
 
     // Login Panel constructor which initializes and builds the layout of the
     // LoginPanel window.
@@ -80,11 +82,15 @@ public class LoginPanel extends JPanel
         loginButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
         loginButton.setBorder(DB_Border);
         
+        closeButton = GUIManager.createCustomButton("Exit");
+        
+        
         
         
         
         LoginButtonListener bll = new LoginButtonListener();
         loginButton.addActionListener(bll);
+        closeButton.addActionListener(bll);
         
         plBox.add(plLabel);
         plBox.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -109,8 +115,9 @@ public class LoginPanel extends JPanel
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         
         Box footerItems = Box.createHorizontalBox();
-        footerItems.add(Box.createHorizontalStrut(110));
-        footerItems.add(Box.createRigidArea(new Dimension(0,27)));
+        footerItems.add(Box.createHorizontalStrut(1));
+        footerItems.add(Box.createHorizontalGlue());
+        footerItems.add(closeButton);
         Box footerBox = GUIManager.createFooterBox(footerItems);
         Reference.addItem(this, footerBox, 0, 2, 1, 1,
                 GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL);
@@ -175,6 +182,12 @@ public class LoginPanel extends JPanel
                                     "Invalid Login",
                                     JOptionPane.INFORMATION_MESSAGE);
                 }
+            } 
+            else if(e.getSource() == closeButton)
+            {
+                
+                Reference.mainWindow.dispatchEvent(new WindowEvent(Reference.mainWindow, WindowEvent.WINDOW_CLOSING));
+                
             }
         }
     }

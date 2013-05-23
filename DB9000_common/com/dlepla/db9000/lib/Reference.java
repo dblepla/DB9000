@@ -188,21 +188,13 @@ public class Reference
         Dimension currentSize = mainWindow.getSize();
         int currentWindowState = mainWindow.getExtendedState();
         
-        
-        
-        
-        
         mainWindow.getContentPane().add(viewPanel);
         viewPanel.setVisible(true);
         removePanel.setVisible(false);
         mainWindow.getContentPane().doLayout();
-        
-        mainWindow.update(mainWindow.getGraphics());
-        mainWindow.pack();
-        
         mainWindow.setSize(currentSize);
         mainWindow.setExtendedState(currentWindowState);
-        
+        mainWindow.update(mainWindow.getGraphics());
         
     }
     

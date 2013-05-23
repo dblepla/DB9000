@@ -155,7 +155,7 @@ public class BillAccountPanel extends JPanel
             else if (e.getSource() == logoutButton)
             {
                 
-                
+                Reference.loginPanel = new LoginPanel();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
                 
                 

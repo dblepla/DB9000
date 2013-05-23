@@ -207,7 +207,7 @@ public class OverPanel extends JPanel
             {
                 
                
-              
+                Reference.loginPanel = new LoginPanel();
                 Reference.changePanelView(Reference.loginPanel, Reference.overPanel);
                 
             }

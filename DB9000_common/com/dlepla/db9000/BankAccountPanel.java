@@ -174,7 +174,7 @@ public class BankAccountPanel extends JPanel
             else if (e.getSource() == logoutButton)
             {
                 
-                
+                Reference.loginPanel = new LoginPanel();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
                 
                 

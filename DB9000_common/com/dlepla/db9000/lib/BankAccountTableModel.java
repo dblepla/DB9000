@@ -45,7 +45,7 @@ public class BankAccountTableModel extends AbstractTableModel {
     }
 
     public int getColumnCount() {
-        return 5;
+        return 4;
     }
 
     public int getRowCount() {
@@ -63,7 +63,6 @@ public class BankAccountTableModel extends AbstractTableModel {
         case 1: return "Account Type";
         case 2: return "Balance";
         case 3: return "Monthly Income";
-        case 4: return "Monthly Bills";
         default: return "Unknown";
         
         }
@@ -87,7 +86,6 @@ public class BankAccountTableModel extends AbstractTableModel {
         }
         case 2: return  account.balance;
         case 3: return account.monthlyIncome;
-        case 4: return account.monthlyBills;
         default: return null;
         }
     }
@@ -199,18 +197,6 @@ public class BankAccountTableModel extends AbstractTableModel {
                 
                 Reference.bankAccounts = bankAccounts;
                 Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
-                break;
-                
-            }
-            case 4:
-            {
-                
-                account.monthlyBills = Float.parseFloat((String) value);
-                bankAccounts.remove(rowIndex);
-                bankAccounts.add(rowIndex, account);
-                
-                Reference.bankAccounts = bankAccounts;
-                Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
                 break;
                 
             }

@@ -71,19 +71,20 @@ public class OverPanel extends JPanel
         
         Account progressAccount = AccountManager.getBestAccount();
         
-        accountName = new JLabel(progressAccount.accountName + " Balance");
+        
         
         if (progressAccount instanceof BankAccount)
         {
-            
+            accountName = new JLabel("Total Savings Balance");
             initBalance = new JLabel(cf.format(0));
-            currentBalance = new JLabel(cf.format(progressAccount.balance));
+            currentBalance = new JLabel(cf.format(AccountManager.getTotalSavings()));
             minBalance = new JLabel(cf.format(Reference.MIN_SAVINGS));
             
         }
         else
         {
             
+            accountName = new JLabel(progressAccount.accountName + " Balance");
             initBalance = new JLabel(cf.format(progressAccount.startingBalance));
             currentBalance = new JLabel(cf.format(progressAccount.balance));
             minBalance = new JLabel(cf.format(0));

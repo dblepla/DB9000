@@ -145,7 +145,7 @@ public class Reference
     public static boolean isSaved = true;
     
     
-    //Defines and initializes variables for easier code reading when selecting to save to the bank or debt account file.
+    //Defines and initializes variables for easier code reading when selecting to save to the bank, debt or bill account file.
     public static final int DEBT_ACCOUNT = 1;
     public static final int BANK_ACCOUNT = 2;
     public static final int BILL_ACCOUNT = 3;
@@ -219,10 +219,10 @@ public class Reference
             if (result == JOptionPane.YES_OPTION)
             {
                 
-                System.out.print("Saving the following accounts to file:");
+                /*System.out.print("Saving the following accounts to file:");
                 
                 for( int i = 0; i < bankAccounts.size(); i++)
-                    System.out.println(bankAccounts.get(i).toString());
+                    System.out.println(bankAccounts.get(i).toString());*/
                 
                 saveAccounts(BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
                 
@@ -260,10 +260,10 @@ public class Reference
                 if(type == BANK_ACCOUNT)
                 {
                     
-                    System.out.print("Saving the following accounts to file:");
+                    /*System.out.print("Saving the following accounts to file:");
                     
                     for( int i = 0; i < bankAccounts.size(); i++)
-                        System.out.println(bankAccounts.get(i).toString());
+                        System.out.println(bankAccounts.get(i).toString());*/
                     
                     saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
                     
@@ -271,10 +271,10 @@ public class Reference
                 else if (type == DEBT_ACCOUNT)
                 {
                     
-                    System.out.print("Saving the following accounts to file:");
+                    /*System.out.print("Saving the following accounts to file:");
                     
                     for( int i = 0; i < debtAccounts.size(); i++)
-                        System.out.println(debtAccounts.get(i).toString());
+                        System.out.println(debtAccounts.get(i).toString());*/
                     
                     saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), DEBT_ACCOUNT);
                     
@@ -282,10 +282,10 @@ public class Reference
                 else
                 {
                     
-                    System.out.print("Saving the following accounts to file:");
+                    /*System.out.print("Saving the following accounts to file:");
                     
                     for( int i = 0; i < billAccounts.size(); i++)
-                        System.out.println(billAccounts.get(i).toString());
+                        System.out.println(billAccounts.get(i).toString());*/
                     
                     saveAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString(), BILL_ACCOUNT);
                     
@@ -312,6 +312,8 @@ public class Reference
             
     }
 
+    
+    
     // Defines a helper method for Authorizing usernames and passwords
     public static boolean authLogin(User testUser)
     {
@@ -327,10 +329,12 @@ public class Reference
                 break;
             }
         }
-        System.out.print(isCorrect);
+        //System.out.print(isCorrect);
         return isCorrect;
     }
-
+    
+    
+    
     public static boolean compareUsers(User u1, User u2)
     {
              
@@ -341,55 +345,7 @@ public class Reference
             return false;
     }
 
-    /* Defines a helper methods to read account data from and write to an binary
-    // data file.
-    public static Account readBankAccount(DataInputStream in)
-    {
-
-        String name = " ";
-        float bal = 0;
-        float apr = 0;
-        try
-        {
-            name = in.readUTF();
-            bal = in.readFloat();
-            apr = in.readFloat();
-        } catch (EOFException e)
-        {
-            return null;
-        } catch (IOException e)
-        {
-            System.out.println("I/O Error");
-            System.exit(0);
-        }
-        return new Account(name, bal, apr);
-    }
-    
-    
-    
-    / Defines a helper methods to read account data from and write to an binary
-    // data file.
-    public static Account readBillAccount(DataInputStream in)
-    {
-
-        String name = " ";
-        float bal = 0;
-        float apr = 0;
-        try
-        {
-            name = in.readUTF();
-            bal = in.readFloat();
-            apr = in.readFloat();
-        } catch (EOFException e)
-        {
-            return null;
-        } catch (IOException e)
-        {
-            System.out.println("I/O Error");
-            System.exit(0);
-        }
-        return new Account(name, bal, apr);
-    } */
+ 
 
     // Helper Method to check and see if file exists.
     public static boolean doesFileExist(Path p)
@@ -655,6 +611,9 @@ public class Reference
         return null;
     }
     
+    
+    
+    
     public static void saveAccounts(String filename, int type)
     {
         
@@ -733,77 +692,7 @@ public class Reference
         
     }
     
-    /*public static void saveDebtAccounts(String filename)
-    {
-        
-       File deleteAccountFile = new File(filename);
-       
-       if(deleteAccountFile.exists())
-           deleteAccountFile.delete();
-       
-       try
-       {
-           
-           SealedObject sealedAccount = new SealedObject(bankAccounts.get(0),
-               Reference.cipher);
-           writeToFile(filename, sealedAccount, false );
-           
-       }catch (Exception e)
-       {
-           
-           e.printStackTrace();
-       }
-       
-       
-       if(bankAccounts.size() > 1)
-       {
-           
-           for ( int i = 1; i <= bankAccounts.size() -1; i++)
-           {
-               
-               try
-               {
-                   
-                   SealedObject sealedAccount = new SealedObject(bankAccounts.get(i),
-                       Reference.cipher);
-                   writeToFile(filename, sealedAccount, true );
-                   
-               }catch (Exception e)
-               {
-                   
-                   e.printStackTrace();
-               }
-               
-               
-               
-           }
-             
-           
-       }
-       
-       
-       try
-       {
-           
-           Account nullAccount = null;
-           SealedObject sealedAccount = new SealedObject(nullAccount,
-               Reference.cipher);
-            writeToFile(filename, sealedAccount, true);
-            
-            Reference.isSaved = true;
-            
-       }catch(Exception e)
-       {
-           
-           e.printStackTrace();
-       }
-       
-       
-      
-        
-    }
-    
-    */
+ 
 
     public static void writeToFile(String filename, Object object,boolean append)
     {

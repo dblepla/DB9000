@@ -76,7 +76,6 @@ public class BankAccountPanel extends JPanel
        Reference.bankTableColumnModel = Reference.bankAccountTable.getColumnModel();
        Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
        Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-       Reference.bankTableColumnModel.getColumn(4).setCellRenderer(NumberRenderer.getCurrencyRenderer());
        
        Reference.typeColumn = Reference.bankAccountTable.getColumnModel().getColumn(1);
      
@@ -158,6 +157,7 @@ public class BankAccountPanel extends JPanel
                 
                 Reference.overPanel = new OverPanel();
                 Reference.saveAndChangePanel(Reference.overPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
+                
             }
             else if (e.getSource() == debtButton)
             {

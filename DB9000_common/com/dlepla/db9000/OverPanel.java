@@ -68,6 +68,7 @@ public class OverPanel extends JPanel
         billAccountsButton.addActionListener(obl);
         
         currentDateLabel = new JLabel("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy"));
+        Reference.lastActionMinute = new DateTime().getMinuteOfDay();
         
         Account progressAccount = AccountManager.getBestAccount();
         
@@ -184,30 +185,35 @@ public class OverPanel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
+            
+            Reference.lastActionMinute = new DateTime().getMinuteOfDay();
+            
             if (e.getSource() == bankAccountsButton)
             {
-               
+                
                 Reference.changePanelView(Reference.bankAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == debtAccountsButton)
             {
                 
+      
                 Reference.changePanelView(Reference.debtAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == billAccountsButton)
             {
                 
+           
                 Reference.changePanelView(Reference.billAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == logoutButton)
             {
                 
-               
+             
                 Reference.loginPanel = new LoginPanel();
+                Reference.ex.shutdownNow();
                 Reference.changePanelView(Reference.loginPanel, Reference.overPanel);
                 
             }

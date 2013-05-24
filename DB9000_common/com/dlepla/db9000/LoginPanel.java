@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.dlepla.db9000.lib.GUIManager;
+import com.dlepla.db9000.lib.LogoutTask;
 import com.dlepla.db9000.lib.Reference;
 // Login Panel class which sets up a JPanel with several Boxes to display the initial login screen.
 
@@ -38,6 +41,7 @@ public class LoginPanel extends JPanel
     JLabel headerTitle;
     JLabel overTitle;
     JButton closeButton;
+    
 
     // Login Panel constructor which initializes and builds the layout of the
     // LoginPanel window.
@@ -47,8 +51,8 @@ public class LoginPanel extends JPanel
         this.setLayout(new GridBagLayout());
         this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
         this.setOpaque(true);
-        
-        
+    
+      
         // create default header box with passed title text.
         Box headerBox = GUIManager.createHeaderBox("Debt Blaster 9000");
         // Add header Box to JFrame using gridbag layout.
@@ -148,10 +152,11 @@ public class LoginPanel extends JPanel
 
             if (e.getSource() == loginButton)
             {
+                
                 User user = new User(username.getText(), password.getPassword());
                 boolean loginAuthorized = true;
                 loginAuthorized = Reference.authLogin(user);
-                System.out.print("loginAuthorized = " + loginAuthorized);
+              
                 if (user.username.length() <= 0)
                 {
                     JOptionPane
@@ -172,6 +177,8 @@ public class LoginPanel extends JPanel
                 {
                     Reference.overPanel = new OverPanel();
                     Reference.changePanelView(Reference.overPanel, Reference.loginPanel);
+                    Reference.ex = Executors.newSingleThreadScheduledExecutor();
+                    Reference.ex.scheduleAtFixedRate(new LogoutTask(), 0, 30, TimeUnit.SECONDS);
                  
                 } else
                 {

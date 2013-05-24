@@ -17,10 +17,7 @@ public class AccountManager
     //*************************************************************
     public static int getPercentCompleted(Account account)
     {
-        
-        
-        System.out.println("Starting Balance: " + account.startingBalance);
-        System.out.println("Current Balance: " + account.balance);
+       
         float percentComplete = 0;
         
         if(account.startingBalance == 0)
@@ -35,13 +32,8 @@ public class AccountManager
             else
                 percentComplete = ((account.startingBalance - account.balance) / account.startingBalance) * 100;
             
-            
         }
-           
-        
-        
-        System.out.println("Percent Completed: " + percentComplete);
-        
+         
         return (int)percentComplete;
             
     }
@@ -60,11 +52,7 @@ public class AccountManager
         {
             
             if( (doesSavingsExist()) && (getTotalSavings() < Reference.MIN_SAVINGS))
-            {
-                
-                 System.out.println("Savings Account exists and is under 2000");
                 return getLowestSavingsAccount();
-            } 
             else if(doesLoanExist())
                 return getBestDebtAccount();
             else
@@ -145,22 +133,17 @@ public class AccountManager
     public static float getTotalSavings()
     {
         
-        
         float currentSavings = 0;
-        System.out.println("Total Bank Accounts: " + Reference.bankAccounts.size());
         
         for( int i = 0; i < Reference.bankAccounts.size(); i++)
         {
-            
-            
-            System.out.println("bankOrChecking: " + Reference.bankAccounts.get(i).bankOrChecking);
+
             if( Reference.bankAccounts.get(i).bankOrChecking == Reference.BANK_ACCOUNT)
                 currentSavings += Reference.bankAccounts.get(i).balance;
             
         }
         
-        System.out.println("getTotalSavings: " + currentSavings);
-        
+    
         return currentSavings;
         
     }
@@ -193,32 +176,24 @@ public class AccountManager
                     
                     account1Index = i;
                     account1 = Reference.debtAccounts.get(i);
-                    System.out.println("Account1: " + account1.toString());
                     
                 }
             }
-            
-            System.out.println("Account1Index: "+ account1Index);
-                   
-            
-                
-             if(account1Index + 1 >= Reference.debtAccounts.size())
-                 account2 = Reference.debtAccounts.get(account1Index - 1);
-             else if(account1Index - 1 < 0)
-                 account2 = Reference.debtAccounts.get(account1Index + 1);
+           
+                        
+            if(account1Index + 1 >= Reference.debtAccounts.size())
+                account2 = Reference.debtAccounts.get(account1Index - 1);
+            else if(account1Index - 1 < 0)
+                account2 = Reference.debtAccounts.get(account1Index + 1);
                 
             
             
                 
             for( int i = 0; i < Reference.debtAccounts.size(); i++)
             {
-                if( (i != account1Index) && (Reference.debtAccounts.get(i).balance < account2.balance) && ( Reference.debtAccounts.get(i).balance != 0) )
-                {
-                        
+                if( (i != account1Index) && (Reference.debtAccounts.get(i).balance < account2.balance) && ( Reference.debtAccounts.get(i).balance != 0) ) 
                     account2 = Reference.debtAccounts.get(i);
-                    System.out.println("Account2: " + account2.toString());
-                        
-                }
+        
             }
                 
                 
@@ -226,18 +201,10 @@ public class AccountManager
                 
                 
              if( Math.abs(account1.balance - account2.balance) <= 1000)
-             {
-                    
-                 System.out.println("Difference Between Accounts: " + (account1.balance - account2.balance));
-                    
-                 System.out.println("Highest APR Account: " + getHighestAprAccount(account1, account2).toString());
                  return getHighestAprAccount(account1, account2);
-                    
-             }
              else
                  return account1;
-            
-            
+             
         }
          else
              return account1;

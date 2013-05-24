@@ -59,8 +59,6 @@ public class DB9000 extends JFrame
         {
             try
             {
-                System.out
-                        .println("KeyFile does not exist. Creating new CypherKey file.");
                 
                 //
                 // Generating a temporary key and store it in a file.
@@ -81,8 +79,6 @@ public class DB9000 extends JFrame
             }
         } else
         {
-            System.out
-                    .println("Keyfile does exist no need to create new file. Skiping this step.");
             
             try
             {
@@ -130,10 +126,6 @@ public class DB9000 extends JFrame
             {
                 e.printStackTrace();
             }
-        } else
-        {
-            System.out
-                    .println("Password file does exist no need to create new file. Skiping this step.");
         }
         
         // Checks to see if BankAccount database file exists and creates a new file
@@ -167,8 +159,6 @@ public class DB9000 extends JFrame
             
         } else
         {
-            System.out
-                    .println("Bank account database file does exist. Loading bank accounts.");
             
             Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
             
@@ -205,8 +195,6 @@ public class DB9000 extends JFrame
             
         } else
         {
-            System.out
-                    .println("Debt account database file does exist. Loading debt accounts.");
             
             Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
             
@@ -243,9 +231,7 @@ public class DB9000 extends JFrame
             
         } else
         {
-            System.out
-                    .println("Bill account database file does exist. Loading bills.");
-            
+           
             Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
             
         }

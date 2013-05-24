@@ -12,6 +12,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import org.joda.time.DateTime;
+
 import com.dlepla.db9000.lib.BankAccountTableModel;
 import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.NumberRenderer;
@@ -151,7 +154,9 @@ public class BankAccountPanel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
+            
+            Reference.lastActionMinute = new DateTime().getMinuteOfDay();
+            
             if (e.getSource() == overviewButton)
             {
                 
@@ -175,6 +180,7 @@ public class BankAccountPanel extends JPanel
             {
                 
                 Reference.loginPanel = new LoginPanel();
+                Reference.ex.shutdownNow();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
                 
                 

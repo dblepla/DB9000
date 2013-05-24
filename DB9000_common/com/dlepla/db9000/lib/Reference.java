@@ -19,6 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ScheduledExecutorService;
+
 import javax.swing.JPanel;
 
 import javax.crypto.Cipher;
@@ -152,9 +154,16 @@ public class Reference
     
     //Get a reference to the current local date and time
     public static final DateTime currentDate = new DateTime();
-
     
+    //Sets a time field to track the last action from user
+    public static int lastActionMinute = new DateTime().getMinuteOfDay(); 
     
+    //Sets the logout timer in minutes.
+    public static int LOGOUT_MINUTES = 15;
+    
+    // Reference to the ScheduleExecutorService variable.
+    public static ScheduledExecutorService ex;
+   
     
     // Creating a helper method that allows us to easily add JComponents to a
     // JPanel using GridBagConstraints
@@ -211,11 +220,6 @@ public class Reference
             if (result == JOptionPane.YES_OPTION)
             {
                 
-                /*System.out.print("Saving the following accounts to file:");
-                
-                for( int i = 0; i < bankAccounts.size(); i++)
-                    System.out.println(bankAccounts.get(i).toString());*/
-                
                 saveAccounts(BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
                 
                 System.exit(0);
@@ -250,57 +254,21 @@ public class Reference
             {
                 
                 if(type == BANK_ACCOUNT)
-                {
-                    
-                    /*System.out.print("Saving the following accounts to file:");
-                    
-                    for( int i = 0; i < bankAccounts.size(); i++)
-                        System.out.println(bankAccounts.get(i).toString());*/
-                    
                     saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), BANK_ACCOUNT);
-                    
-                }
                 else if (type == DEBT_ACCOUNT)
-                {
-                    
-                    /*System.out.print("Saving the following accounts to file:");
-                    
-                    for( int i = 0; i < debtAccounts.size(); i++)
-                        System.out.println(debtAccounts.get(i).toString());*/
-                    
                     saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), DEBT_ACCOUNT);
-                    
-                }
                 else
-                {
-                    
-                    /*System.out.print("Saving the following accounts to file:");
-                    
-                    for( int i = 0; i < billAccounts.size(); i++)
-                        System.out.println(billAccounts.get(i).toString());*/
-                    
                     saveAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString(), BILL_ACCOUNT);
-                    
-                }
-                
+
                 changePanelView(viewPanel, removePanel);
                 
             }
             else
-            {
-                
                 changePanelView(viewPanel, removePanel);
                 
-            }
-            
-            
         }
         else
-        {
-            
             changePanelView(viewPanel, removePanel);
-            
-        }
             
     }
 
@@ -321,7 +289,7 @@ public class Reference
                 break;
             }
         }
-        //System.out.print(isCorrect);
+       
         return isCorrect;
     }
     

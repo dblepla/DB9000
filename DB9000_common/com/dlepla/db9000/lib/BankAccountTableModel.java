@@ -37,7 +37,6 @@ public class BankAccountTableModel extends AbstractTableModel {
         this.fireTableStructureChanged();
         Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-        Reference.bankTableColumnModel.getColumn(4).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.typeColumn = Reference.bankAccountTable.getColumnModel().getColumn(1);
         Reference.typeColumn.setCellEditor(new DefaultCellEditor(Reference.BATableComboBox));
         Reference.isSaved = false;
@@ -120,7 +119,6 @@ public class BankAccountTableModel extends AbstractTableModel {
         this.fireTableStructureChanged();
         Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-        Reference.bankTableColumnModel.getColumn(4).setCellRenderer(NumberRenderer.getCurrencyRenderer());
         Reference.typeColumn = Reference.bankAccountTable.getColumnModel().getColumn(1);
         Reference.typeColumn.setCellEditor(new DefaultCellEditor(Reference.BATableComboBox));
         

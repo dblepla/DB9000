@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.joda.time.DateTime;
+
 import com.dlepla.db9000.lib.BillAccountTableModel;
 import com.dlepla.db9000.lib.GUIManager;
 import com.dlepla.db9000.lib.NumberRenderer;
@@ -133,7 +135,9 @@ public class BillAccountPanel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
+            
+            Reference.lastActionMinute = new DateTime().getMinuteOfDay();
+            
             if (e.getSource() == overviewButton)
             {
                 
@@ -156,6 +160,7 @@ public class BillAccountPanel extends JPanel
             {
                 
                 Reference.loginPanel = new LoginPanel();
+                Reference.ex.shutdownNow();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
                 
                 

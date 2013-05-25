@@ -165,48 +165,21 @@ public class BankAccountPanel extends JPanel
                 
             }
             else if (e.getSource() == debtButton)
-            {
-                
                 Reference.saveAndChangePanel(Reference.debtAccountPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
-                
-            }
             else if (e.getSource() == billButton)
-            {
-                
                 Reference.saveAndChangePanel(Reference.billAccountPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
-                
-            }
             else if (e.getSource() == logoutButton)
             {
                 
                 Reference.loginPanel = new LoginPanel();
                 Reference.ex.shutdownNow();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.bankAccountPanel, Reference.BANK_ACCOUNT);
-                
-                
-                
+                 
             }
             else if (e.getSource() == saveButton)
-            {
-                
-                System.out.print("Saving the following accounts to file:");
-                
-                for( int i = 0; i < Reference.bankAccounts.size(); i++)
-                    System.out.println(Reference.bankAccounts.get(i).toString());
-                
                 Reference.saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), Reference.BANK_ACCOUNT);
-                
-              
-                
-            }
             else if (e.getSource() == newButton)
-            {
-                
-                
                 accountTableModel.addNewAccount();
-               
-              
-            }
             else if (e.getSource() == delButton)
             {
                 
@@ -221,14 +194,8 @@ public class BankAccountPanel extends JPanel
                             JOptionPane.INFORMATION_MESSAGE);
                     
                 }else
-                {
-                    
                     accountTableModel.removeAccount(Reference.bankAccountTable.getSelectedRow());
-                    
-                }
                 
-               
-              
             }
         }
     }   

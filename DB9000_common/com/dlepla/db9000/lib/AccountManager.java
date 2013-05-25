@@ -20,7 +20,7 @@ public class AccountManager
        
         float percentComplete = 0;
         
-        if(account.startingBalance == 0)
+        if(account.initialBalance == 0)
             return 0;
         else if (account.balance == 0)
             return 100;
@@ -30,7 +30,7 @@ public class AccountManager
             if (account instanceof BankAccount)
                 percentComplete = ((getTotalSavings()) / Reference.MIN_SAVINGS) * 100;
             else
-                percentComplete = ((account.startingBalance - account.balance) / account.startingBalance) * 100;
+                percentComplete = ((account.initialBalance - account.balance) / account.initialBalance) * 100;
             
         }
          
@@ -70,15 +70,19 @@ public class AccountManager
     // Method to get the Debt Account with the highest APR
     //
     //*************************************************************
-    public static DebtAccount getHighestAprAccount(DebtAccount account1, DebtAccount account2)
+    public static DebtAccount getHighestAprAccount(ArrayList<DebtAccount> lowAccounts)
     {
+        DebtAccount highestAPRAccount = lowAccounts.get(0);
         
+        for( DebtAccount la : lowAccounts)
+        {
+           
+            if (la.apr > highestAPRAccount.apr)
+                highestAPRAccount = la;
+            
+        }
         
-        if (account1.apr < account2.apr)
-            return account2;
-        else
-            return account1;
-    
+        return highestAPRAccount;
     
     }
     
@@ -159,55 +163,49 @@ public class AccountManager
     public static DebtAccount getBestDebtAccount()
     {
         
-        DebtAccount account1 = new DebtAccount();
-        DebtAccount account2 = new DebtAccount();
-        int account1Index = 0;
+        for ( DebtAccount da : Reference.debtAccounts)
+            System.out.println(da);
         
-        account1 = Reference.debtAccounts.get(0);
+        ArrayList<DebtAccount> tempDebtAccounts = cloneDebtAccounts(Reference.debtAccounts); 
         
-        if(Reference.debtAccounts.size() > 1)
+        for ( DebtAccount da : tempDebtAccounts)
+            System.out.println(da);
+        
+        ArrayList<DebtAccount> lowestDebtAccounts = new ArrayList<DebtAccount>(tempDebtAccounts.size());
+        
+        lowestDebtAccounts.add(tempDebtAccounts.get(0));
+        
+        if(tempDebtAccounts.size() > 1)
         {
             
-                
-            for( int i = 0; i < Reference.debtAccounts.size(); i++)
+            
+            
+            // cycles through all debt accounts and finds the account1 with the lowest balance that is not 0.
+            for( int i = 0; i < tempDebtAccounts.size(); i++)
             {
-                if( (Reference.debtAccounts.get(i).balance < account1.balance) && (Reference.debtAccounts.get(i).balance != 0) )
+                if( (tempDebtAccounts.get(i).balance < lowestDebtAccounts.get(0).balance) && (tempDebtAccounts.get(i).balance != 0) )
                 {
                     
-                    account1Index = i;
-                    account1 = Reference.debtAccounts.get(i);
+                    lowestDebtAccounts.add(0, tempDebtAccounts.get(i));
+                    tempDebtAccounts.remove(i);
                     
                 }
             }
-           
-                        
-            if(account1Index + 1 >= Reference.debtAccounts.size())
-                account2 = Reference.debtAccounts.get(account1Index - 1);
-            else if(account1Index - 1 < 0)
-                account2 = Reference.debtAccounts.get(account1Index + 1);
-                
             
-            
+            lowestDebtAccounts.add(tempDebtAccounts.get(0));
                 
-            for( int i = 0; i < Reference.debtAccounts.size(); i++)
+            for( int i = 0; i < tempDebtAccounts.size(); i++)
             {
-                if( (i != account1Index) && (Reference.debtAccounts.get(i).balance < account2.balance) && ( Reference.debtAccounts.get(i).balance != 0) ) 
-                    account2 = Reference.debtAccounts.get(i);
+                if(Math.abs(lowestDebtAccounts.get(0).balance - tempDebtAccounts.get(i).balance) <= 1000 ) 
+                    lowestDebtAccounts.add(tempDebtAccounts.get(i));
         
             }
                 
+            return getHighestAprAccount(lowestDebtAccounts);
                 
-                
-                
-                
-             if( Math.abs(account1.balance - account2.balance) <= 1000)
-                 return getHighestAprAccount(account1, account2);
-             else
-                 return account1;
-             
         }
          else
-             return account1;
+             return lowestDebtAccounts.get(0);
          
     }
     
@@ -298,4 +296,25 @@ public class AccountManager
         return totalIncome;
         
     }
+    
+    //*************************************************************
+    //
+    // Defines a method which deep copies an arraylist of DebtAccount objects.
+    //
+    //*************************************************************
+    public static ArrayList<DebtAccount> cloneDebtAccounts(ArrayList<DebtAccount> dbAccounts)
+    {
+        
+        ArrayList<DebtAccount> clonedList = new ArrayList<DebtAccount>(dbAccounts.size());
+        
+        for ( DebtAccount da : dbAccounts )
+        {
+            
+            clonedList.add(new DebtAccount(da));
+            
+        }
+        return clonedList;
+        
+    }
+    
 }

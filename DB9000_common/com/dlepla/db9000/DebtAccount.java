@@ -3,7 +3,7 @@ package com.dlepla.db9000;
 import java.io.Serializable;
 import java.text.NumberFormat;
 
-public class DebtAccount extends Account implements Serializable
+public class DebtAccount extends Account implements Serializable, Cloneable
 {
     
     /**
@@ -15,8 +15,6 @@ public class DebtAccount extends Account implements Serializable
     
     public float apr = 0;
     public float monthlyPayment = 0;
-    public float initialBalance = 0;
-    
     
     public DebtAccount() {}
     
@@ -41,6 +39,17 @@ public class DebtAccount extends Account implements Serializable
         
     }
     
+    public DebtAccount(DebtAccount dAccount)
+    {
+        
+        this.accountName = dAccount.accountName;
+        this.balance = dAccount.balance;
+        this.monthlyPayment = dAccount.monthlyPayment;
+        this.apr = dAccount.apr;
+        this.initialBalance = dAccount.initialBalance;
+        
+    }
+    
     
     public String toString()
     {
@@ -48,7 +57,8 @@ public class DebtAccount extends Account implements Serializable
         String msg;
         cf = NumberFormat.getCurrencyInstance();
         msg = "Name: " + this.accountName;
-        msg += "Balance: " + cf.format(this.balance);
+        msg += ", Init Balance: " + cf.format(this.initialBalance);
+        msg += ", Balance: " + cf.format(this.balance);
         msg += ", Monthly Payment: "+ cf.format(this.monthlyPayment);
         msg += ", APR: " + apr;
         return msg;

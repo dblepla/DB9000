@@ -159,7 +159,7 @@ public class Reference
     public static int lastActionMinute = new DateTime().getMinuteOfDay(); 
     
     //Sets the logout timer in minutes.
-    public static int LOGOUT_MINUTES = 10;
+    public static int LOGOUT_MINUTES = 5;
     
     // Reference to the ScheduleExecutorService variable.
     public static ScheduledExecutorService ex;

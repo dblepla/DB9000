@@ -145,19 +145,12 @@ public class DebtAccountPanel extends JPanel
                 
                 Reference.overPanel = new OverPanel();
                 Reference.saveAndChangePanel(Reference.overPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
+                
             }
             else if (e.getSource() == bankButton)
-            {
-                
                 Reference.saveAndChangePanel(Reference.bankAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
-                
-            }
             else if (e.getSource() == billButton)
-            {
-                
                 Reference.saveAndChangePanel(Reference.billAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
-                
-            }
             else if (e.getSource() == logoutButton)
             {
                 
@@ -165,29 +158,11 @@ public class DebtAccountPanel extends JPanel
                 Reference.ex.shutdownNow();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
                 
-                
-                
             }
             else if (e.getSource() == saveButton)
-            {
-                
-                System.out.print("Saving the following accounts to file:");
-                
-                for( int i = 0; i < Reference.debtAccounts.size(); i++)
-                    System.out.println(Reference.debtAccounts.get(i).toString());
-                
                 Reference.saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), Reference.DEBT_ACCOUNT);
-              
-                
-            }
             else if (e.getSource() == newButton)
-            {
-                
-                
                 debtAccountTableModel.addNewAccount();
-               
-              
-            }
             else if (e.getSource() == delButton)
             {
                 
@@ -202,14 +177,8 @@ public class DebtAccountPanel extends JPanel
                             JOptionPane.INFORMATION_MESSAGE);
                     
                 }else
-                {
-                    
                     debtAccountTableModel.removeAccount(Reference.debtAccountTable.getSelectedRow());
-                    
-                }
-                
-               
-              
+                       
             }
         }
     }   

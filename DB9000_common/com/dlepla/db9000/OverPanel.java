@@ -86,7 +86,7 @@ public class OverPanel extends JPanel
         {
             
             accountName = new JLabel(progressAccount.accountName + " Balance");
-            initBalance = new JLabel(cf.format(progressAccount.startingBalance));
+            initBalance = new JLabel(cf.format(progressAccount.initialBalance));
             currentBalance = new JLabel(cf.format(progressAccount.balance));
             minBalance = new JLabel(cf.format(0));
         

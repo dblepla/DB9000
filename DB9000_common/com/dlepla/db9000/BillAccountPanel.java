@@ -143,19 +143,12 @@ public class BillAccountPanel extends JPanel
                 
                 Reference.overPanel = new OverPanel();
                 Reference.saveAndChangePanel(Reference.overPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
+                
             }
             else if (e.getSource() == debtButton)
-            {
-                
                 Reference.saveAndChangePanel(Reference.debtAccountPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
-                
-            }
             else if (e.getSource() == bankButton)
-            {
-                
                 Reference.saveAndChangePanel(Reference.bankAccountPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
-                
-            }
             else if (e.getSource() == logoutButton)
             {
                 
@@ -163,30 +156,11 @@ public class BillAccountPanel extends JPanel
                 Reference.ex.shutdownNow();
                 Reference.saveAndChangePanel(Reference.loginPanel, Reference.billAccountPanel, Reference.BILL_ACCOUNT);
                 
-                
-                
             }
             else if (e.getSource() == saveButton)
-            {
-                
-                System.out.print("Saving the following accounts to file:");
-                
-                for( int i = 0; i < Reference.billAccounts.size(); i++)
-                    System.out.println(Reference.billAccounts.get(i).toString());
-                
                 Reference.saveAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString(), Reference.BILL_ACCOUNT);
-                
-              
-                
-            }
             else if (e.getSource() == newButton)
-            {
-                
-                
                 accountTableModel.addNewAccount();
-               
-              
-            }
             else if (e.getSource() == delButton)
             {
                 
@@ -200,15 +174,10 @@ public class BillAccountPanel extends JPanel
                             "No account selected",
                             JOptionPane.INFORMATION_MESSAGE);
                     
-                }else
-                {
-                    
-                    accountTableModel.removeAccount(Reference.billAccountTable.getSelectedRow());
-                    
                 }
+                else
+                    accountTableModel.removeAccount(Reference.billAccountTable.getSelectedRow());
                 
-               
-              
             }
         }
     }   

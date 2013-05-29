@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 
@@ -50,6 +51,7 @@ public class DebtAccountPanel extends JPanel
        this.setLayout(new GridBagLayout());
        this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
        this.setOpaque(true);
+       SwingUtilities.getRootPane( Reference.mainWindow ).setDefaultButton(null);
        
        
        addUserButton = GUIManager.createCustomButton("Users");

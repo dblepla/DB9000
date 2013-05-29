@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 
@@ -49,13 +50,14 @@ public class OverPanel extends JPanel
         this.setLayout(new GridBagLayout());
         this.setBackground(Reference.CENTER_BACKGROUND_COLOR);
         this.setOpaque(true);
-        
+        SwingUtilities.getRootPane( Reference.mainWindow ).setDefaultButton(null);
          
         addUserButton = GUIManager.createCustomButton("Users");
         logoutButton = GUIManager.createCustomButton("Logout");
         bankAccountsButton = GUIManager.createCustomButton("Bank Accounts");
         debtAccountsButton = GUIManager.createCustomButton("Loans & Credit");
         billAccountsButton = GUIManager.createCustomButton("Monthly Bills");
+        
         Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
         Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
         Reference.availibleCashLabel = new JLabel("Availible Cash: " + cf.format(AccountManager.getTotalCash()));

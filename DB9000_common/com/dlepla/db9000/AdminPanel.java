@@ -7,9 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
+import javax.crypto.SealedObject;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -24,12 +22,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.dlepla.db9000.lib.GUIManager;
-import com.dlepla.db9000.lib.LogoutTask;
 import com.dlepla.db9000.lib.Reference;
-// Login Panel class which sets up a JPanel with several Boxes to display the initial login screen.
 
-public class LoginPanel extends JPanel
+public class AdminPanel extends JPanel
 {
+    
     /**
      * 
      */
@@ -37,15 +34,15 @@ public class LoginPanel extends JPanel
     
     JTextField username;
     JPasswordField password;
-    JButton_Default loginButton;
+    JButton_Default submitButton;
     JLabel headerTitle;
     JLabel overTitle;
     JButton closeButton;
     
 
-    // Login Panel constructor which initializes and builds the layout of the
-    // LoginPanel window.
-    public LoginPanel()
+    // Admin Panel constructor which initializes and builds the layout of the
+    // AdminPanel window.
+    public AdminPanel()
     {
 
         this.setLayout(new GridBagLayout());
@@ -54,7 +51,7 @@ public class LoginPanel extends JPanel
     
       
         // create default header box with passed title text.
-        Box headerBox = GUIManager.createHeaderBox("Debt Blaster 9000");
+        Box headerBox = GUIManager.createHeaderBox("Admin Account");
         // Add header Box to JFrame using gridbag layout.
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
@@ -71,7 +68,7 @@ public class LoginPanel extends JPanel
         username.setMaximumSize(username.getPreferredSize());
         password = new JPasswordField(22);
         password.setMaximumSize(password.getPreferredSize());
-        JLabel plLabel = new JLabel("Please Login");
+        JLabel plLabel = new JLabel("Please Enter new Admin credentials");
         plLabel.setFont(new Font("Elephant", Font.PLAIN, 16));
         
         // Defines customized JButton for program.
@@ -79,12 +76,12 @@ public class LoginPanel extends JPanel
         LineBorder DB_Line = new LineBorder(Reference.HEADER_BORDER_COLOR, 2);
         Border DB_Border = BorderFactory.createCompoundBorder( DB_Line, DB_Insets);
         
-        loginButton = new JButton_Default();
-        loginButton.setText("Login");
-        loginButton.setBackground(Reference.HEADER_BACKGROUD_COLOR);
-        loginButton.setFont(new Font("Elephant", Font.PLAIN, 14));
-        loginButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
-        loginButton.setBorder(DB_Border);
+        submitButton = new JButton_Default();
+        submitButton.setText("Submit");
+        submitButton.setBackground(Reference.HEADER_BACKGROUD_COLOR);
+        submitButton.setFont(new Font("Elephant", Font.PLAIN, 14));
+        submitButton.setForeground(Reference.FOOTER_BACKGROUND_COLOR);
+        submitButton.setBorder(DB_Border);
         
         closeButton = GUIManager.createCustomButton("Exit");
         
@@ -92,8 +89,8 @@ public class LoginPanel extends JPanel
         
         
         
-        LoginButtonListener bll = new LoginButtonListener();
-        loginButton.addActionListener(bll);
+        AdminButtonListener bll = new AdminButtonListener();
+        submitButton.addActionListener(bll);
         closeButton.addActionListener(bll);
         
         plBox.add(plLabel);
@@ -102,7 +99,7 @@ public class LoginPanel extends JPanel
         plBox.add(Box.createRigidArea(new Dimension(0, 5)));
         plBox.add(password);
         plBox.add(Box.createRigidArea(new Dimension(0, 10)));
-        plBox.add(loginButton);
+        plBox.add(submitButton);
         // plBox.add(Box.createVerticalStrut(75));
         // Create centerItems box to house all Boxes that will go into the
         // centerBox.
@@ -144,52 +141,65 @@ public class LoginPanel extends JPanel
         }
     }
 
-    private class LoginButtonListener implements ActionListener
+    private class AdminButtonListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
 
-            if (e.getSource() == loginButton)
+            if (e.getSource() == submitButton)
             {
                 
-                User user = new User(username.getText(), password.getPassword());
-                boolean loginAuthorized = true;
-                loginAuthorized = Reference.authLogin(user);
+                User newUser = new User(username.getText(), password.getPassword());
+                User nullUser = null;
+                
+                
+                
+               
               
-                if (user.username.length() <= 0)
+                if (newUser.username.length() <= 0)
                 {
                     JOptionPane
                             .showMessageDialog(
                                     getRootPane(),
                                     "Username is blank. You must enter a username and password.",
-                                    "Invalid Login",
+                                    "Invalid Username",
                                     JOptionPane.INFORMATION_MESSAGE);
-                } else if (user.password.length == 0)
+                } else if (newUser.password.length == 0)
                 {
                     JOptionPane
                             .showMessageDialog(
                                     getRootPane(),
                                     "Password is blank. You must enter a username and password.",
-                                    "Invalid Login",
+                                    "Invalid Password",
                                     JOptionPane.INFORMATION_MESSAGE);
-                } else if (loginAuthorized == true)
+                } else 
                 {
-                    Reference.overPanel = new OverPanel();
-                    Reference.changePanelView(Reference.overPanel, Reference.loginPanel);
-                    Reference.ex = Executors.newSingleThreadScheduledExecutor();
-                    Reference.ex.scheduleAtFixedRate(new LogoutTask(), 0, 1, TimeUnit.MINUTES);
-                 
-                } else
-                {
-                    JOptionPane
-                            .showMessageDialog(
-                                    getRootPane(),
-                                    "Username or password is not found, please try again or contact administrator",
-                                    "Invalid Login",
-                                    JOptionPane.INFORMATION_MESSAGE);
+                    
+                    try
+                    {
+                        SealedObject sealedUser = new SealedObject(newUser,
+                                Reference.cipher);
+                        Reference.writeToFile(Reference.PASSWORD_FILE.toString(),
+                                sealedUser, false);
+                        sealedUser = new SealedObject(nullUser, Reference.cipher);
+                        Reference.writeToFile(Reference.PASSWORD_FILE.toString(),
+                                sealedUser, true);
+                        
+                    } catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
                 }
-            } 
+                    
+                boolean loginAuthorized = true;
+                loginAuthorized = Reference.authLogin(newUser);  
+                
+                
+                if (loginAuthorized == true)
+                    Reference.changePanelView(Reference.loginPanel, Reference.adminPanel);
+                  
+            }
             else if(e.getSource() == closeButton)
             {
                 

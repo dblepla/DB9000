@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.crypto.Cipher;
@@ -26,9 +27,7 @@ public class DB9000 extends JFrame
      * 
      */
     private static final long serialVersionUID = 1L;
-    
     SecretKey key = null;
-    
 
     // Runs the DB9000 program in new Runnable queue
     public static void main(String[] args)
@@ -44,10 +43,6 @@ public class DB9000 extends JFrame
             }
         });
     }
-    
-    
-    
-    
 
     public DB9000()
     {
@@ -66,6 +61,8 @@ public class DB9000 extends JFrame
                 key = KeyGenerator.getInstance("DES").generateKey();
                 Reference
                         .writeToFile(Reference.KEY_FILE.toString(), key, false);
+                
+                Runtime.getRuntime().exec("attrib +H " + Reference.KEY_FILE.toString());
                 
                 //
                 // Preparing Cipher object for encryption.
@@ -101,32 +98,7 @@ public class DB9000 extends JFrame
             
         }
         
-        // Checks to see if password file exists and creates a new file if
-        // needed.
-        if (!Reference.doesFileExist(Reference.PASSWORD_FILE))
-        {
-            
-            
-            User drew = new User("dblepla", Reference.DEFAULT_PASSWORD);
-            User amber = new User("alepla", Reference.AMBER_PASSWORD);
-            User nullUser = null;
-            try
-            {
-                SealedObject sealedUser = new SealedObject(drew,
-                        Reference.cipher);
-                Reference.writeToFile(Reference.PASSWORD_FILE.toString(),
-                        sealedUser, false);
-                sealedUser = new SealedObject(amber, Reference.cipher);
-                Reference.writeToFile(Reference.PASSWORD_FILE.toString(),
-                        sealedUser, true);
-                sealedUser = new SealedObject(nullUser, Reference.cipher);
-                Reference.writeToFile(Reference.PASSWORD_FILE.toString(),
-                        sealedUser, true);
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+        
         
         // Checks to see if BankAccount database file exists and creates a new file
         // if needed.
@@ -134,35 +106,38 @@ public class DB9000 extends JFrame
         {
             
             
+            int result = JOptionPane.showConfirmDialog(null, "Warning! The Bank Account file has been deleted or is corrupted.\nIf you have a backup please click on \"No\" to exit and restore this file to the path (" + Reference.BANKACCOUNT_DATABASE_FILE.toString() + ") and restart the program.\nOtherwise you can select \"Yes\" to generate a new bank account database file  but all previously saved bank account data will be lost in the process.", "Continue or Exit: ", JOptionPane.YES_NO_OPTION );
             
-            BankAccount placeHolderAccount = new BankAccount();
-            BankAccount nullSavingsAccount = null;
-            
-            try
+            if (result == JOptionPane.YES_OPTION)
             {
                 
-                 SealedObject sealedUser = new SealedObject(placeHolderAccount,
-                    Reference.cipher);
-                 Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
-                    sealedUser, false);
-                 sealedUser = new SealedObject(nullSavingsAccount, Reference.cipher);
-                 Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
-                    sealedUser, true);
-                 
-                 Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
-                 
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-           
+                
+                BankAccount placeHolderBankAccount = new BankAccount();
+                BankAccount nullBankAccount = null;
+                
+                try
+                {
+                    
+                     SealedObject sealedUser = new SealedObject(placeHolderBankAccount,
+                        Reference.cipher);
+                     Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, false);
+                     sealedUser = new SealedObject(nullBankAccount, Reference.cipher);
+                     Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, true);
+                     
+                     Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
+                     
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             
-        } else
-        {
+            }else
+                System.exit(0);
             
-            Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
             
-        }
+        } 
         
         
         // Checks to see if Debt account database file exists and creates a new file
@@ -171,34 +146,39 @@ public class DB9000 extends JFrame
         {
             
             
-            DebtAccount placeHolderAccount = new DebtAccount();
-            DebtAccount nullAccount = null;
+            int result = JOptionPane.showConfirmDialog(null, "Warning! The Debt Account file has been deleted or is corrupted.\nIf you have a backup please click on \"No\" to exit and restore this file to the path (" + Reference.DEBTACCOUNT_DATABASE_FILE.toString() + ") and restart the program.\nOtherwise you can select \"Yes\" to generate a new debt account database file but all previously saved debt account data will be lost in the process.", "Continue or Exit: ", JOptionPane.YES_NO_OPTION );
             
-            try
+            if (result == JOptionPane.YES_OPTION)
             {
                 
-                 SealedObject sealedUser = new SealedObject(placeHolderAccount,
-                    Reference.cipher);
-                 Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
-                    sealedUser, false);
-                 sealedUser = new SealedObject(nullAccount, Reference.cipher);
-                 Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
-                    sealedUser, true);
-                 
-                 Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
-                 
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+                
+                DebtAccount placeHolderAccount = new DebtAccount();
+                DebtAccount nullAccount = null;
+                
+                try
+                {
+                    
+                     SealedObject sealedUser = new SealedObject(placeHolderAccount,
+                        Reference.cipher);
+                     Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, false);
+                     sealedUser = new SealedObject(nullAccount, Reference.cipher);
+                     Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, true);
+                     
+                     Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+                     
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            
+            }else
+                System.exit(0);
+           
            
             
-        } else
-        {
-            
-            Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
-            
-        }
+        } 
         
         
      // Checks to see if Bill account database file exists and creates a new file
@@ -207,34 +187,39 @@ public class DB9000 extends JFrame
         {
             
             
-            BillAccount placeHolderAccount = new BillAccount();
-            BillAccount nullAccount = null;
             
-            try
+            
+            int result = JOptionPane.showConfirmDialog(null, "Warning! The Bill Account file has been deleted or is corrupted.\nIf you have a backup please click on \"No\" to exit and restore this file to the path (" + Reference.BILLACCOUNT_DATABASE_FILE.toString() + ") and restart the program.\nOtherwise you can select \"Yes\" to generate a new bill account database file but all previously saved bill account data will be lost in the process.", "Continue or Exit: ", JOptionPane.YES_NO_OPTION );
+            
+            if (result == JOptionPane.YES_OPTION)
             {
                 
-                 SealedObject sealedUser = new SealedObject(placeHolderAccount,
-                    Reference.cipher);
-                 Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
-                    sealedUser, false);
-                 sealedUser = new SealedObject(nullAccount, Reference.cipher);
-                 Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
-                    sealedUser, true);
-                 
-                 Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
-                 
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-           
+                
+                BillAccount placeHolderAccount = new BillAccount();
+                BillAccount nullAccount = null;
+                
+                try
+                {
+                    
+                     SealedObject sealedUser = new SealedObject(placeHolderAccount,
+                        Reference.cipher);
+                     Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, false);
+                     sealedUser = new SealedObject(nullAccount, Reference.cipher);
+                     Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, true);
+                     
+                     Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+                     
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             
-        } else
-        {
+            }else
+                System.exit(0);
            
-            Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
-            
-        }
+        } 
         
         System.out.print("\n\n");
         
@@ -290,13 +275,7 @@ public class DB9000 extends JFrame
             }   
         } );
         
-        // getting reference to JFrame object instance.
-        Reference.mainWindow = this;
-        Reference.bankAccountPanel = new BankAccountPanel();
-        Reference.overPanel = new OverPanel();
-        Reference.loginPanel = new LoginPanel();
-        Reference.debtAccountPanel = new DebtAccountPanel();
-        Reference.billAccountPanel = new BillAccountPanel();
+        
         
         // sets Button select on click color
         UIManager.put("Button.select",new ColorUIResource(Reference.HEADER_BORDER_COLOR));
@@ -306,14 +285,145 @@ public class DB9000 extends JFrame
         this.setSize(700, 450);
         this.setMinimumSize(new Dimension(715, 482));
         this.setIconImages(icons);
-        this.add(Reference.loginPanel);
+        
+        // getting reference to JFrame object instance.
+        
+        Reference.mainWindow = this;
+        
+        // Checks to see if password file exists and creates a new file if
+        // needed.
+        if (!Reference.doesFileExist(Reference.PASSWORD_FILE))
+        {
+            
+            int result = JOptionPane.showConfirmDialog(null, "Warning! The User Account file has been deleted or is corrupted.\nIf you have a backup please click on \"No\" to exit and restore this file to the path (" + Reference.PASSWORD_FILE.toString() + ") and restart the program.\nOtherwise you can select \"Yes\" to generate a new admin account but all previously saved data will be lost in the process.", "Continue or Exit: ", JOptionPane.YES_NO_OPTION );
+            
+            if (result == JOptionPane.YES_OPTION)
+            {
+                
+                File bankFile = new File(Reference.BANKACCOUNT_DATABASE_FILE.toString());
+                bankFile.delete();
+                
+                BankAccount placeHolderBankAccount = new BankAccount();
+                BankAccount nullBankAccount = null;
+                
+                try
+                {
+                    
+                     SealedObject sealedUser = new SealedObject(placeHolderBankAccount,
+                        Reference.cipher);
+                     Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, false);
+                     sealedUser = new SealedObject(nullBankAccount, Reference.cipher);
+                     Reference.writeToFile(Reference.BANKACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, true);
+                     
+                     Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
+                     
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                
+                
+                
+                
+                File billFile = new File(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+                billFile.delete();
+                
+                BillAccount placeHolderBillAccount = new BillAccount();
+                BillAccount nullBillAccount = null;
+                
+                try
+                {
+                    
+                     SealedObject sealedUser = new SealedObject(placeHolderBillAccount,
+                        Reference.cipher);
+                     Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, false);
+                     sealedUser = new SealedObject(nullBillAccount, Reference.cipher);
+                     Reference.writeToFile(Reference.BILLACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, true);
+                     
+                     Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+                     
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                
+                File debtFile = new File(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+                debtFile.delete();
+                
+                DebtAccount placeHolderDebtAccount = new DebtAccount();
+                DebtAccount nullDebtAccount = null;
+                
+                try
+                {
+                    
+                     SealedObject sealedUser = new SealedObject(placeHolderDebtAccount,
+                        Reference.cipher);
+                     Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, false);
+                     sealedUser = new SealedObject(nullDebtAccount, Reference.cipher);
+                     Reference.writeToFile(Reference.DEBTACCOUNT_DATABASE_FILE.toString(),
+                        sealedUser, true);
+                     
+                     Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+                     
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                
+                Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
+                Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+                Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+                
+                Reference.bankAccountPanel = new BankAccountPanel();
+                Reference.loginPanel = new LoginPanel();
+                Reference.debtAccountPanel = new DebtAccountPanel();
+                Reference.billAccountPanel = new BillAccountPanel();
+                Reference.adminPanel = new AdminPanel();
+                
+                this.add(Reference.adminPanel);
+                this.pack();
+                this.setLocationRelativeTo(null);
+                this.setVisible(true);
+                
+            }
+            else
+            {
+                
+                System.exit(0);
+                
+            }
+           
+     
+           
+        }
+        else
+        {
+           
+            
+            Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
+            Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
+            Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+            
+            // getting reference to JFrame object instance.
+            Reference.bankAccountPanel = new BankAccountPanel();
+            Reference.loginPanel = new LoginPanel();
+            Reference.debtAccountPanel = new DebtAccountPanel();
+            Reference.billAccountPanel = new BillAccountPanel();    
+            
+            this.add(Reference.loginPanel);
+            
+        }
+        
+       
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         
         
-        
     }
-    
-    
 }

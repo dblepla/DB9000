@@ -82,15 +82,15 @@ public class Reference
     
     //Initializes and sets the file paths for the save files used by the program
     public static final Path PASSWORD_FILE = Paths
-            .get("C:\\Development\\source\\DB9000\\resources\\bin\\dbaccess.dat");
+            .get(System.getenv("APPDATA") + "\\DB9000\\bin\\SCDB.dat");
     public static final Path KEY_FILE = Paths
-            .get("C:\\Development\\source\\DB9000\\resources\\bin\\keyfile");
+            .get(System.getenv("APPDATA") + "\\DB9000\\bin\\keyfile");
     public static final Path BANKACCOUNT_DATABASE_FILE = Paths
-            .get("C:\\Development\\source\\DB9000\\resources\\bin\\BADB.dat");
+            .get(System.getenv("APPDATA") + "\\DB9000\\bin\\BADB.dat");
     public static final Path DEBTACCOUNT_DATABASE_FILE = Paths
-            .get("C:\\Development\\source\\DB9000\\resources\\bin\\DADB.dat");
+            .get(System.getenv("APPDATA") + "\\DB9000\\bin\\DADB.dat");
     public static final Path BILLACCOUNT_DATABASE_FILE = Paths
-            .get("C:\\Development\\source\\DB9000\\resources\\bin\\BIDB.dat");
+            .get(System.getenv("APPDATA") + "\\DB9000\\bin\\BIDB.dat");
     
     
     // Defines static ArrayList variables to hold loaded bank and debt account objects.
@@ -102,6 +102,7 @@ public class Reference
     // Define static variables to main JFrame and all JPanels.
     public static JFrame mainWindow;
     public static JPanel loginPanel;
+    public static JPanel adminPanel;
     public static JPanel bankAccountPanel;
     public static JPanel debtAccountPanel;
     public static JPanel billAccountPanel;

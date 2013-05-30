@@ -150,8 +150,8 @@ public class AdminPanel extends JPanel
             if (e.getSource() == submitButton)
             {
                 
-                User newUser = new User(username.getText(), password.getPassword());
-                User nullUser = null;
+                UserAccount newUser = new UserAccount(username.getText(), password.getPassword());
+                UserAccount nullUser = null;
                 
                 
                 
@@ -192,6 +192,8 @@ public class AdminPanel extends JPanel
                     }
                 }
                     
+                Reference.userAccounts = Reference.readUserAccounts(Reference.PASSWORD_FILE.toString());
+                Reference.userAccountPanel = new UserAccountPanel();
                 boolean loginAuthorized = true;
                 loginAuthorized = Reference.authLogin(newUser);  
                 

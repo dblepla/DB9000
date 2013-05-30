@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.joda.time.DateTime;
 
@@ -80,6 +82,9 @@ public class BillAccountPanel extends JPanel
        
        Reference.billTableColumnModel = Reference.billAccountTable.getColumnModel();
        Reference.billTableColumnModel.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+       DefaultTableCellRenderer centerColumn = new DefaultTableCellRenderer();
+       centerColumn.setHorizontalAlignment(JLabel.CENTER);
+       Reference.billTableColumnModel.getColumn(2).setCellRenderer(centerColumn);
        
        scrollPane = new JScrollPane(Reference.billAccountTable);
        

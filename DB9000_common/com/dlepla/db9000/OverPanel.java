@@ -37,6 +37,7 @@ public class OverPanel extends JPanel
     JButton bankAccountsButton;
     JButton debtAccountsButton;
     JButton billAccountsButton;
+    JButton userAccountsButton;
     JButton transButton;
     DateTime currentDate;
 
@@ -57,6 +58,7 @@ public class OverPanel extends JPanel
         bankAccountsButton = GUIManager.createCustomButton("Bank Accounts");
         debtAccountsButton = GUIManager.createCustomButton("Loans & Credit");
         billAccountsButton = GUIManager.createCustomButton("Monthly Bills");
+        userAccountsButton = GUIManager.createCustomButton("User Accounts");
         
         Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
         Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
@@ -68,6 +70,7 @@ public class OverPanel extends JPanel
         bankAccountsButton.addActionListener(obl);
         debtAccountsButton.addActionListener(obl);
         billAccountsButton.addActionListener(obl);
+        userAccountsButton.addActionListener(obl);
         
         currentDateLabel = new JLabel("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy"));
         Reference.lastActionMinute = new DateTime().getMinuteOfDay();
@@ -173,6 +176,8 @@ public class OverPanel extends JPanel
         footerItems.add(debtAccountsButton);
         footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
         footerItems.add(billAccountsButton);
+        footerItems.add(Box.createRigidArea(new Dimension(10, 5)));
+        footerItems.add(userAccountsButton);
         footerItems.add(Box.createHorizontalGlue());
         footerItems.add(logoutButton);
     
@@ -208,6 +213,13 @@ public class OverPanel extends JPanel
                 
            
                 Reference.changePanelView(Reference.billAccountPanel,Reference.overPanel);
+                
+            }
+            else if (e.getSource() == userAccountsButton)
+            {
+                
+           
+                Reference.changePanelView(Reference.userAccountPanel,Reference.overPanel);
                 
             }
             else if (e.getSource() == logoutButton)

@@ -242,19 +242,13 @@ public class DB9000 extends JFrame
                     if (result == JOptionPane.YES_OPTION)
                     {
                         
-                        System.out.print("Saving the following accounts to file:");
-                        
-                        for( int i = 0; i < Reference.bankAccounts.size(); i++)
-                            System.out.println(Reference.bankAccounts.get(i).toString());
-                        
                         Reference.saveAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString(), Reference.BANK_ACCOUNT);
                         
-                        System.out.print("Saving the following accounts to file:");
-                        
-                        for( int i = 0; i < Reference.debtAccounts.size(); i++)
-                            System.out.println(Reference.debtAccounts.get(i).toString());
-                        
                         Reference.saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), Reference.DEBT_ACCOUNT);
+                        
+                        Reference.saveAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString(), Reference.BILL_ACCOUNT);
+                        
+                        Reference.saveAccounts(Reference.PASSWORD_FILE.toString(), Reference.USER_ACCOUNT);
                         
                         System.exit(0);
                         
@@ -383,6 +377,7 @@ public class DB9000 extends JFrame
                 Reference.loginPanel = new LoginPanel();
                 Reference.debtAccountPanel = new DebtAccountPanel();
                 Reference.billAccountPanel = new BillAccountPanel();
+              
                 Reference.adminPanel = new AdminPanel();
                 
                 this.add(Reference.adminPanel);
@@ -408,12 +403,14 @@ public class DB9000 extends JFrame
             Reference.bankAccounts = Reference.readBankAccounts(Reference.BANKACCOUNT_DATABASE_FILE.toString());
             Reference.debtAccounts = Reference.readDebtAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString());
             Reference.billAccounts = Reference.readBillAccounts(Reference.BILLACCOUNT_DATABASE_FILE.toString());
+            Reference.userAccounts = Reference.readUserAccounts(Reference.PASSWORD_FILE.toString());
             
             // getting reference to JFrame object instance.
             Reference.bankAccountPanel = new BankAccountPanel();
             Reference.loginPanel = new LoginPanel();
             Reference.debtAccountPanel = new DebtAccountPanel();
-            Reference.billAccountPanel = new BillAccountPanel();    
+            Reference.billAccountPanel = new BillAccountPanel();
+            Reference.userAccountPanel = new UserAccountPanel();
             
             this.add(Reference.loginPanel);
             

@@ -163,14 +163,8 @@ public class AccountManager
     public static DebtAccount getBestDebtAccount()
     {
         
-        for ( DebtAccount da : Reference.debtAccounts)
-            System.out.println(da);
-        
         ArrayList<DebtAccount> tempDebtAccounts = cloneDebtAccounts(Reference.debtAccounts); 
-        
-        for ( DebtAccount da : tempDebtAccounts)
-            System.out.println(da);
-        
+       
         ArrayList<DebtAccount> lowestDebtAccounts = new ArrayList<DebtAccount>(tempDebtAccounts.size());
         
         lowestDebtAccounts.add(tempDebtAccounts.get(0));

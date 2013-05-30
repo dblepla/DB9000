@@ -153,7 +153,7 @@ public class LoginPanel extends JPanel
             if (e.getSource() == loginButton)
             {
                 
-                User user = new User(username.getText(), password.getPassword());
+                UserAccount user = new UserAccount(username.getText(), password.getPassword());
                 boolean loginAuthorized = true;
                 loginAuthorized = Reference.authLogin(user);
               

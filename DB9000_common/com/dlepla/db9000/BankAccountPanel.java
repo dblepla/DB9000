@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.joda.time.DateTime;
 
@@ -78,6 +80,11 @@ public class BankAccountPanel extends JPanel
        
        
        Reference.bankTableColumnModel = Reference.bankAccountTable.getColumnModel();
+       
+       DefaultTableCellRenderer centerColumn = new DefaultTableCellRenderer();
+       centerColumn.setHorizontalAlignment(JLabel.CENTER);
+       Reference.bankTableColumnModel.getColumn(1).setCellRenderer(centerColumn);
+       
        Reference.bankTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
        Reference.bankTableColumnModel.getColumn(3).setCellRenderer(NumberRenderer.getCurrencyRenderer());
        

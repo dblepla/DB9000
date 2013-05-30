@@ -8,24 +8,22 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import org.joda.time.DateTime;
 
-import com.dlepla.db9000.lib.DebtAccountTableModel;
+import com.dlepla.db9000.lib.UserAccountTableModel;
 import com.dlepla.db9000.lib.GUIManager;
-import com.dlepla.db9000.lib.NumberRenderer;
 import com.dlepla.db9000.lib.Reference;
 
-public class DebtAccountPanel extends JPanel
+public class UserAccountPanel extends JPanel
 {
-
+    
+    
     /**
      * 
      */
@@ -37,17 +35,15 @@ public class DebtAccountPanel extends JPanel
     JButton addUserButton;
     JButton logoutButton;
     JButton overviewButton;
-    JButton bankButton;
-    JButton billButton;
     JButton saveButton;
     JButton newButton;
     JButton delButton;
     
-    DebtAccountTableModel debtAccountTableModel = null;
+    UserAccountTableModel accountTableModel = null;
     
     
     
-    public DebtAccountPanel()
+    public UserAccountPanel()
     {
         
        this.setLayout(new GridBagLayout());
@@ -56,60 +52,50 @@ public class DebtAccountPanel extends JPanel
        SwingUtilities.getRootPane( Reference.mainWindow ).setDefaultButton(null);
        
        
-       addUserButton = GUIManager.createCustomButton("Users");
        logoutButton = GUIManager.createCustomButton("Logout");
        overviewButton =  GUIManager.createCustomButton("Overview");
-       bankButton =  GUIManager.createCustomButton("Bank Accounts");
-       billButton =  GUIManager.createCustomButton("Monthly Bills");
        saveButton =  GUIManager.createCustomButton("Save");
-       newButton =  GUIManager.createCustomButton("New Account");
-       delButton =  GUIManager.createCustomButton("Remove Account");
+       newButton =  GUIManager.createCustomButton("New User");
+       delButton =  GUIManager.createCustomButton("Remove User");
        
        AccountButtonListener abl = new AccountButtonListener();
-       addUserButton.addActionListener(abl);
        logoutButton.addActionListener(abl);
        overviewButton.addActionListener(abl);
-       bankButton.addActionListener(abl);
-       billButton.addActionListener(abl);
        saveButton.addActionListener(abl);
        newButton.addActionListener(abl);
        delButton.addActionListener(abl);
 
        
-       debtAccountTableModel = new DebtAccountTableModel(Reference.debtAccounts);
+       accountTableModel = new UserAccountTableModel(Reference.userAccounts);
       
-       Reference.debtAccountTable = new JTable(debtAccountTableModel);
+       Reference.userAccountTable = new JTable(accountTableModel);
        
        
        
-       Reference.debtTableColumnModel = Reference.debtAccountTable.getColumnModel();
-       Reference.debtTableColumnModel.getColumn(1).setCellRenderer(NumberRenderer.getCurrencyRenderer());
-       Reference.debtTableColumnModel.getColumn(2).setCellRenderer(NumberRenderer.getCurrencyRenderer());
+       Reference.userTableColumnModel = Reference.userAccountTable.getColumnModel();
        
-       DefaultTableCellRenderer centerColumn = new DefaultTableCellRenderer();
-       centerColumn.setHorizontalAlignment(JLabel.CENTER);
-       Reference.debtTableColumnModel.getColumn(3).setCellRenderer(centerColumn);
-     
-       scrollPane = new JScrollPane(Reference.debtAccountTable);
+       scrollPane = new JScrollPane(Reference.userAccountTable);
        
        scrollPane.setBorder(Reference.LINE_BORDER);
        
-       scrollPane.getVerticalScrollBar().setBackground(Reference.HEADER_BACKGROUD_COLOR);
-       scrollPane.getVerticalScrollBar().setForeground(Reference.CENTER_BACKGROUND_COLOR);
-
-           
        
+       Reference.userAccountTable = GUIManager.createCustomTable(Reference.userAccountTable);
+       /*Reference.billAccountTable.setFillsViewportHeight(true);
+       Reference.billAccountTable.setGridColor(Reference.HEADER_BORDER_COLOR);
+       Reference.billAccountTable.setBackground(Reference.FOOTER_BACKGROUND_COLOR);
+       Reference.billAccountTable.setAlignmentY(CENTER_ALIGNMENT);
+       Reference.billAccountTable.setAlignmentX(CENTER_ALIGNMENT);*/
+    
        
-       Reference.debtAccountTable = GUIManager.createCustomTable(Reference.debtAccountTable);
-       
-       Box headerBox = GUIManager.createHeaderBox("Loans & Credit");
+       Box headerBox = GUIManager.createHeaderBox("User Accounts");
        Reference.addItem(this, headerBox, 0, 0, 1, 1,
                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
        
        Box centerItems = Box.createVerticalBox();
        centerItems.add(scrollPane);
-       
        centerItems.add(Box.createVerticalStrut(10));
+       
+       
        Box addsaveBox = Box.createHorizontalBox();
        
        addsaveBox.add(newButton);
@@ -128,12 +114,8 @@ public class DebtAccountPanel extends JPanel
        Box footerItems = Box.createHorizontalBox();
        footerItems.add(overviewButton);
        footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
-       footerItems.add(bankButton);
-       footerItems.add(Box.createRigidArea(new Dimension(10, 0)));
-       footerItems.add(billButton);
        footerItems.add(Box.createHorizontalGlue());
        footerItems.add(logoutButton);
-  
        
        Box footerBox = GUIManager.createFooterBox(footerItems);
        Reference.addItem(this, footerBox, 0, 2, 1, 1,
@@ -152,29 +134,25 @@ public class DebtAccountPanel extends JPanel
             {
                 
                 Reference.overPanel = new OverPanel();
-                Reference.saveAndChangePanel(Reference.overPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
+                Reference.saveAndChangePanel(Reference.overPanel, Reference.userAccountPanel, Reference.USER_ACCOUNT);
                 
             }
-            else if (e.getSource() == bankButton)
-                Reference.saveAndChangePanel(Reference.bankAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
-            else if (e.getSource() == billButton)
-                Reference.saveAndChangePanel(Reference.billAccountPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
             else if (e.getSource() == logoutButton)
             {
                 
                 Reference.loginPanel = new LoginPanel();
                 Reference.ex.shutdownNow();
-                Reference.saveAndChangePanel(Reference.loginPanel, Reference.debtAccountPanel, Reference.DEBT_ACCOUNT);
+                Reference.saveAndChangePanel(Reference.loginPanel, Reference.userAccountPanel, Reference.USER_ACCOUNT);
                 
             }
             else if (e.getSource() == saveButton)
-                Reference.saveAccounts(Reference.DEBTACCOUNT_DATABASE_FILE.toString(), Reference.DEBT_ACCOUNT);
+                Reference.saveAccounts(Reference.PASSWORD_FILE.toString(), Reference.USER_ACCOUNT);
             else if (e.getSource() == newButton)
-                debtAccountTableModel.addNewAccount();
+                accountTableModel.addNewAccount();
             else if (e.getSource() == delButton)
             {
                 
-                if ( Reference.debtAccountTable.getSelectedRow() == -1)
+                if ( Reference.userAccountTable.getSelectedRow() == -1)
                 {
                     
                     JOptionPane
@@ -184,9 +162,10 @@ public class DebtAccountPanel extends JPanel
                             "No account selected",
                             JOptionPane.INFORMATION_MESSAGE);
                     
-                }else
-                    debtAccountTableModel.removeAccount(Reference.debtAccountTable.getSelectedRow());
-                       
+                }
+                else
+                    accountTableModel.removeAccount(Reference.userAccountTable.getSelectedRow());
+                
             }
         }
     }   

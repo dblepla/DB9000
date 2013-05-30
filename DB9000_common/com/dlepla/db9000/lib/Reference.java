@@ -44,7 +44,7 @@ import com.dlepla.db9000.Account;
 import com.dlepla.db9000.BankAccount;
 import com.dlepla.db9000.BillAccount;
 import com.dlepla.db9000.DebtAccount;
-import com.dlepla.db9000.User;
+import com.dlepla.db9000.UserAccount;
 
 
 // General reference class which holds all constant values and helper methods for the program.
@@ -97,6 +97,7 @@ public class Reference
     public static ArrayList<BankAccount> bankAccounts = null;
     public static ArrayList<DebtAccount> debtAccounts = null;
     public static ArrayList<BillAccount> billAccounts = null;
+    public static ArrayList<UserAccount> userAccounts = null;
     
     
     // Define static variables to main JFrame and all JPanels.
@@ -106,6 +107,7 @@ public class Reference
     public static JPanel bankAccountPanel;
     public static JPanel debtAccountPanel;
     public static JPanel billAccountPanel;
+    public static JPanel userAccountPanel;
     public static JPanel overPanel;
   
     
@@ -114,6 +116,7 @@ public class Reference
     public static JTable bankAccountTable;
     public static JTable debtAccountTable;
     public static JTable billAccountTable;
+    public static JTable userAccountTable;
     
     
     // defines static JLabels for the Overview Panel.
@@ -126,6 +129,7 @@ public class Reference
     public static TableColumnModel bankTableColumnModel;
     public static TableColumnModel debtTableColumnModel;
     public static TableColumnModel billTableColumnModel;
+    public static TableColumnModel userTableColumnModel;
     
     
     public static TableColumn typeColumn;
@@ -152,6 +156,7 @@ public class Reference
     public static final int DEBT_ACCOUNT = 1;
     public static final int BANK_ACCOUNT = 2;
     public static final int BILL_ACCOUNT = 3;
+    public static final int USER_ACCOUNT = 4;
     
     //Get a reference to the current local date and time
     public static final DateTime currentDate = new DateTime();
@@ -276,13 +281,13 @@ public class Reference
     
     
     // Defines a helper method for Authorizing usernames and passwords
-    public static boolean authLogin(User testUser)
+    public static boolean authLogin(UserAccount testUser)
     {
 
-        User[] authorizedUsers = readUser(PASSWORD_FILE.toString());
+        ArrayList<UserAccount> authorizedUsers = userAccounts;
         
         boolean isCorrect = false;
-        for (User u : authorizedUsers)
+        for (UserAccount u : authorizedUsers)
         {
             isCorrect = compareUsers(testUser, u);
             if (isCorrect)
@@ -296,7 +301,7 @@ public class Reference
     
     
     
-    public static boolean compareUsers(User u1, User u2)
+    public static boolean compareUsers(UserAccount u1, UserAccount u2)
     {
              
         if (u1.username.equals(u2.username)
@@ -320,7 +325,7 @@ public class Reference
     }
     
 
-    public static User[] readUser(String filename)
+    public static ArrayList<UserAccount> readUserAccounts(String filename)
     {
 
         File file = new File(filename);
@@ -333,9 +338,9 @@ public class Reference
                 // Read the previously stored SecretKey.
                 //
                 SecretKey key = (SecretKey) readFromFile(KEY_FILE.toString());
-                ArrayList<User> userList = new ArrayList<User>();
+                ArrayList<UserAccount> userList = new ArrayList<UserAccount>();
                 ois = new ObjectInputStream(new FileInputStream(filename));
-                User tempUser = null;
+                UserAccount tempUser = null;
                 SealedObject tempSealed = null;
                 boolean eof = false;
                 while (!eof)
@@ -347,7 +352,7 @@ public class Reference
                     String algorithmName = tempSealed.getAlgorithm();
                     Cipher objCipher = Cipher.getInstance(algorithmName);
                     objCipher.init(Cipher.DECRYPT_MODE, key);
-                    tempUser = (User) tempSealed.getObject(objCipher);
+                    tempUser = (UserAccount) tempSealed.getObject(objCipher);
                     if (tempUser == null)
                     {
                         eof = true;
@@ -356,8 +361,9 @@ public class Reference
                     
                     userList.add(tempUser);
                 }
-                User[] users = userList.toArray(new User[userList.size()]);
-                return users;
+              
+                return userList;
+                
             } catch (EOFException e)
             {
             } catch (Exception e)
@@ -588,8 +594,10 @@ public class Reference
            tempAccounts = bankAccounts;
        else if(type == DEBT_ACCOUNT)
            tempAccounts = debtAccounts;
-       else
+       else if(type == BILL_ACCOUNT)
            tempAccounts = billAccounts;
+       else
+           tempAccounts = userAccounts;
        
        try
        {

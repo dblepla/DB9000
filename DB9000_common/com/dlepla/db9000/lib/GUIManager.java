@@ -5,7 +5,9 @@ import java.awt.Font;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class GUIManager
 {
@@ -27,6 +29,62 @@ public class GUIManager
         newButton.setBorder(Reference.BUTTON_BORDER);
         
         return newButton;
+        
+    }
+    
+    
+    
+    //**********************************************************************
+    //
+    //Defines a Method to customized a JTextFiel for this program.
+    //
+    //**********************************************************************
+    public static void formatTextField(JTextField textField)
+    {
+        
+        
+        textField.setMaximumSize(textField.getPreferredSize());
+        textField.setBorder(Reference.DB_Line);
+        textField.setBackground(Reference.FOOTER_BACKGROUND_COLOR); 
+        textField.setForeground(Reference.TEXT_COLOR);
+       
+    }
+    
+    
+    
+    
+
+    //**********************************************************************
+    //
+    //Defines a Method to customized a JPasswordField for this program.
+    //
+    //**********************************************************************
+    public static void formatPasswordField(JPasswordField passField)
+    {
+        
+        
+        passField.setMaximumSize(passField.getPreferredSize());
+        passField.setBorder(Reference.DB_Line);
+        passField.setBackground(Reference.FOOTER_BACKGROUND_COLOR); 
+        passField.setForeground(Reference.TEXT_COLOR);
+       
+    }
+    
+    
+    //**********************************************************************
+    //
+    //Defines a Method to create a customized button GUI for this program.
+    //
+    //**********************************************************************
+    public static JLabel createCustomLabel(String text)
+    {
+        
+        JLabel newLabel = new JLabel(text);
+        
+        newLabel.setFont(new Font("Elephant", Font.PLAIN, 12));
+        newLabel.setForeground(Reference.TEXT_COLOR);
+        
+        return newLabel;
         
     }
     

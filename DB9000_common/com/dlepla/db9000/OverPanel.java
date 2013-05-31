@@ -60,9 +60,9 @@ public class OverPanel extends JPanel
         billAccountsButton = GUIManager.createCustomButton("Monthly Bills");
         userAccountsButton = GUIManager.createCustomButton("User Accounts");
         
-        Reference.monthlyIncomeLabel = new JLabel("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome()));
-        Reference.monthlyBillsLabel = new JLabel("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills()));
-        Reference.availibleCashLabel = new JLabel("Availible Cash: " + cf.format(AccountManager.getTotalCash()));
+        Reference.monthlyIncomeLabel = GUIManager.createCustomLabel(("Monthly Income: " + cf.format(AccountManager.getTotalMonthlyIncome())));
+        Reference.monthlyBillsLabel = GUIManager.createCustomLabel(("Monthly Bills: " + cf.format(AccountManager.getTotalMonthlyBills())));
+        Reference.availibleCashLabel = GUIManager.createCustomLabel(("Availible Cash: " + cf.format(AccountManager.getTotalCash())));
         
         OverviewButtonListener obl = new OverviewButtonListener();
         addUserButton.addActionListener(obl);
@@ -72,7 +72,7 @@ public class OverPanel extends JPanel
         billAccountsButton.addActionListener(obl);
         userAccountsButton.addActionListener(obl);
         
-        currentDateLabel = new JLabel("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy"));
+        currentDateLabel = GUIManager.createCustomLabel(("Current Date: " + Reference.currentDate.toString("MM/dd/yyyy")));
         Reference.lastActionMinute = new DateTime().getMinuteOfDay();
         
         Account progressAccount = AccountManager.getBestAccount();
@@ -81,27 +81,38 @@ public class OverPanel extends JPanel
         
         if (progressAccount instanceof BankAccount)
         {
-            accountName = new JLabel("Total Savings Balance");
-            initBalance = new JLabel(cf.format(0));
-            currentBalance = new JLabel(cf.format(AccountManager.getTotalSavings()));
-            minBalance = new JLabel(cf.format(Reference.MIN_SAVINGS));
+            accountName = GUIManager.createCustomLabel(("Total Savings Balance"));
+            initBalance = GUIManager.createCustomLabel((cf.format(0)));
+            currentBalance = GUIManager.createCustomLabel((cf.format(AccountManager.getTotalSavings())));
+            
+            if (AccountManager.getTotalMonthlyBills() < Reference.MIN_SAVINGS)
+                minBalance = GUIManager.createCustomLabel((cf.format(Reference.MIN_SAVINGS)));
+            else
+                minBalance = GUIManager.createCustomLabel((cf.format(AccountManager.getTotalMonthlyBills())));
             
         }
         else
         {
             
-            accountName = new JLabel(progressAccount.accountName + " Balance");
-            initBalance = new JLabel(cf.format(progressAccount.initialBalance));
-            currentBalance = new JLabel(cf.format(progressAccount.balance));
-            minBalance = new JLabel(cf.format(0));
+            accountName = GUIManager.createCustomLabel((progressAccount.accountName + " Balance"));
+            initBalance = GUIManager.createCustomLabel((cf.format(progressAccount.initialBalance)));
+            currentBalance = GUIManager.createCustomLabel((cf.format(progressAccount.balance)));
+            minBalance = GUIManager.createCustomLabel((cf.format(0)));
         
             
         }
         
         Reference.payOffBar = new JProgressBar(0, 100);
         
+        System.out.println(Reference.bankAccounts.size());
+        System.out.println(Reference.debtAccounts.size());
+        
         if( Reference.bankAccounts.size() >= 1 && Reference.debtAccounts.size() >= 1)
+        {
+            System.out.println("Setting percent Complete: " + AccountManager.getPercentCompleted(progressAccount));
             Reference.payOffBar.setValue(AccountManager.getPercentCompleted(progressAccount));
+            
+        }
         else 
             Reference.payOffBar.setValue(0);
         
@@ -120,7 +131,11 @@ public class OverPanel extends JPanel
         Reference.addItem(this, headerBox, 0, 0, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         
-        
+        Box topDateBox = Box.createHorizontalBox();
+        topDateBox.add(Box.createHorizontalStrut(10));
+        topDateBox.add(Box.createHorizontalGlue());
+        topDateBox.add(currentDateLabel);
+        topDateBox.add(Box.createHorizontalStrut(10));
         
         
         Box topLabelsBox = Box.createHorizontalBox();
@@ -132,11 +147,13 @@ public class OverPanel extends JPanel
         topLabelsBox.add(Box.createRigidArea(new Dimension(10, 0)));
         topLabelsBox.add(Reference.availibleCashLabel);
         topLabelsBox.add(Box.createHorizontalGlue());
-        topLabelsBox.add(currentDateLabel);
+        //topLabelsBox.add(currentDateLabel);
         topLabelsBox.add(Box.createHorizontalStrut(10));
         
         Box topInfoBox = Box.createVerticalBox();
         topInfoBox.add(Box.createVerticalStrut(5));
+        topInfoBox.add(topDateBox);
+        topInfoBox.add(Box.createVerticalStrut(20));
         topInfoBox.add(topLabelsBox);
         topInfoBox.add(Box.createVerticalGlue());
         topInfoBox.add(Box.createVerticalStrut(5));

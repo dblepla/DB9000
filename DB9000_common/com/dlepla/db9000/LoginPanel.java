@@ -60,18 +60,20 @@ public class LoginPanel extends JPanel
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL);
         // Create Box and items to house the username and password JLabels
         Box upLabelBox = Box.createVerticalBox();
-        upLabelBox.add(new JLabel("Username: "));
+        upLabelBox.add(GUIManager.createCustomLabel("Username: "));
         upLabelBox.add(Box.createRigidArea(new Dimension(6, 8)));
-        upLabelBox.add(new JLabel("Password: "));
+        upLabelBox.add(GUIManager.createCustomLabel("Password: "));
         upLabelBox.add(Box.createRigidArea(new Dimension(75, 7)));
         // Create Box and Items to house the username and password JFields and
         // login buttons
         Box plBox = Box.createVerticalBox();
         username = new JTextField(22);
-        username.setMaximumSize(username.getPreferredSize());
+        GUIManager.formatTextField(username);
+        
         password = new JPasswordField(22);
-        password.setMaximumSize(password.getPreferredSize());
-        JLabel plLabel = new JLabel("Please Login");
+        GUIManager.formatPasswordField(password);
+        
+        JLabel plLabel = GUIManager.createCustomLabel("Please Login");
         plLabel.setFont(new Font("Elephant", Font.PLAIN, 16));
         
         // Defines customized JButton for program.

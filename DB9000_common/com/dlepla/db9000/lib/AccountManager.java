@@ -20,19 +20,31 @@ public class AccountManager
        
         float percentComplete = 0;
         
-        if(account.initialBalance == 0)
-            return 0;
-        else if (account.balance == 0)
-            return 100;
+        System.out.println(account.toString());
+        
+        
+         
+        if (account instanceof BankAccount)
+        {
+                
+            System.out.println(getTotalSavings());
+            System.out.println(getMinSavings());
+            percentComplete = ((getTotalSavings()) / getMinSavings()) * 100;
+            System.out.println(percentComplete);
+                
+        }
         else
         {
-            
-            if (account instanceof BankAccount)
-                percentComplete = ((getTotalSavings()) / Reference.MIN_SAVINGS) * 100;
+                
+            if(account.initialBalance == 0)
+                return 0;
+            else if (account.balance == 0)
+                return 100;
             else
                 percentComplete = ((account.initialBalance - account.balance) / account.initialBalance) * 100;
-            
-        }
+                
+         }
+                
          
         return (int)percentComplete;
             
@@ -51,7 +63,7 @@ public class AccountManager
         if(doesSavingsExist() || doesLoanExist())
         {
             
-            if( (doesSavingsExist()) && (getTotalSavings() < Reference.MIN_SAVINGS))
+            if( (doesSavingsExist()) && (getTotalSavings() < getMinSavings()))
                 return getLowestSavingsAccount();
             else if(doesLoanExist())
                 return getBestDebtAccount();
@@ -61,6 +73,24 @@ public class AccountManager
         }
         else
             return Reference.bankAccounts.get(0);
+        
+    }
+    
+    
+    
+    //*************************************************************
+    //
+    // Method to get the Minimum value for savings.
+    //
+    //*************************************************************
+    public static float getMinSavings()
+    {
+        
+        
+        if(Reference.MIN_SAVINGS > getTotalMonthlyBills())
+            return Reference.MIN_SAVINGS;
+        else
+            return getTotalMonthlyBills();
         
     }
     

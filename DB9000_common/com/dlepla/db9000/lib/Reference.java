@@ -60,6 +60,7 @@ public class Reference
     public static final Color HEADER_BORDER_COLOR = new Color(17, 89, 38);
     public static final Color CENTER_BACKGROUND_COLOR = new Color(226, 255, 198);
     public static final Color FOOTER_BACKGROUND_COLOR = new Color(236, 255, 217);
+    public static final Color TEXT_COLOR = new Color(11, 55, 24);
     
     
     public static final Font HEADER_FONT = new Font("Elephant", Font.PLAIN, 14);
